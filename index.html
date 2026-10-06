@@ -51,7 +51,7 @@ details{border-bottom:1px solid var(--line);padding:14px 0}summary{cursor:pointe
 details p{margin:10px 0 0}
 footer{margin-top:80px;border-top:1px solid var(--line);padding:30px 0 50px;color:var(--mute);font-size:14.5px}
 @media(prefers-reduced-motion:reduce){html{scroll-behavior:auto}}
-.stage{position:relative}.hud{position:absolute;left:12px;top:10px;font-size:13px;background:rgba(11,9,32,.75);padding:4px 10px;border-radius:var(--r)}
+.stage{position:relative}.hud{position:absolute;left:12px;top:10px;font-size:13px;background:rgba(11,9,32,.75);padding:4px 10px;border-radius:var(--r)}.livebadge{position:absolute;right:12px;top:10px;font-size:12px;background:rgba(11,9,32,.8);padding:4px 9px;border-radius:var(--r);color:var(--teal);border:1px solid var(--line)}
 .prog{height:4px;background:var(--line)}.prog i{display:block;height:100%;width:0;background:var(--pink)}
 .live{display:grid;grid-template-columns:repeat(3,1fr);border-top:1px solid var(--line)}.live.rs{grid-template-columns:repeat(auto-fit,minmax(130px,1fr))}
 .live div{padding:12px 16px;border-right:1px solid var(--line);border-bottom:1px solid var(--line)}.live b{display:block;font-size:clamp(22px,4.5vw,36px);line-height:1.15;font-variant-numeric:tabular-nums}.live span{font-size:13px;color:var(--mute)}
@@ -70,18 +70,18 @@ footer{margin-top:80px;border-top:1px solid var(--line);padding:30px 0 50px;colo
 <section id="test" aria-labelledby="t-h">
 <h2 id="t-h" style="margin-top:30px">Volume Shader GPU test</h2>
 <div class="demo">
-<div class="stage"><canvas id="c" width="960" height="540" aria-label="Live 3D volume shader rendered by your GPU"></canvas><div class="hud" id="hud">GPU: -- | WebGL --</div></div>
+<div class="stage"><canvas id="c" width="960" height="540" aria-label="Live 3D volume shader rendered by your GPU"></canvas><div class="hud" id="hud">GPU: -- | WebGL --</div><div class="livebadge">LIVE GPU RENDER · NOT VIDEO</div></div>
 <div class="prog"><i id="pb"></i></div>
-<div class="live"><div><b id="fps">--</b><span>FPS</span></div><div><b id="ms">--</b><span>Frame time (ms)</span></div><div><b id="st">--</b><span>Stability %</span></div></div>
+<div class="live"><div><b id="fps">--</b><span id="fpslab">GPU FPS</span></div><div><b id="ms">--</b><span>Frame time (ms)</span></div><div><b id="st">--</b><span>Stability %</span></div></div>
 <div class="bar"><small>Test</small><span role="group" aria-label="Test type">
-<button data-t="0" aria-pressed="true">Quick 12s</button><button data-t="1" aria-pressed="false">Standard 30s</button><button data-t="2" aria-pressed="false">Stress 3 min</button><button data-t="3" aria-pressed="false">Custom</button></span>
+<button data-t="0" aria-pressed="false">Quick 12s</button><button data-t="1" aria-pressed="true">Standard 30s</button><button data-t="2" aria-pressed="false">Stress 3 min</button><button data-t="3" aria-pressed="false">Custom</button></span>
 <select id="cd" aria-label="Custom duration" hidden><option value="10">10 s</option><option value="20">20 s</option><option value="60" selected>1 min</option><option value="120">2 min</option><option value="300">5 min</option></select></div>
 <div class="bar" style="padding-top:0"><small>Complexity</small><span role="group" aria-label="Complexity">
-<button data-m="0" aria-pressed="true">Simple</button><button data-m="1" aria-pressed="false">Standard</button><button data-m="2" aria-pressed="false">Advanced</button><button data-m="3" aria-pressed="false">Extreme</button></span><span class="sep"></span><button id="go">Start test</button></div>
+<button data-m="0" aria-pressed="false">Simple</button><button data-m="1" aria-pressed="true">Standard</button><button data-m="2" aria-pressed="false">Advanced</button><button data-m="3" aria-pressed="false">Extreme</button></span><span class="sep"></span><button id="go">Start test</button></div>
 <div id="res" hidden><div class="live rs">
-<div><b id="r1">-</b><span>Average FPS</span></div><div><b id="r2">-</b><span>1% low FPS</span></div><div><b id="r3">-</b><span>Minimum FPS</span></div><div><b id="r4">-</b><span>Maximum FPS</span></div>
+<div><b id="r1">-</b><span id="r1lab">Average GPU FPS</span></div><div><b id="r2">-</b><span>1% low FPS</span></div><div><b id="r3">-</b><span>Minimum FPS</span></div><div><b id="r4">-</b><span>Maximum FPS</span></div>
 <div><b id="r5">-</b><span>Duration</span></div><div><b id="r6">-</b><span>Render resolution</span></div><div><b id="r7">-</b><span>Shader complexity</span></div><div><b id="r8">-</b><span>Frames</span></div></div></div>
-<p class="note" id="hw" style="padding-top:12px">This browser test uses a lightweight ray-marched volume shader designed for fast testing across desktop and mobile devices. Phones should begin with Simple and Quick.</p>
+<p class="note" id="hw" style="padding-top:12px">This is a real-time WebGL GPU workload, not a prerecorded video. The benchmark uses a fixed render workload and, when the browser exposes GPU timer queries, measures the time spent on the GPU itself. Phones should begin with Simple and Quick.</p>
 </div>
 </section>
 
@@ -209,48 +209,60 @@ footer{margin-top:80px;border-top:1px solid var(--line);padding:30px 0 50px;colo
 
 <script>
 (function(){
-var c=document.getElementById('c'),gl=c.getContext('webgl2')||c.getContext('webgl'),go=document.getElementById('go'),hw=document.getElementById('hw'),hud=document.getElementById('hud');
+var c=document.getElementById('c'),gl=c.getContext('webgl2',{antialias:false,preserveDrawingBuffer:false})||c.getContext('webgl',{antialias:false,preserveDrawingBuffer:false}),go=document.getElementById('go'),hw=document.getElementById('hw'),hud=document.getElementById('hud');
 function $(i,v){document.getElementById(i).textContent=v}
-var P=[{n:'Simple',s:40,i:4,k:.5},{n:'Standard',s:70,i:6,k:.75},{n:'Advanced',s:100,i:9,k:1},{n:'Extreme',s:128,i:12,k:1}],D=[12,30,180,0],m=0,ty=0,run=false,raf,T=0;
+var P=[
+  {n:'Simple',s:72,i:6,w:960,h:540},
+  {n:'Standard',s:110,i:8,w:1280,h:720},
+  {n:'Advanced',s:145,i:10,w:1440,h:810},
+  {n:'Extreme',s:180,i:12,w:1600,h:900}
+],D=[12,30,180,0],m=1,ty=1,run=false,raf,T=0,timerExt=null,gpuTimer=false,software=false;
 if(!gl){hw.textContent='WebGL is not available in this browser. Turn on hardware acceleration or try another browser.';go.disabled=true;return}
 var v2=!!(window.WebGL2RenderingContext&&gl instanceof WebGL2RenderingContext);
-var vs='attribute vec2 p;void main(){gl_Position=vec4(p,0,1);}';
-var fs='precision highp float;uniform vec2 R;uniform float t;uniform int S;uniform int I;'+
-'float de(vec3 p){vec3 z=p;float dr=1.,r=0.;for(int i=0;i<16;i++){if(i>=I)break;r=length(z);if(r>2.)break;'+
-'float th=acos(z.z/r)*8.,ph=atan(z.y,z.x)*8.;dr=pow(r,7.)*8.*dr+1.;z=pow(r,8.)*vec3(sin(th)*cos(ph),sin(ph)*sin(th),cos(th))+p;}return .5*log(r)*r/dr;}'+
-'void main(){vec2 u=(gl_FragCoord.xy*2.-R)/R.y;vec3 ro=vec3(2.6*cos(t),1.1,2.6*sin(t)),f=normalize(-ro),rt=normalize(cross(f,vec3(0,1,0))),up=cross(rt,f);'+
-'vec3 rd=normalize(f*1.6+rt*u.x+up*u.y);float d=0.,n=0.;for(int i=0;i<128;i++){if(i>=S)break;float h=de(ro+rd*d);if(h<.0015)break;d+=h;n+=1.;if(d>6.)break;}'+
-'float g=n/float(S);vec3 col=d>6.?vec3(.06,.05,.13)+.05*u.y:mix(vec3(.2,.1,.5),vec3(1.,.5,.75),1.-g)*(1.1-g)+vec3(.1,.35,.33)*g;gl_FragColor=vec4(col,1);}';
+var canvasLost=false;
+var vs=v2?'#version 300 es\n in vec2 p; void main(){gl_Position=vec4(p,0.0,1.0);}' :'attribute vec2 p;void main(){gl_Position=vec4(p,0.0,1.0);}';
+var fs2='#version 300 es\nprecision highp float;uniform vec2 R;uniform float t;uniform int S;uniform int I;out vec4 outColor;'+
+'float de(vec3 p){vec3 z=p;float dr=1.0,r=0.0;for(int j=0;j<16;j++){if(j>=I)break;r=length(z);if(r>2.2)break;float inv=1.0/max(r,0.00001);float theta=acos(clamp(z.z*inv,-1.0,1.0))*8.0;float phi=atan(z.y,z.x)*8.0;float rp=pow(r,8.0);dr=pow(r,7.0)*8.0*dr+1.0;z=rp*vec3(sin(theta)*cos(phi),sin(theta)*sin(phi),cos(theta))+p;}return 0.5*log(max(r,0.00001))*r/dr;}' +
+'float shade(vec3 ro,vec3 rd,float maxD){float d=0.0;float hit=0.0;float steps=0.0;for(int k=0;k<192;k++){if(k>=S)break;vec3 pos=ro+rd*d;float h=de(pos);steps+=1.0;if(h<0.0012){hit=1.0;break;}d+=h;if(d>maxD)break;}return hit>0.5?steps/float(S):1.0;}' +
+'void main(){vec2 u=(gl_FragCoord.xy*2.0-R)/R.y;vec3 ro=vec3(2.75,1.15,2.75);vec3 target=vec3(0.0,0.0,0.0);vec3 f=normalize(target-ro),rt=normalize(cross(f,vec3(0.0,1.0,0.0))),up=cross(rt,f);vec3 rd=normalize(f*1.6+rt*u.x+up*u.y);float d=0.0,g=0.0;for(int k=0;k<192;k++){if(k>=S)break;vec3 pos=ro+rd*d;float h=de(pos);g+=1.0;if(h<0.0014){d+=h;break;}d+=h;if(d>6.0)break;}float hit=step(d,5.99);vec3 col=vec3(0.045,0.03,0.09)+0.02*u.y;if(hit>0.5){vec3 hp=ro+rd*d;float e=0.0025;vec3 n=normalize(vec3(de(hp+vec3(e,0,0))-de(hp-vec3(e,0,0)),de(hp+vec3(0,e,0))-de(hp-vec3(0,e,0)),de(hp+vec3(0,0,e))-de(hp-vec3(0,0,e))));vec3 l=normalize(vec3(0.5,0.9,0.3));float dif=max(0.0,dot(n,l));float rim=pow(1.0-max(0.0,dot(n,-rd)),2.0);float fog=exp(-0.035*d*d);col=mix(vec3(0.08,0.05,0.22),vec3(0.95,0.45,0.78),0.65*dif+0.35*rim)*fog+vec3(0.03,0.22,0.22)*(0.35+0.65*rim);}outColor=vec4(col,1.0);}';
+var fs1='precision highp float;uniform vec2 R;uniform float t;uniform int S;uniform int I;'+
+'float de(vec3 p){vec3 z=p;float dr=1.0,r=0.0;for(int j=0;j<16;j++){if(j>=I)break;r=length(z);if(r>2.2)break;float inv=1.0/max(r,0.00001);float theta=acos(clamp(z.z*inv,-1.0,1.0))*8.0;float phi=atan(z.y,z.x)*8.0;float rp=pow(r,8.0);dr=pow(r,7.0)*8.0*dr+1.0;z=rp*vec3(sin(theta)*cos(phi),sin(theta)*sin(phi),cos(theta))+p;}return 0.5*log(max(r,0.00001))*r/dr;}' +
+'void main(){vec2 u=(gl_FragCoord.xy*2.0-R)/R.y;vec3 ro=vec3(2.75,1.15,2.75);vec3 f=normalize(-ro),rt=normalize(cross(f,vec3(0.0,1.0,0.0))),up=cross(rt,f);vec3 rd=normalize(f*1.6+rt*u.x+up*u.y);float d=0.0,g=0.0;for(int k=0;k<192;k++){if(k>=S)break;float h=de(ro+rd*d);g+=1.0;if(h<0.0014){d+=h;break;}d+=h;if(d>6.0)break;}float hit=step(d,5.99);vec3 col=vec3(0.045,0.03,0.09)+0.02*u.y;if(hit>0.5){vec3 hp=ro+rd*d;float e=0.0025;vec3 n=normalize(vec3(de(hp+vec3(e,0,0))-de(hp-vec3(e,0,0)),de(hp+vec3(0,e,0))-de(hp-vec3(0,e,0)),de(hp+vec3(0,0,e))-de(hp-vec3(0,0,e))));vec3 l=normalize(vec3(0.5,0.9,0.3));float dif=max(0.0,dot(n,l));float rim=pow(1.0-max(0.0,dot(n,-rd)),2.0);float fog=exp(-0.035*d*d);col=mix(vec3(0.08,0.05,0.22),vec3(0.95,0.45,0.78),0.65*dif+0.35*rim)*fog+vec3(0.03,0.22,0.22)*(0.35+0.65*rim);}gl_FragColor=vec4(col,1.0);}';
 function sh(t,s){var o=gl.createShader(t);gl.shaderSource(o,s);gl.compileShader(o);return o}
-var pr=gl.createProgram();gl.attachShader(pr,sh(gl.VERTEX_SHADER,vs));gl.attachShader(pr,sh(gl.FRAGMENT_SHADER,fs));gl.linkProgram(pr);
-if(!gl.getProgramParameter(pr,gl.LINK_STATUS)){hw.textContent='The shader failed to compile on this GPU. Try another browser.';go.disabled=true;return}
-gl.useProgram(pr);var b=gl.createBuffer();gl.bindBuffer(gl.ARRAY_BUFFER,b);gl.bufferData(gl.ARRAY_BUFFER,new Float32Array([-1,-1,3,-1,-1,3]),gl.STATIC_DRAW);
-var l=gl.getAttribLocation(pr,'p');gl.enableVertexAttribArray(l);gl.vertexAttribPointer(l,2,gl.FLOAT,false,0,0);
+var pr=gl.createProgram(),vert=sh(gl.VERTEX_SHADER,vs),frag=sh(gl.FRAGMENT_SHADER,v2?fs2:fs1);gl.attachShader(pr,vert);gl.attachShader(pr,frag);gl.linkProgram(pr);
+if(!gl.getShaderParameter(vert,gl.COMPILE_STATUS)||!gl.getShaderParameter(frag,gl.COMPILE_STATUS)||!gl.getProgramParameter(pr,gl.LINK_STATUS)){hw.textContent='The shader failed to compile on this GPU. Try another browser or enable hardware acceleration.';go.disabled=true;return}
+gl.useProgram(pr);
+var b=gl.createBuffer();gl.bindBuffer(gl.ARRAY_BUFFER,b);gl.bufferData(gl.ARRAY_BUFFER,new Float32Array([-1,-1,3,-1,-1,3]),gl.STATIC_DRAW);var l=gl.getAttribLocation(pr,'p');gl.enableVertexAttribArray(l);gl.vertexAttribPointer(l,2,gl.FLOAT,false,0,0);
 var U={R:gl.getUniformLocation(pr,'R'),t:gl.getUniformLocation(pr,'t'),S:gl.getUniformLocation(pr,'S'),I:gl.getUniformLocation(pr,'I')};
 var e=gl.getExtension('WEBGL_debug_renderer_info'),rend=e?gl.getParameter(e.UNMASKED_RENDERER_WEBGL):'Hidden by browser',vend=e?gl.getParameter(e.UNMASKED_VENDOR_WEBGL):gl.getParameter(gl.VENDOR);
 hud.textContent='GPU: '+rend.slice(0,48)+' | WebGL '+(v2?2:1);
-hw.innerHTML='This browser test uses a lightweight ray-marched volume shader designed for fast testing across desktop and mobile devices. Phones should begin with Simple and Quick.<br>Renderer: '+rend+' | Vendor: '+vend+' | WebGL '+(v2?2:1)+' | Screen: '+screen.width+'x'+screen.height+' at '+(window.devicePixelRatio||1)+'x pixel ratio';
-function size(){var k=P[m].k,w=Math.round(960*k),h=Math.round(540*k);c.width=w;c.height=h;gl.viewport(0,0,w,h)}
-function draw(){gl.uniform2f(U.R,c.width,c.height);gl.uniform1f(U.t,T);gl.uniform1i(U.S,P[m].s);gl.uniform1i(U.I,P[m].i);gl.drawArrays(gl.TRIANGLES,0,3)}
-var last,t0,dur,ds,tot,skip,wd,wa;
-function loop(now){if(!run)return;var d=now-last;last=now;T+=d/4000;
-if(skip>0)skip--;else{ds.push(d);tot+=d;wd.push(d);wa+=d}
-draw();var el=(now-t0)/1000;document.getElementById('pb').style.width=Math.min(100,100*el/dur)+'%';
-if(wa>=700){var mean=wa/wd.length,v=0;wd.forEach(function(x){v+=(x-mean)*(x-mean)});
-$('fps',Math.round(1000/mean));$('ms',mean.toFixed(1));$('st',Math.max(0,Math.round(100*(1-Math.sqrt(v/wd.length)/mean))));wa=0;wd=[]}
-if(el>=dur){finish();return}raf=requestAnimationFrame(loop)}
+software=/swiftshader|llvmpipe|software rasterizer|microsoft basic render|softpipe/i.test((rend||'').toLowerCase());
+if(v2){timerExt=gl.getExtension('EXT_disjoint_timer_query_webgl2');gpuTimer=!!timerExt}
+$('fpslab',gpuTimer?'GPU FPS':'Render FPS');$('r1lab',gpuTimer?'Average GPU FPS':'Average Render FPS');
+var info='Real WebGL workload • '+P[m].w+'×'+P[m].h+' fixed render';
+if(gpuTimer) info+=' • GPU timer enabled'; else info+=' • browser frame timing fallback';
+if(software) info+=' • SOFTWARE RENDERER DETECTED';
+hw.innerHTML=info+'<br>Renderer: '+rend+' | Vendor: '+vend+' | WebGL '+(v2?2:1)+' | Screen: '+screen.width+'×'+screen.height+' at '+(window.devicePixelRatio||1)+'× pixel ratio.'+(software?' <b>This result reflects a software renderer, not normal GPU acceleration.</b>':'');
+function size(){c.width=P[m].w;c.height=P[m].h;gl.viewport(0,0,c.width,c.height)}
+function draw(){gl.uniform2f(U.R,c.width,c.height);gl.uniform1f(U.t,0);gl.uniform1i(U.S,P[m].s);gl.uniform1i(U.I,P[m].i);gl.drawArrays(gl.TRIANGLES,0,3)}
+var last,t0,dur,warmEnd,wallSamples=[],gpuSamples=[],pending=[],wd=[],wa=0;
+function startGpuQuery(){if(!gpuTimer)return null;var q=gl.createQuery();gl.beginQuery(timerExt.TIME_ELAPSED_EXT,q);return q}
+function endGpuQuery(q){if(!gpuTimer)return;if(q)gl.endQuery(timerExt.TIME_ELAPSED_EXT),pending.push(q)}
+function collectGpu(){if(!gpuTimer||!pending.length)return;var keep=[];for(var i=0;i<pending.length;i++){var q=pending[i];if(gl.getQueryParameter(q,gl.QUERY_RESULT_AVAILABLE)){if(!gl.getParameter(timerExt.GPU_DISJOINT_EXT)){var ns=gl.getQueryParameter(q,gl.QUERY_RESULT);if(ns>0)gpuSamples.push(ns/1000000)}gl.deleteQuery(q)}else keep.push(q)}pending=keep}
+function currentMetrics(){var arr=gpuTimer?gpuSamples:wallSamples;if(!arr.length)return;var recent=arr.slice(-20),sum=0;for(var i=0;i<recent.length;i++)sum+=recent[i];var mean=sum/recent.length;var v=0;for(var j=0;j<recent.length;j++)v+=(recent[j]-mean)*(recent[j]-mean);var stability=Math.max(0,Math.round(100*(1-Math.sqrt(v/recent.length)/Math.max(mean,0.001))));$("fps",Math.round(1000/mean));$("ms",mean.toFixed(1));$("st",stability)}
+function loop(now){if(!run)return;collectGpu();var wall=now-last;last=now;var q=startGpuQuery();draw();endGpuQuery(q);var el=(now-t0)/1000;if(el*1000>=warmEnd-t0){if(!gpuTimer)wallSamples.push(wall)}else{wallSamples=[]}
+if(gpuTimer)collectGpu();
+currentMetrics();document.getElementById('pb').style.width=Math.min(100,100*el/dur)+'%';
+if(el>=dur){setTimeout(finish,50);return}raf=requestAnimationFrame(loop)}
 function stop(){run=false;cancelAnimationFrame(raf);go.textContent='Start test'}
-function finish(){stop();go.textContent='Run again';var n=ds.length;if(n<5)return;
-var sd=ds.slice().sort(function(a,b){return b-a}),k=Math.max(1,Math.ceil(n*.01)),w=0,i;for(i=0;i<k;i++)w+=sd[i];
-$('r1',(1000*n/tot).toFixed(1));$('r2',(1000/(w/k)).toFixed(1));$('r3',(1000/sd[0]).toFixed(1));$('r4',(1000/sd[n-1]).toFixed(1));
-$('r5',Math.round(tot/1000)+' s');$('r6',c.width+'x'+c.height);$('r7',P[m].n);$('r8',n);document.getElementById('res').hidden=false}
-go.onclick=function(){if(run){stop();document.getElementById('pb').style.width='0';return}
-dur=ty==3?+document.getElementById('cd').value:D[ty];ds=[];tot=0;skip=10;wd=[];wa=0;document.getElementById('res').hidden=true;
-run=true;last=t0=performance.now();go.textContent='Stop test';raf=requestAnimationFrame(loop)};
+function avg(a){var s=0;for(var i=0;i<a.length;i++)s+=a[i];return s/a.length}
+function finish(){stop();collectGpu();go.textContent='Run again';var arr=gpuTimer?gpuSamples:wallSamples;if(arr.length<5)return;var a=avg(arr),sd=arr.slice().sort(function(x,y){return y-x}),k=Math.max(1,Math.ceil(arr.length*.01)),w=0;for(var i=0;i<k;i++)w+=sd[i];var min=sd[sd.length-1],max=sd[0];$('r1',(1000/a).toFixed(1));$('r2',(1000/(w/k)).toFixed(1));$('r3',(1000/max).toFixed(1));$('r4',(1000/min).toFixed(1));$('r5',Math.round((performance.now()-t0)/1000)+' s');$('r6',c.width+'×'+c.height);$('r7',P[m].n);$('r8',arr.length);document.getElementById('res').hidden=false}
+go.onclick=function(){if(run){stop();document.getElementById('pb').style.width='0';return}dur=ty==3?+document.getElementById('cd').value:D[ty];wallSamples=[];gpuSamples=[];pending=[];document.getElementById('res').hidden=true;T=0;run=true;last=t0=performance.now();warmEnd=t0+750;go.textContent='Stop test';raf=requestAnimationFrame(loop)};
 function pick(sel,fn){document.querySelectorAll(sel).forEach(function(x){x.onclick=function(){if(run)return;document.querySelectorAll(sel).forEach(function(y){y.setAttribute('aria-pressed',y===x)});fn(+x.dataset[sel.slice(6,7)])}})}
 pick('[data-t]',function(v){ty=v;document.getElementById('cd').hidden=v!=3});
-pick('[data-m]',function(v){m=v;size();draw()});
+pick('[data-m]',function(v){m=v;size();draw();$('r6',c.width+'×'+c.height)});
 document.addEventListener('visibilitychange',function(){if(document.hidden&&run){stop();document.getElementById('pb').style.width='0'}});
+c.addEventListener('webglcontextlost',function(ev){ev.preventDefault();canvasLost=true;stop();hw.textContent='The browser lost the WebGL context. The test was stopped safely. Try again after closing heavy tabs.';});
 var q=new URLSearchParams(location.search);['t','m'].forEach(function(k){var x=document.querySelector('[data-'+k+'="'+q.get(k)+'"]');if(x)x.click()});
 size();draw();
 })();
