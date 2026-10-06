@@ -270,7 +270,8 @@ float mandelbulbDE(vec3 pos, out float trap){
     if(i>=uMaxIter) break;
     r=length(z);
     if(r>2.0) break;
-    float theta=acos(clamp(z.z/r,-1.0,1.0));
+    float rr=max(r,0.00001);
+    float theta=acos(clamp(z.z/rr,-1.0,1.0));
     float phi=atan(z.y,z.x);
     dr=pow(r,uPower-1.0)*uPower*dr+1.0;
     float zr=pow(r,uPower);
@@ -280,7 +281,7 @@ float mandelbulbDE(vec3 pos, out float trap){
     z+=pos;
     trap=min(trap,r);
   }
-  return 0.5*log(r)*r/dr;
+  return 0.5*log(max(r,0.00001))*r/dr;
 }
 
 vec3 calcNormal(vec3 p){
