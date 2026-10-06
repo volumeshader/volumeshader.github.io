@@ -209,62 +209,577 @@ footer{margin-top:80px;border-top:1px solid var(--line);padding:30px 0 50px;colo
 
 <script>
 (function(){
-var c=document.getElementById('c'),gl=c.getContext('webgl2',{antialias:false,preserveDrawingBuffer:false})||c.getContext('webgl',{antialias:false,preserveDrawingBuffer:false}),go=document.getElementById('go'),hw=document.getElementById('hw'),hud=document.getElementById('hud');
-function $(i,v){document.getElementById(i).textContent=v}
-var P=[
-  {n:'Simple',s:72,i:6,w:960,h:540},
-  {n:'Standard',s:110,i:8,w:1280,h:720},
-  {n:'Advanced',s:145,i:10,w:1440,h:810},
-  {n:'Extreme',s:180,i:12,w:1600,h:900}
-],D=[12,30,180,0],m=1,ty=1,run=false,raf,T=0,timerExt=null,gpuTimer=false,software=false;
-if(!gl){hw.textContent='WebGL is not available in this browser. Turn on hardware acceleration or try another browser.';go.disabled=true;return}
+var c=document.getElementById('c'),
+    gl=c.getContext('webgl2',{antialias:false,preserveDrawingBuffer:false,powerPreference:'high-performance'}),
+    go=document.getElementById('go'),
+    hw=document.getElementById('hw'),
+    hud=document.getElementById('hud');
+
+function $(id,value){
+  var el=document.getElementById(id);
+  if(el) el.textContent=value;
+}
+
+if(!gl){
+  hw.textContent='WebGL2 is not available in this browser. Turn on hardware acceleration or try another browser.';
+  go.disabled=true;
+  return;
+}
+
+/*
+ * Benchmark core based on the supplied reference code:
+ * - real WebGL2 fragment-shader Mandelbulb distance estimation
+ * - fixed camera during a run (no prerecorded/video-like animation)
+ * - quality presets change shader complexity and fixed internal render resolution
+ * - optional EXT_disjoint_timer_query_webgl2 GPU timing
+ */
 var v2=!!(window.WebGL2RenderingContext&&gl instanceof WebGL2RenderingContext);
-var canvasLost=false;
-var vs=v2?'#version 300 es\n in vec2 p; void main(){gl_Position=vec4(p,0.0,1.0);}' :'attribute vec2 p;void main(){gl_Position=vec4(p,0.0,1.0);}';
-var fs2='#version 300 es\nprecision highp float;uniform vec2 R;uniform float t;uniform int S;uniform int I;out vec4 outColor;'+
-'float de(vec3 p){vec3 z=p;float dr=1.0,r=0.0;for(int j=0;j<16;j++){if(j>=I)break;r=length(z);if(r>2.2)break;float inv=1.0/max(r,0.00001);float theta=acos(clamp(z.z*inv,-1.0,1.0))*8.0;float phi=atan(z.y,z.x)*8.0;float rp=pow(r,8.0);dr=pow(r,7.0)*8.0*dr+1.0;z=rp*vec3(sin(theta)*cos(phi),sin(theta)*sin(phi),cos(theta))+p;}return 0.5*log(max(r,0.00001))*r/dr;}' +
-'float shade(vec3 ro,vec3 rd,float maxD){float d=0.0;float hit=0.0;float steps=0.0;for(int k=0;k<192;k++){if(k>=S)break;vec3 pos=ro+rd*d;float h=de(pos);steps+=1.0;if(h<0.0012){hit=1.0;break;}d+=h;if(d>maxD)break;}return hit>0.5?steps/float(S):1.0;}' +
-'void main(){vec2 u=(gl_FragCoord.xy*2.0-R)/R.y;vec3 ro=vec3(2.75,1.15,2.75);vec3 target=vec3(0.0,0.0,0.0);vec3 f=normalize(target-ro),rt=normalize(cross(f,vec3(0.0,1.0,0.0))),up=cross(rt,f);vec3 rd=normalize(f*1.6+rt*u.x+up*u.y);float d=0.0,g=0.0;for(int k=0;k<192;k++){if(k>=S)break;vec3 pos=ro+rd*d;float h=de(pos);g+=1.0;if(h<0.0014){d+=h;break;}d+=h;if(d>6.0)break;}float hit=step(d,5.99);vec3 col=vec3(0.045,0.03,0.09)+0.02*u.y;if(hit>0.5){vec3 hp=ro+rd*d;float e=0.0025;vec3 n=normalize(vec3(de(hp+vec3(e,0,0))-de(hp-vec3(e,0,0)),de(hp+vec3(0,e,0))-de(hp-vec3(0,e,0)),de(hp+vec3(0,0,e))-de(hp-vec3(0,0,e))));vec3 l=normalize(vec3(0.5,0.9,0.3));float dif=max(0.0,dot(n,l));float rim=pow(1.0-max(0.0,dot(n,-rd)),2.0);float fog=exp(-0.035*d*d);col=mix(vec3(0.08,0.05,0.22),vec3(0.95,0.45,0.78),0.65*dif+0.35*rim)*fog+vec3(0.03,0.22,0.22)*(0.35+0.65*rim);}outColor=vec4(col,1.0);}';
-var fs1='precision highp float;uniform vec2 R;uniform float t;uniform int S;uniform int I;'+
-'float de(vec3 p){vec3 z=p;float dr=1.0,r=0.0;for(int j=0;j<16;j++){if(j>=I)break;r=length(z);if(r>2.2)break;float inv=1.0/max(r,0.00001);float theta=acos(clamp(z.z*inv,-1.0,1.0))*8.0;float phi=atan(z.y,z.x)*8.0;float rp=pow(r,8.0);dr=pow(r,7.0)*8.0*dr+1.0;z=rp*vec3(sin(theta)*cos(phi),sin(theta)*sin(phi),cos(theta))+p;}return 0.5*log(max(r,0.00001))*r/dr;}' +
-'void main(){vec2 u=(gl_FragCoord.xy*2.0-R)/R.y;vec3 ro=vec3(2.75,1.15,2.75);vec3 f=normalize(-ro),rt=normalize(cross(f,vec3(0.0,1.0,0.0))),up=cross(rt,f);vec3 rd=normalize(f*1.6+rt*u.x+up*u.y);float d=0.0,g=0.0;for(int k=0;k<192;k++){if(k>=S)break;float h=de(ro+rd*d);g+=1.0;if(h<0.0014){d+=h;break;}d+=h;if(d>6.0)break;}float hit=step(d,5.99);vec3 col=vec3(0.045,0.03,0.09)+0.02*u.y;if(hit>0.5){vec3 hp=ro+rd*d;float e=0.0025;vec3 n=normalize(vec3(de(hp+vec3(e,0,0))-de(hp-vec3(e,0,0)),de(hp+vec3(0,e,0))-de(hp-vec3(0,e,0)),de(hp+vec3(0,0,e))-de(hp-vec3(0,0,e))));vec3 l=normalize(vec3(0.5,0.9,0.3));float dif=max(0.0,dot(n,l));float rim=pow(1.0-max(0.0,dot(n,-rd)),2.0);float fog=exp(-0.035*d*d);col=mix(vec3(0.08,0.05,0.22),vec3(0.95,0.45,0.78),0.65*dif+0.35*rim)*fog+vec3(0.03,0.22,0.22)*(0.35+0.65*rim);}gl_FragColor=vec4(col,1.0);}';
-function sh(t,s){var o=gl.createShader(t);gl.shaderSource(o,s);gl.compileShader(o);return o}
-var pr=gl.createProgram(),vert=sh(gl.VERTEX_SHADER,vs),frag=sh(gl.FRAGMENT_SHADER,v2?fs2:fs1);gl.attachShader(pr,vert);gl.attachShader(pr,frag);gl.linkProgram(pr);
-if(!gl.getShaderParameter(vert,gl.COMPILE_STATUS)||!gl.getShaderParameter(frag,gl.COMPILE_STATUS)||!gl.getProgramParameter(pr,gl.LINK_STATUS)){hw.textContent='The shader failed to compile on this GPU. Try another browser or enable hardware acceleration.';go.disabled=true;return}
-gl.useProgram(pr);
-var b=gl.createBuffer();gl.bindBuffer(gl.ARRAY_BUFFER,b);gl.bufferData(gl.ARRAY_BUFFER,new Float32Array([-1,-1,3,-1,-1,3]),gl.STATIC_DRAW);var l=gl.getAttribLocation(pr,'p');gl.enableVertexAttribArray(l);gl.vertexAttribPointer(l,2,gl.FLOAT,false,0,0);
-var U={R:gl.getUniformLocation(pr,'R'),t:gl.getUniformLocation(pr,'t'),S:gl.getUniformLocation(pr,'S'),I:gl.getUniformLocation(pr,'I')};
-var e=gl.getExtension('WEBGL_debug_renderer_info'),rend=e?gl.getParameter(e.UNMASKED_RENDERER_WEBGL):'Hidden by browser',vend=e?gl.getParameter(e.UNMASKED_VENDOR_WEBGL):gl.getParameter(gl.VENDOR);
-hud.textContent='GPU: '+rend.slice(0,48)+' | WebGL '+(v2?2:1);
+var P=[
+  {n:'Simple',   iter:6,  steps:48,  eps:0.0040, w:960,  h:540},
+  {n:'Standard', iter:8,  steps:80,  eps:0.0020, w:1280, h:720},
+  {n:'Advanced', iter:10, steps:120, eps:0.0012, w:1440, h:810},
+  {n:'Extreme',  iter:12, steps:180, eps:0.0008, w:1600, h:900}
+];
+var D=[12,30,180,0],m=1,ty=1,run=false,raf=0,T=0;
+var timerExt=null,gpuTimer=false,pending=[],canvasLost=false,software=false;
+
+var vs=`#version 300 es
+in vec2 aPos;
+void main(){gl_Position=vec4(aPos,0.0,1.0);}`;
+
+var fs=`#version 300 es
+precision highp float;
+out vec4 fragColor;
+
+uniform vec2 uRes;
+uniform float uTime;
+uniform vec3 uCamPos;
+uniform mat3 uCamRot;
+uniform float uPower;
+uniform int uMaxIter;
+uniform int uMaxSteps;
+uniform float uEpsilon;
+
+// Mandelbulb distance estimator
+float mandelbulbDE(vec3 pos, out float trap){
+  vec3 z=pos;
+  float dr=1.0;
+  float r=0.0;
+  trap=1e10;
+  for(int i=0;i<32;i++){
+    if(i>=uMaxIter) break;
+    r=length(z);
+    if(r>2.0) break;
+    float theta=acos(clamp(z.z/r,-1.0,1.0));
+    float phi=atan(z.y,z.x);
+    dr=pow(r,uPower-1.0)*uPower*dr+1.0;
+    float zr=pow(r,uPower);
+    theta*=uPower;
+    phi*=uPower;
+    z=zr*vec3(sin(theta)*cos(phi),sin(theta)*sin(phi),cos(theta));
+    z+=pos;
+    trap=min(trap,r);
+  }
+  return 0.5*log(r)*r/dr;
+}
+
+vec3 calcNormal(vec3 p){
+  float e=uEpsilon*2.0;
+  float t;
+  return normalize(vec3(
+    mandelbulbDE(p+vec3(e,0,0),t)-mandelbulbDE(p-vec3(e,0,0),t),
+    mandelbulbDE(p+vec3(0,e,0),t)-mandelbulbDE(p-vec3(0,e,0),t),
+    mandelbulbDE(p+vec3(0,0,e),t)-mandelbulbDE(p-vec3(0,0,e),t)
+  ));
+}
+
+float softShadow(vec3 ro,vec3 rd){
+  float res=1.0;
+  float t=0.02;
+  float trap;
+  for(int i=0;i<24;i++){
+    float h=mandelbulbDE(ro+rd*t,trap);
+    res=min(res,8.0*h/t);
+    t+=clamp(h,0.02,0.15);
+    if(res<0.005||t>4.0) break;
+  }
+  return clamp(res,0.0,1.0);
+}
+
+void main(){
+  vec2 uv=(gl_FragCoord.xy-0.5*uRes)/min(uRes.x,uRes.y);
+  vec3 ro=uCamPos;
+  vec3 rd=normalize(uCamRot*vec3(uv,1.6));
+
+  float t=0.0;
+  float trap=0.0;
+  float d=0.0;
+  bool hit=false;
+
+  for(int i=0;i<256;i++){
+    if(i>=uMaxSteps) break;
+    vec3 p=ro+rd*t;
+    d=mandelbulbDE(p,trap);
+    if(d<uEpsilon){
+      hit=true;
+      break;
+    }
+    t+=d;
+    if(t>12.0) break;
+  }
+
+  vec3 col=vec3(0.02,0.03,0.06);
+  if(hit){
+    vec3 p=ro+rd*t;
+    vec3 n=calcNormal(p);
+    vec3 lightDir=normalize(vec3(0.6,0.8,-0.4));
+    float diff=max(dot(n,lightDir),0.0);
+    float sha=softShadow(p+n*0.01,lightDir);
+    float ao=clamp(trap*0.6,0.15,1.0);
+
+    vec3 base=0.5+0.5*cos(6.2831*trap*vec3(1.0,0.7,0.4)+vec3(0.0,0.8,1.5));
+    col=base*(0.15+0.85*diff*sha)*ao;
+
+    vec3 h=normalize(lightDir-rd);
+    float spec=pow(max(dot(n,h),0.0),32.0);
+    col+=0.35*spec*sha;
+
+    float fog=exp(-0.08*t*t);
+    col=mix(vec3(0.02,0.03,0.06),col,fog);
+  }
+
+  float vig=1.0-0.35*length(uv);
+  col*=vig;
+  col=pow(max(col,0.0),vec3(0.85));
+  fragColor=vec4(col,1.0);
+}`;
+
+function compile(type,src){
+  var shader=gl.createShader(type);
+  gl.shaderSource(shader,src);
+  gl.compileShader(shader);
+  if(!gl.getShaderParameter(shader,gl.COMPILE_STATUS)){
+    console.error(gl.getShaderInfoLog(shader));
+    return null;
+  }
+  return shader;
+}
+
+var vert=compile(gl.VERTEX_SHADER,vs);
+var frag=compile(gl.FRAGMENT_SHADER,fs);
+if(!vert||!frag){
+  hw.textContent='The GPU shader failed to compile in this browser. Try another current browser with hardware acceleration enabled.';
+  go.disabled=true;
+  return;
+}
+
+var prog=gl.createProgram();
+gl.attachShader(prog,vert);
+gl.attachShader(prog,frag);
+gl.linkProgram(prog);
+if(!gl.getProgramParameter(prog,gl.LINK_STATUS)){
+  console.error(gl.getProgramInfoLog(prog));
+  hw.textContent='The GPU shader could not be linked in this browser. Try another current browser.';
+  go.disabled=true;
+  return;
+}
+gl.useProgram(prog);
+
+var buf=gl.createBuffer();
+gl.bindBuffer(gl.ARRAY_BUFFER,buf);
+gl.bufferData(gl.ARRAY_BUFFER,new Float32Array([-1,-1,3,-1,-1,3]),gl.STATIC_DRAW);
+var aPos=gl.getAttribLocation(prog,'aPos');
+gl.enableVertexAttribArray(aPos);
+gl.vertexAttribPointer(aPos,2,gl.FLOAT,false,0,0);
+
+var U={
+  R:gl.getUniformLocation(prog,'uRes'),
+  t:gl.getUniformLocation(prog,'uTime'),
+  camPos:gl.getUniformLocation(prog,'uCamPos'),
+  camRot:gl.getUniformLocation(prog,'uCamRot'),
+  power:gl.getUniformLocation(prog,'uPower'),
+  maxIter:gl.getUniformLocation(prog,'uMaxIter'),
+  maxSteps:gl.getUniformLocation(prog,'uMaxSteps'),
+  epsilon:gl.getUniformLocation(prog,'uEpsilon')
+};
+
+var debugInfo=gl.getExtension('WEBGL_debug_renderer_info');
+var rend=debugInfo?gl.getParameter(debugInfo.UNMASKED_RENDERER_WEBGL):'Hidden by browser';
+var vend=debugInfo?gl.getParameter(debugInfo.UNMASKED_VENDOR_WEBGL):gl.getParameter(gl.VENDOR);
 software=/swiftshader|llvmpipe|software rasterizer|microsoft basic render|softpipe/i.test((rend||'').toLowerCase());
-if(v2){timerExt=gl.getExtension('EXT_disjoint_timer_query_webgl2');gpuTimer=!!timerExt}
-$('fpslab',gpuTimer?'GPU FPS':'Render FPS');$('r1lab',gpuTimer?'Average GPU FPS':'Average Render FPS');
-var info='Real WebGL workload • '+P[m].w+'×'+P[m].h+' fixed render';
-if(gpuTimer) info+=' • GPU timer enabled'; else info+=' • browser frame timing fallback';
-if(software) info+=' • SOFTWARE RENDERER DETECTED';
-hw.innerHTML=info+'<br>Renderer: '+rend+' | Vendor: '+vend+' | WebGL '+(v2?2:1)+' | Screen: '+screen.width+'×'+screen.height+' at '+(window.devicePixelRatio||1)+'× pixel ratio.'+(software?' <b>This result reflects a software renderer, not normal GPU acceleration.</b>':'');
-function size(){c.width=P[m].w;c.height=P[m].h;gl.viewport(0,0,c.width,c.height)}
-function draw(){gl.uniform2f(U.R,c.width,c.height);gl.uniform1f(U.t,0);gl.uniform1i(U.S,P[m].s);gl.uniform1i(U.I,P[m].i);gl.drawArrays(gl.TRIANGLES,0,3)}
-var last,t0,dur,warmEnd,wallSamples=[],gpuSamples=[],pending=[],wd=[],wa=0;
-function startGpuQuery(){if(!gpuTimer)return null;var q=gl.createQuery();gl.beginQuery(timerExt.TIME_ELAPSED_EXT,q);return q}
-function endGpuQuery(q){if(!gpuTimer)return;if(q)gl.endQuery(timerExt.TIME_ELAPSED_EXT),pending.push(q)}
-function collectGpu(){if(!gpuTimer||!pending.length)return;var keep=[];for(var i=0;i<pending.length;i++){var q=pending[i];if(gl.getQueryParameter(q,gl.QUERY_RESULT_AVAILABLE)){if(!gl.getParameter(timerExt.GPU_DISJOINT_EXT)){var ns=gl.getQueryParameter(q,gl.QUERY_RESULT);if(ns>0)gpuSamples.push(ns/1000000)}gl.deleteQuery(q)}else keep.push(q)}pending=keep}
-function currentMetrics(){var arr=gpuTimer?gpuSamples:wallSamples;if(!arr.length)return;var recent=arr.slice(-20),sum=0;for(var i=0;i<recent.length;i++)sum+=recent[i];var mean=sum/recent.length;var v=0;for(var j=0;j<recent.length;j++)v+=(recent[j]-mean)*(recent[j]-mean);var stability=Math.max(0,Math.round(100*(1-Math.sqrt(v/recent.length)/Math.max(mean,0.001))));$("fps",Math.round(1000/mean));$("ms",mean.toFixed(1));$("st",stability)}
-function loop(now){if(!run)return;collectGpu();var wall=now-last;last=now;var q=startGpuQuery();draw();endGpuQuery(q);var el=(now-t0)/1000;if(el*1000>=warmEnd-t0){if(!gpuTimer)wallSamples.push(wall)}else{wallSamples=[]}
-if(gpuTimer)collectGpu();
-currentMetrics();document.getElementById('pb').style.width=Math.min(100,100*el/dur)+'%';
-if(el>=dur){setTimeout(finish,50);return}raf=requestAnimationFrame(loop)}
-function stop(){run=false;cancelAnimationFrame(raf);go.textContent='Start test'}
-function avg(a){var s=0;for(var i=0;i<a.length;i++)s+=a[i];return s/a.length}
-function finish(){stop();collectGpu();go.textContent='Run again';var arr=gpuTimer?gpuSamples:wallSamples;if(arr.length<5)return;var a=avg(arr),sd=arr.slice().sort(function(x,y){return y-x}),k=Math.max(1,Math.ceil(arr.length*.01)),w=0;for(var i=0;i<k;i++)w+=sd[i];var min=sd[sd.length-1],max=sd[0];$('r1',(1000/a).toFixed(1));$('r2',(1000/(w/k)).toFixed(1));$('r3',(1000/max).toFixed(1));$('r4',(1000/min).toFixed(1));$('r5',Math.round((performance.now()-t0)/1000)+' s');$('r6',c.width+'×'+c.height);$('r7',P[m].n);$('r8',arr.length);document.getElementById('res').hidden=false}
-go.onclick=function(){if(run){stop();document.getElementById('pb').style.width='0';return}dur=ty==3?+document.getElementById('cd').value:D[ty];wallSamples=[];gpuSamples=[];pending=[];document.getElementById('res').hidden=true;T=0;run=true;last=t0=performance.now();warmEnd=t0+750;go.textContent='Stop test';raf=requestAnimationFrame(loop)};
-function pick(sel,fn){document.querySelectorAll(sel).forEach(function(x){x.onclick=function(){if(run)return;document.querySelectorAll(sel).forEach(function(y){y.setAttribute('aria-pressed',y===x)});fn(+x.dataset[sel.slice(6,7)])}})}
-pick('[data-t]',function(v){ty=v;document.getElementById('cd').hidden=v!=3});
-pick('[data-m]',function(v){m=v;size();draw();$('r6',c.width+'×'+c.height)});
-document.addEventListener('visibilitychange',function(){if(document.hidden&&run){stop();document.getElementById('pb').style.width='0'}});
-c.addEventListener('webglcontextlost',function(ev){ev.preventDefault();canvasLost=true;stop();hw.textContent='The browser lost the WebGL context. The test was stopped safely. Try again after closing heavy tabs.';});
-var q=new URLSearchParams(location.search);['t','m'].forEach(function(k){var x=document.querySelector('[data-'+k+'="'+q.get(k)+'"]');if(x)x.click()});
-size();draw();
+
+timerExt=gl.getExtension('EXT_disjoint_timer_query_webgl2');
+gpuTimer=!!timerExt;
+
+$('fps', '--');
+$('ms','--');
+$('st','--');
+var fpsLab=document.getElementById('fpslab');
+var r1Lab=document.getElementById('r1lab');
+if(fpsLab) fpsLab.textContent=gpuTimer?'GPU FPS':'Render FPS';
+if(r1Lab) r1Lab.textContent=gpuTimer?'Average GPU FPS':'Average Render FPS';
+
+hud.textContent='GPU: '+String(rend).slice(0,48)+' | WebGL 2';
+
+function statusText(){
+  var p=P[m];
+  var text='Real WebGL2 shader workload • '+p.w+'×'+p.h+' internal render';
+  text+=gpuTimer?' • GPU timer enabled':' • browser frame timing fallback';
+  if(software) text+=' • SOFTWARE RENDERER DETECTED';
+  return text+'<br>Renderer: '+rend+' | Vendor: '+vend+' | WebGL 2 | Screen: '+screen.width+'×'+screen.height+' at '+(window.devicePixelRatio||1)+'× pixel ratio.'+
+    (software?' <b>This result reflects software rendering, not normal hardware GPU acceleration.</b>':'');
+}
+hw.innerHTML=statusText();
+
+function size(){
+  var p=P[m];
+  c.width=p.w;
+  c.height=p.h;
+  gl.viewport(0,0,c.width,c.height);
+  $('r6',c.width+'×'+c.height);
+}
+
+function mat3Look(yaw,pitch){
+  var cy=Math.cos(yaw),sy=Math.sin(yaw);
+  var cp=Math.cos(pitch),sp=Math.sin(pitch);
+  var fx=sy*cp,fy=-sp,fz=cy*cp;
+  var rx=cy,ry=0,rz=-sy;
+  var ux=-sy*sp,uy=cp,uz=-cy*sp;
+  return new Float32Array([rx,ux,fx,ry,uy,fy,rz,uz,fz]);
+}
+
+var yaw=0.4,pitch=0.3,dist=2.8;
+var panX=0,panY=0;
+var targetYaw=yaw,targetPitch=pitch,targetDist=dist;
+var targetPanX=0,targetPanY=0;
+
+function drawScene(ts){
+  var rot=mat3Look(yaw,pitch);
+  var camPos=[
+    -rot[2]*dist+panX*rot[0]+panY*rot[1],
+    -rot[5]*dist+panX*rot[3]+panY*rot[4],
+    -rot[8]*dist+panX*rot[6]+panY*rot[7]
+  ];
+  var p=P[m];
+
+  gl.uniform2f(U.R,c.width,c.height);
+  if(U.t) gl.uniform1f(U.t,0);
+  gl.uniform3fv(U.camPos,camPos);
+  gl.uniformMatrix3fv(U.camRot,false,rot);
+  gl.uniform1f(U.power,8.0);
+  gl.uniform1i(U.maxIter,p.iter);
+  gl.uniform1i(U.maxSteps,p.steps);
+  gl.uniform1f(U.epsilon,p.eps);
+
+  gl.drawArrays(gl.TRIANGLES,0,3);
+}
+
+var pointers=new Map(),dragging=false,panning=false,lastX=0,lastY=0;
+c.style.touchAction='none';
+
+c.addEventListener('pointerdown',function(e){
+  pointers.set(e.pointerId,{x:e.clientX,y:e.clientY});
+  if(pointers.size===1){
+    dragging=true;
+    panning=(e.button===2);
+    lastX=e.clientX;
+    lastY=e.clientY;
+  }
+  c.setPointerCapture(e.pointerId);
+});
+
+c.addEventListener('pointermove',function(e){
+  if(!pointers.has(e.pointerId)) return;
+  var prev=pointers.get(e.pointerId);
+  var dx=e.clientX-prev.x;
+  var dy=e.clientY-prev.y;
+  pointers.set(e.pointerId,{x:e.clientX,y:e.clientY});
+
+  if(pointers.size===2){
+    targetPanX-=dx*0.003*dist;
+    targetPanY+=dy*0.003*dist;
+  }else if(dragging){
+    if(panning){
+      targetPanX-=dx*0.003*dist;
+      targetPanY+=dy*0.003*dist;
+    }else{
+      targetYaw+=dx*0.005;
+      targetPitch=Math.max(-1.4,Math.min(1.4,targetPitch+dy*0.005));
+    }
+  }
+
+  if(!run) drawScene(0);
+});
+
+c.addEventListener('pointerup',function(e){
+  pointers.delete(e.pointerId);
+  if(pointers.size===0){
+    dragging=false;
+    panning=false;
+  }
+});
+c.addEventListener('pointercancel',function(e){pointers.delete(e.pointerId);});
+c.addEventListener('wheel',function(e){
+  e.preventDefault();
+  targetDist=Math.max(1.2,Math.min(8,targetDist*(1+e.deltaY*0.001)));
+  if(!run) drawScene(0);
+},{passive:false});
+c.addEventListener('contextmenu',function(e){e.preventDefault();});
+
+var lastPinch=0;
+c.addEventListener('touchmove',function(e){
+  if(e.touches.length===2){
+    var d=Math.hypot(
+      e.touches[0].clientX-e.touches[1].clientX,
+      e.touches[0].clientY-e.touches[1].clientY
+    );
+    if(lastPinch>0){
+      targetDist=Math.max(1.2,Math.min(8,targetDist*(lastPinch/d)));
+      if(!run) drawScene(0);
+    }
+    lastPinch=d;
+  }
+},{passive:false});
+c.addEventListener('touchend',function(){lastPinch=0;});
+
+var last=0,t0=0,dur=30,warmUntil=0;
+var wallSamples=[],gpuSamples=[];
+var warmupMs=750,finishPending=false;
+
+function startGpuQuery(){
+  if(!gpuTimer||canvasLost) return null;
+  var q=gl.createQuery();
+  gl.beginQuery(timerExt.TIME_ELAPSED_EXT,q);
+  return q;
+}
+
+function endGpuQuery(q){
+  if(!gpuTimer||!q||canvasLost) return;
+  gl.endQuery(timerExt.TIME_ELAPSED_EXT);
+  pending.push(q);
+}
+
+function collectGpuQueries(){
+  if(!gpuTimer||canvasLost||!pending.length) return;
+  var keep=[];
+  for(var i=0;i<pending.length;i++){
+    var q=pending[i];
+    if(gl.getQueryParameter(q,gl.QUERY_RESULT_AVAILABLE)){
+      if(!gl.getParameter(timerExt.GPU_DISJOINT_EXT)){
+        var ns=gl.getQueryParameter(q,gl.QUERY_RESULT);
+        if(typeof ns==='number'&&ns>0) gpuSamples.push(ns/1000000);
+      }
+      gl.deleteQuery(q);
+    }else{
+      keep.push(q);
+    }
+  }
+  pending=keep;
+}
+
+function average(arr){
+  if(!arr.length) return 0;
+  var sum=0;
+  for(var i=0;i<arr.length;i++) sum+=arr[i];
+  return sum/arr.length;
+}
+
+function updateLive(){
+  var arr=gpuTimer?gpuSamples:wallSamples;
+  if(!arr.length) return;
+  var recent=arr.slice(-20);
+  var mean=average(recent);
+  if(!isFinite(mean)||mean<=0) return;
+
+  var variance=0;
+  for(var i=0;i<recent.length;i++){
+    variance+=(recent[i]-mean)*(recent[i]-mean);
+  }
+  var stability=Math.max(0,Math.round(100*(1-Math.sqrt(variance/recent.length)/mean)));
+  $('fps',(1000/mean).toFixed(1));
+  $('ms',mean.toFixed(1));
+  $('st',stability);
+}
+
+function finish(){
+  if(finishPending) return;
+  finishPending=true;
+  window.setTimeout(function(){
+    if(gpuTimer){
+      collectGpuQueries();
+      // Give late GPU queries a short, non-blocking grace period.
+      if(pending.length && performance.now()-t0<dur*1000+1200){
+        finishPending=false;
+        finish();
+        return;
+      }
+    }
+
+    run=false;
+    if(raf) cancelAnimationFrame(raf);
+    go.textContent='Run again';
+
+    var arr=gpuTimer&&gpuSamples.length>=5?gpuSamples:wallSamples;
+    if(arr.length<5){
+      hw.innerHTML=statusText()+'<br>The test ended before enough timing samples were collected. Please run it again.';
+      return;
+    }
+
+    var a=average(arr);
+    var sorted=arr.slice().sort(function(x,y){return y-x;});
+    var k=Math.max(1,Math.ceil(arr.length*0.01));
+    var slowSum=0;
+    for(var i=0;i<k;i++) slowSum+=sorted[i];
+
+    var worst=sorted[0];
+    var best=sorted[sorted.length-1];
+
+    $('r1',(1000/a).toFixed(1));
+    $('r2',(1000/(slowSum/k)).toFixed(1));
+    $('r3',(1000/worst).toFixed(1));
+    $('r4',(1000/best).toFixed(1));
+    $('r5',Math.round((performance.now()-t0)/1000)+' s');
+    $('r6',c.width+'×'+c.height);
+    $('r7',P[m].n);
+    $('r8',arr.length);
+    document.getElementById('res').hidden=false;
+
+    finishPending=false;
+  },60);
+}
+
+function loop(now){
+  if(!run) return;
+
+  var wallDt=last?now-last:16.67;
+  last=now;
+
+  yaw+=(targetYaw-yaw)*0.15;
+  pitch+=(targetPitch-pitch)*0.15;
+  dist+=(targetDist-dist)*0.12;
+  panX+=(targetPanX-panX)*0.12;
+  panY+=(targetPanY-panY)*0.12;
+
+  if(now>=warmUntil){
+    if(wallDt>0&&wallDt<1000) wallSamples.push(wallDt);
+  }
+
+  var q=startGpuQuery();
+  drawScene(now);
+  endGpuQuery(q);
+
+  collectGpuQueries();
+  updateLive();
+
+  var elapsed=(now-t0)/1000;
+  var pct=Math.min(100,100*elapsed/dur);
+  document.getElementById('pb').style.width=pct+'%';
+
+  if(elapsed>=dur){
+    finish();
+    return;
+  }
+
+  raf=requestAnimationFrame(loop);
+}
+
+function stopTest(resetProgress){
+  run=false;
+  if(raf) cancelAnimationFrame(raf);
+  raf=0;
+  if(resetProgress) document.getElementById('pb').style.width='0';
+  go.textContent='Start test';
+}
+
+go.onclick=function(){
+  if(run){
+    stopTest(true);
+    return;
+  }
+
+  dur=ty===3?+document.getElementById('cd').value:D[ty];
+  if(!isFinite(dur)||dur<=0) dur=30;
+
+  if(pending.length&&gpuTimer){
+    for(var i=0;i<pending.length;i++){
+      try{gl.deleteQuery(pending[i]);}catch(e){}
+    }
+  }
+  pending=[];
+  wallSamples=[];
+  gpuSamples=[];
+  finishPending=false;
+
+  document.getElementById('res').hidden=true;
+  document.getElementById('pb').style.width='0';
+  $('fps','--');
+  $('ms','--');
+  $('st','--');
+
+  size();
+  yaw=targetYaw;
+  pitch=targetPitch;
+  dist=targetDist;
+
+  run=true;
+  t0=performance.now();
+  last=t0;
+  warmUntil=t0+warmupMs;
+  go.textContent='Stop test';
+
+  raf=requestAnimationFrame(loop);
+};
+
+function pick(sel,fn){
+  document.querySelectorAll(sel).forEach(function(x){
+    x.onclick=function(){
+      if(run) return;
+      document.querySelectorAll(sel).forEach(function(y){
+        y.setAttribute('aria-pressed',y===x?'true':'false');
+      });
+      fn(+x.dataset[sel.slice(6,7)]);
+    };
+  });
+}
+
+pick('[data-t]',function(v){
+  ty=v;
+  document.getElementById('cd').hidden=(v!==3);
+});
+
+pick('[data-m]',function(v){
+  m=v;
+  size();
+  hw.innerHTML=statusText();
+  drawScene(0);
+});
+
+document.addEventListener('visibilitychange',function(){
+  if(document.hidden&&run){
+    stopTest(true);
+    hw.innerHTML=statusText()+'<br>The test was stopped because this tab was moved to the background. Run it again with the test tab in front for consistent timing.';
+  }
+});
+
+c.addEventListener('webglcontextlost',function(ev){
+  ev.preventDefault();
+  canvasLost=true;
+  stopTest(true);
+  hw.innerHTML='The browser lost the WebGL context, so the benchmark was stopped safely. Reload this page before running the test again.';
+});
+
+c.addEventListener('webglcontextrestored',function(){
+  hw.innerHTML='WebGL context restored. Reload the page before starting another benchmark run.';
+});
+
+var qs=new URLSearchParams(location.search);
+var tq=document.querySelector('[data-t="'+qs.get('t')+'"]');
+var mq=document.querySelector('[data-m="'+qs.get('m')+'"]');
+if(tq) tq.click();
+if(mq) mq.click();
+
+size();
+drawScene(0);
 })();
 </script>
 </body>
