@@ -3,785 +3,129 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Volume Shader BM: Free Online GPU Test, Benchmark and Stress Test Guide</title>
-<meta name="description" content="Learn how the volume shader (volumeshader_bm) GPU benchmark works. Run a quick graphics test in your browser, understand FPS and stability, and compare Simple, Standard, Advanced and Extreme modes.">
+<title>Volume Shader BM: Free Online GPU Benchmark and Stress Test</title>
+<meta name="description" content="Run the volume shader (volumeshader_bm) GPU benchmark in your browser. See live FPS, 1% low and stability, pick Simple to Extreme, and learn how to read your score.">
 <link rel="canonical" href="https://volumeshader.github.io/">
-<meta property="og:title" content="Volume Shader BM: Online GPU Test and Guide">
-<meta property="og:description" content="A plain-English guide to the volumetric shader benchmark, with a live browser test.">
+<meta property="og:title" content="Volume Shader BM: Free Online GPU Benchmark">
+<meta property="og:description" content="Live FPS, rotate and zoom a 3D fractal, and test your phone, laptop or PC graphics.">
 <meta property="og:type" content="website">
-<meta property="og:url" content="https://volumeshader.github.io/">
+<meta name="theme-color" content="#0b0a1f">
 <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🍄</text></svg>">
+<link rel="stylesheet" href="style.css">
 <script type="application/ld+json">
 {"@context":"https://schema.org","@type":"FAQPage","mainEntity":[
-{"@type":"Question","name":"What is volume shader BM?","acceptedAnswer":{"@type":"Answer","text":"Volume shader BM is a browser GPU benchmark. It ray-marches a 3D fractal volume on every pixel and reports average FPS, 1% low FPS, frame time and stability. It works as a quick online GPU test and a longer stress test."}},
-{"@type":"Question","name":"Is the volume shader test safe for my phone or PC?","acceptedAnswer":{"@type":"Answer","text":"Yes for short runs. It pushes the GPU hard, so it can warm a device. Stop if it gets very hot, and start on the Simple mode on phones."}},
-{"@type":"Question","name":"Does the test send my data anywhere?","acceptedAnswer":{"@type":"Answer","text":"No. The benchmark runs locally in your browser. Only the graphics adapter name is read to show what is being tested."}}]}
+{"@type":"Question","name":"What is volume shader BM?","acceptedAnswer":{"@type":"Answer","text":"Volume shader BM (volumeshader_bm) is a browser GPU benchmark. It ray-marches a 3D fractal on every pixel and shows live FPS, 1% low FPS and stability."}},
+{"@type":"Question","name":"Is the volume shader test safe?","acceptedAnswer":{"@type":"Answer","text":"Yes for normal runs. It pushes the GPU hard, so devices can warm up. Stop the test if the device gets very hot."}},
+{"@type":"Question","name":"What is a good volume shader score?","acceptedAnswer":{"@type":"Answer","text":"As a rough guide, 60 FPS or more is excellent, 30 to 60 is good, 15 to 30 is moderate and under 15 is limited at the same complexity level."}},
+{"@type":"Question","name":"Does the test send my data anywhere?","acceptedAnswer":{"@type":"Answer","text":"No. The benchmark runs locally in your browser."}}]}
 </script>
-<style>
-:root{--bg:#14112b;--bg2:#1d1840;--ink:#ece9ff;--mute:#a9a3d1;--pink:#ff7ab8;--teal:#7be0d0;--line:#34305f;--r:6px}
-*{box-sizing:border-box}
-html{scroll-behavior:smooth;scroll-padding-top:64px}
-body{margin:0;background:var(--bg);color:var(--ink);font:17px/1.7 "Segoe UI",system-ui,-apple-system,sans-serif}
-a{color:var(--teal)}a:focus-visible,button:focus-visible{outline:3px solid var(--pink);outline-offset:2px}
-header{position:sticky;top:0;z-index:5;background:rgba(20,17,43,.94);border-bottom:1px solid var(--line)}
-nav{max-width:1000px;margin:auto;padding:12px 20px;display:flex;gap:18px;flex-wrap:wrap;align-items:center}
-nav b{margin-right:auto;font-size:18px}nav a{text-decoration:none;color:var(--mute);font-size:15px}nav a:hover{color:var(--ink)}
-main,.w{max-width:1000px;margin:auto;padding:0 20px}
-h1{font:700 clamp(34px,6vw,60px)/1.08 Georgia,serif;margin:44px 0 14px;letter-spacing:-.5px}
-h2{font:700 clamp(25px,4vw,34px)/1.2 Georgia,serif;margin:64px 0 12px}
-h3{font-size:19px;margin:0 0 6px;color:var(--pink)}
-p{margin:0 0 14px;max-width:72ch}.lead{font-size:19px;color:var(--mute)}
-.demo{background:var(--bg2);border:1px solid var(--line);border-radius:var(--r);overflow:hidden;margin:26px 0}
-canvas{display:block;width:100%;aspect-ratio:16/9;background:#0b0920}
-.bar{display:flex;flex-wrap:wrap;gap:10px;align-items:center;padding:12px 14px}
-button{font:inherit;font-size:15px;padding:8px 14px;border-radius:var(--r);border:1px solid var(--line);background:var(--bg);color:var(--ink);cursor:pointer}
-button[aria-pressed=true]{border-color:var(--pink);color:var(--pink)}
-#go{background:var(--pink);color:#2a0f20;border-color:var(--pink);font-weight:700}
-.stats{margin-left:auto;display:flex;gap:18px;font-variant-numeric:tabular-nums;font-size:15px;color:var(--mute)}
-.stats b{color:var(--ink);font-size:20px}
-.note{font-size:14px;color:var(--mute);padding:0 14px 12px}
-.grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(230px,1fr));gap:0;border-top:1px solid var(--line);border-left:1px solid var(--line)}
-.grid>div{padding:18px;border-right:1px solid var(--line);border-bottom:1px solid var(--line)}
-.grid p{font-size:15.5px;margin:0;color:#d8d3f5}
-table{width:100%;border-collapse:collapse;font-size:15.5px;margin:12px 0 20px}
-th,td{text-align:left;padding:10px 12px;border-bottom:1px solid var(--line);vertical-align:top}th{color:var(--teal)}
-.scroll{overflow-x:auto}
-ol,ul{max-width:72ch;padding-left:22px}li{margin-bottom:7px}
-details{border-bottom:1px solid var(--line);padding:14px 0}summary{cursor:pointer;font-weight:600}
-details p{margin:10px 0 0}
-footer{margin-top:80px;border-top:1px solid var(--line);padding:30px 0 50px;color:var(--mute);font-size:14.5px}
-@media(prefers-reduced-motion:reduce){html{scroll-behavior:auto}}
-.stage{position:relative}.hud{position:absolute;left:12px;top:10px;font-size:13px;background:rgba(11,9,32,.75);padding:4px 10px;border-radius:var(--r)}.livebadge{position:absolute;right:12px;top:10px;font-size:12px;background:rgba(11,9,32,.8);padding:4px 9px;border-radius:var(--r);color:var(--teal);border:1px solid var(--line)}
-.prog{height:4px;background:var(--line)}.prog i{display:block;height:100%;width:0;background:var(--pink)}
-.live{display:grid;grid-template-columns:repeat(3,1fr);border-top:1px solid var(--line)}.live.rs{grid-template-columns:repeat(auto-fit,minmax(130px,1fr))}
-.live div{padding:12px 16px;border-right:1px solid var(--line);border-bottom:1px solid var(--line)}.live b{display:block;font-size:clamp(22px,4.5vw,36px);line-height:1.15;font-variant-numeric:tabular-nums}.live span{font-size:13px;color:var(--mute)}
-.bar small{color:var(--mute);margin-right:2px}select{font:inherit;font-size:15px;padding:7px;border-radius:var(--r);background:var(--bg);color:var(--ink);border:1px solid var(--line)}
-.sep{width:1px;height:26px;background:var(--line)}
-</style>
 </head>
 <body>
-<header><nav aria-label="Main"><b>🍄 Volume Shader</b>
-<a href="#test">Live test</a><a href="#modes">Modes</a><a href="#how">How to run</a><a href="#results">Results</a><a href="#compare">Compare</a><a href="#faq">FAQ</a></nav></header>
+<header><nav aria-label="Main"><b>🍄 Volume Shader</b><a href="#test">Test</a><a href="#how">How to use</a><a href="#levels">Levels</a><a href="#results">Results</a><a href="#faq">FAQ</a><a href="gpu-stress-test.html">Stress test</a><a href="phone-gpu-test.html">Phone test</a></nav></header>
 <main>
+<h1>Volume Shader BM: free online GPU benchmark test</h1>
+<p class="lead">Press start and your graphics card renders a glowing 3D fractal in real time while the page measures FPS, 1% low and stability. Rotate it, zoom in, go fullscreen, and see how your phone, laptop or PC really performs.</p>
+<div class="pills"><span>No install</span><span>Phone, tablet, laptop, PC</span><span>Runs locally, private</span><span>4 complexity levels</span></div>
 
-<h1>Volume shader BM: test your GPU in the browser</h1>
-<p class="lead">The volume shader benchmark (also written volumeshader_bm or VSBM) draws a glowing 3D fractal that your graphics card has to calculate pixel by pixel. If the picture stays smooth, your GPU is coping well. This page explains the test in plain language and lets you try a small version right now.</p>
-
-<section id="test" aria-labelledby="t-h">
-<h2 id="t-h" style="margin-top:30px">Volume Shader GPU test</h2>
-<div class="demo">
-<div class="stage"><canvas id="c" width="960" height="540" aria-label="Live 3D volume shader rendered by your GPU"></canvas><div class="hud" id="hud">GPU: -- | WebGL --</div><div class="livebadge">LIVE GPU RENDER · NOT VIDEO</div></div>
-<div class="prog"><i id="pb"></i></div>
-<div class="live"><div><b id="fps">--</b><span id="fpslab">GPU FPS</span></div><div><b id="ms">--</b><span>Frame time (ms)</span></div><div><b id="st">--</b><span>Stability %</span></div></div>
-<div class="bar"><small>Test</small><span role="group" aria-label="Test type">
-<button data-t="0" aria-pressed="false">Quick 12s</button><button data-t="1" aria-pressed="true">Standard 30s</button><button data-t="2" aria-pressed="false">Stress 3 min</button><button data-t="3" aria-pressed="false">Custom</button></span>
-<select id="cd" aria-label="Custom duration" hidden><option value="10">10 s</option><option value="20">20 s</option><option value="60" selected>1 min</option><option value="120">2 min</option><option value="300">5 min</option></select></div>
-<div class="bar" style="padding-top:0"><small>Complexity</small><span role="group" aria-label="Complexity">
-<button data-m="0" aria-pressed="false">Simple</button><button data-m="1" aria-pressed="true">Standard</button><button data-m="2" aria-pressed="false">Advanced</button><button data-m="3" aria-pressed="false">Extreme</button></span><span class="sep"></span><button id="go">Start test</button></div>
-<div id="res" hidden><div class="live rs">
-<div><b id="r1">-</b><span id="r1lab">Average GPU FPS</span></div><div><b id="r2">-</b><span>1% low FPS</span></div><div><b id="r3">-</b><span>Minimum FPS</span></div><div><b id="r4">-</b><span>Maximum FPS</span></div>
-<div><b id="r5">-</b><span>Duration</span></div><div><b id="r6">-</b><span>Render resolution</span></div><div><b id="r7">-</b><span>Shader complexity</span></div><div><b id="r8">-</b><span>Frames</span></div></div></div>
-<p class="note" id="hw" style="padding-top:12px">This is a real-time WebGL GPU workload, not a prerecorded video. The benchmark uses a fixed render workload and, when the browser exposes GPU timer queries, measures the time spent on the GPU itself. Phones should begin with Simple and Quick.</p>
-</div>
-</section>
+<section id="test" aria-label="Volume shader GPU test"><div id="vs"></div></section>
 
 <section id="what">
-<h2>What is the volume shader test?</h2>
-<p>A volume shader is a small program that runs on your GPU and works out how light passes through a 3D shape. The benchmark uses a Mandelbulb, a 3D version of the famous Mandelbrot fractal. For every pixel the shader shoots a ray into the scene, takes many small steps along it, and checks how close the ray is to the surface. This method is called ray marching.</p>
-<p>It became popular as a free alternative to heavy desktop tools. It needs no install, works on a phone, tablet, laptop or PC, and gives a result in seconds. People use it as an online GPU benchmark, a quick graphics card test, and a short browser stress test.</p>
-<p>This site gives you a clear way to run that kind of test, read the numbers, and decide what they mean for your device. Results are measured locally, so they depend on your browser, driver, power mode and temperature.</p>
-</section>
-
-<section id="modes">
-<h2>All modes and types explained</h2>
-<p>There are two things people mean by "mode": the <em>difficulty level</em> (how heavy the fractal is) and the <em>kind of test</em> (how long and how it is scored). Naming varies a little between sites, but these are the ones you will meet.</p>
-<h3 style="margin-top:22px">Difficulty levels</h3>
-<div class="scroll"><table>
-<tr><th>Level</th><th>What changes</th><th>Best for</th></tr>
-<tr><td>Simple</td><td>Fewest ray steps and fractal iterations. Often a lower render scale.</td><td>Phones, old laptops, integrated graphics, first-time runs.</td></tr>
-<tr><td>Standard</td><td>Balanced detail. A normal day-to-day check.</td><td>Mid-range phones, office PCs, most laptops.</td></tr>
-<tr><td>Advanced</td><td>More steps and iterations, so edges look sharper and the GPU works much harder.</td><td>Gaming laptops and desktop cards.</td></tr>
-<tr><td>Extreme</td><td>Maximum load. Even strong cards may drop below 60 FPS.</td><td>High-end GPUs and stress testing.</td></tr>
-</table></div>
-<h3>Test types</h3>
-<div class="grid">
-<div><h3>Timed benchmark</h3><p>Runs for a set time and reports average FPS, frame time and stability. Use this when you want numbers to compare.</p></div>
-<div><h3>Interactive view</h3><p>No timer. Drag to orbit the fractal and watch FPS live. Good for looking at the scene or checking one setting.</p></div>
-<div><h3>GPU stress mode</h3><p>Keeps the load running longer to reveal heat, throttling and crashes. Often called a pc stress test or gpu stress test online.</p></div>
-<div><h3>Quick, Standard, Stress</h3><p>Quick (about 12 seconds) shows peak speed. Standard (30 seconds) is the balanced benchmark. Stress (3 minutes) shows what the device holds after it warms up.</p></div>
-<div><h3>Custom settings</h3><p>Some apps let you change resolution, steps and iterations yourself, so you can find the exact point where your device starts to struggle.</p></div>
-<div><h3>WebGL and WebGPU</h3><p>Most versions use WebGL (broad support). Newer ones may also use WebGPU, which can give different numbers on the same hardware.</p></div>
-</div>
-</section>
-
-<section id="shaders">
-<h2>Shader types: what each one tests</h2>
-<p>These terms are often mixed together. They are different workloads, so scores from one do not carry over to another.</p>
-<div class="scroll"><table>
-<tr><th>Type</th><th>What it is</th><th>What it stresses</th></tr>
-<tr><td>Volume shader</td><td>A shader that estimates how light passes through a 3D region instead of just coloring a surface.</td><td>Math throughput, many steps per pixel.</td></tr>
-<tr><td>Ray marching</td><td>The technique used here: move a ray forward in small safe steps until it hits something.</td><td>Fragment shader speed and branching.</td></tr>
-<tr><td>Mandelbulb</td><td>The 3D fractal used as the scene. It is cheap to describe and very costly to calculate.</td><td>Trigonometry and power functions.</td></tr>
-<tr><td>Fractal</td><td>Any shape that repeats detail at smaller scales. Iteration count sets the detail.</td><td>Loop depth per pixel.</td></tr>
-<tr><td>Volumetric fog</td><td>Fog or smoke lit by sampling density along a ray. Common in games.</td><td>Texture reads and blending. Not part of this test.</td></tr>
-<tr><td>Procedural volume</td><td>A volume made from formulas (noise, fractals) rather than stored data.</td><td>Pure compute, little memory.</td></tr>
-</table></div>
-<p>This test runs the Mandelbulb ray marcher only. The others are listed so you can tell which workload a result belongs to.</p>
+<h2>What is Volume Shader BM?</h2>
+<p>Volume Shader BM, often typed as volumeshader_bm or volumeshader bm, is a GPU benchmark test that runs in a web page. The "BM" means benchmark. It uses a volume shader: a small program on your graphics card that works out how light travels through a 3D shape for every pixel on screen.</p>
+<p>The scene here is a Mandelbulb, a 3D version of a famous fractal. It is simple to describe and very expensive to calculate, which makes it a good volume shader benchmark. If your GPU keeps the picture smooth, it has headroom. If the picture stutters, you have found the limit.</p>
+<p>People use it as a fast graphics test before buying a phone, after a driver update, or when a game feels slow. It also works as a short gpu stress test because it keeps the shader units busy.</p>
 </section>
 
 <section id="how">
-<h2>How to run the test properly</h2>
-<ol>
-<li>Close other tabs and heavy apps. Keep the test tab in front, because background tabs are slowed by the browser.</li>
-<li>Plug in a laptop or phone and turn off battery saver. Power modes lower GPU speed.</li>
-<li>Use a current browser (Chrome, Edge, Firefox or Safari) with hardware acceleration switched on.</li>
-<li>Start on Simple or Standard. Move up one level at a time.</li>
-<li>Run it three times and note the middle result. The first run is often lower while the GPU wakes up.</li>
-<li>Let the device cool for a minute between runs if you are comparing settings.</li>
-</ol>
-<p>The test is demanding on purpose. If your device gets very hot, becomes unresponsive or the fan is loud, close the tab. Short runs are normal use; leaving it for a long time is stress testing and deserves attention to temperatures.</p>
+<h2>How to use the volume shader test</h2>
+<ol><li>Press <b>Start test</b>. Choose a complexity level first if you want one other than Standard.</li>
+<li>Watch the live FPS and the small chips for average, 1% low, minimum and stability.</li>
+<li>Interact with the 3D scene while it runs (controls below). Moving the camera does not change the workload.</li>
+<li>Press the stop square or the P key. A result card shows average, 1% low, minimum and maximum FPS, stability, duration, complexity and render resolution.</li>
+<li>Use "Run for" to pick a free run, 30 seconds or 3 minutes. The longer run shows throttling.</li></ol>
+<div class="scroll"><table><tr><th>Action</th><th>Desktop</th><th>Phone or tablet</th></tr>
+<tr><td>Rotate</td><td>Left-click and drag</td><td>One finger</td></tr>
+<tr><td>Zoom</td><td>Mouse wheel</td><td>Pinch</td></tr>
+<tr><td>Pan</td><td>Right-click drag, or Shift and drag</td><td>Two fingers</td></tr>
+<tr><td>Reset view</td><td>Space bar</td><td>-</td></tr>
+<tr><td>Stop</td><td>P key or stop button</td><td>Stop button</td></tr>
+<tr><td>Fullscreen</td><td>Fullscreen button, Esc to exit</td><td>Fullscreen button</td></tr></table></div>
+</section>
+
+<section id="levels">
+<h2>Complexity levels: Simple, Standard, Advanced, Extreme</h2>
+<p>Each level changes how many ray steps and fractal iterations the shader does, and how sharp the image is rendered. Higher levels cost far more GPU time, so scores are only comparable at the same level.</p>
+<div class="scroll"><table><tr><th>Level</th><th>Load</th><th>Best for</th></tr>
+<tr><td>Simple</td><td>Lowest steps, iterations and resolution</td><td>Older phones, budget tablets, integrated graphics, first runs</td></tr>
+<tr><td>Standard</td><td>Balanced, the default</td><td>Most phones, laptops and office PCs</td></tr>
+<tr><td>Advanced</td><td>More detail and full resolution</td><td>Gaming laptops, recent flagship phones, desktop cards</td></tr>
+<tr><td>Extreme</td><td>Maximum steps, iterations and oversampled resolution</td><td>High-end GPUs and stress testing</td></tr></table></div>
+<p>Start low and move up. If Standard already sits under 30 FPS, Extreme will mostly show you slideshow speeds.</p>
 </section>
 
 <section id="results">
 <h2>Understanding your results</h2>
 <div class="grid">
-<div><h3>FPS</h3><p>Frames per second. Higher means smoother. Most screens cap at 60 FPS (some at 90, 120 or 144), so a result stuck at that number means the GPU has spare power at that level.</p></div>
-<div><h3>Frame time</h3><p>Milliseconds per frame. 16.7 ms equals 60 FPS and 33 ms equals 30 FPS. It shows lag more clearly than FPS does.</p></div>
-<div><h3>Stability</h3><p>How even the frames are. A steady 40 FPS feels better than a jumpy average of 50. Low stability points to throttling or background load.</p></div>
-</div>
-<div class="scroll"><table>
-<tr><th>FPS at Standard</th><th>What it usually means</th></tr>
-<tr><td>60 or more</td><td>Strong. Try Advanced or Extreme.</td></tr>
-<tr><td>30 to 60</td><td>Good. Fine for everyday use and most games at medium settings.</td></tr>
-<tr><td>15 to 30</td><td>Moderate. Typical of budget phones and integrated graphics.</td></tr>
-<tr><td>Under 15</td><td>Limited, or throttling. Check power mode, drivers and heat.</td></tr>
-</table></div>
-<p>Remember that a browser benchmark measures browser plus GPU plus driver plus cooling. It is a useful signal, not a verdict. Compare devices only under similar power and browser conditions, and never judge a phone as fake from one score.</p>
-<h3 style="margin-top:22px">If the score is low</h3>
-<ul>
-<li>Switch from battery saver to normal power, and plug in.</li>
-<li>Turn on hardware acceleration in browser settings, then restart the browser.</li>
-<li>Update your graphics driver (PC) or system software (phone).</li>
-<li>If WebGL will not start, try another browser or visit chrome://gpu to see its status.</li>
-<li>On laptops with two GPUs, set the browser to use the dedicated card.</li>
-</ul>
+<div><h3>FPS</h3><p>Frames per second, the headline number. Many screens cap at 60 FPS, some at 90, 120 or 144. A result stuck at the cap means the GPU has spare power at that level.</p></div>
+<div><h3>1% low FPS</h3><p>The speed of your worst frames. If it is far below the average you feel stutter even when the average looks good.</p></div>
+<div><h3>Minimum and maximum</h3><p>The slowest and fastest single frames. One bad spike is normal at the start while the GPU wakes up.</p></div>
+<div><h3>Frame time</h3><p>Milliseconds per frame. 16.7 ms is 60 FPS and 33 ms is 30 FPS. Lower and steadier is better.</p></div>
+<div><h3>Stability</h3><p>How even the frames are. A steady 40 FPS feels better than a jumpy 50. Low stability points to throttling or background load.</p></div>
+<div><h3>Resolution</h3><p>The internal render size at the chosen level. Higher means more pixels for the GPU to shade.</p></div></div>
+<div class="scroll"><table><tr><th>FPS at the same level</th><th>Rough meaning</th></tr>
+<tr><td>60 or more</td><td>Excellent. Try the next level up.</td></tr><tr><td>30 to 60</td><td>Good for everyday use.</td></tr>
+<tr><td>15 to 30</td><td>Moderate, typical of budget phones and integrated graphics.</td></tr><tr><td>Under 15</td><td>Limited, or throttling. Check power mode, drivers and heat.</td></tr></table></div>
+<p>A browser test measures the browser, driver, GPU and cooling together. Treat it as a useful signal, not a verdict, and never decide a device is fake from one score.</p>
+<h3 style="margin-top:20px">If your score is low</h3>
+<ul><li>Turn off battery saver and plug the device in.</li><li>Enable hardware acceleration in browser settings and restart the browser.</li><li>Update graphics drivers (PC) or system software (phone).</li><li>On laptops with two GPUs, make the browser use the dedicated one.</li><li>Close other tabs and apps, then let the device cool for a minute.</li></ul>
+</section>
+
+<section id="tech">
+<h2>How the benchmark works</h2>
+<p>The page draws one rectangle over the canvas. A fragment shader runs once per pixel. Each pixel sends a ray into the fractal and moves forward in safe steps (ray marching) until it touches the surface, using a distance formula for the Mandelbulb. Colour comes from how the ray travelled, and a soft glow is added from how close it passed. All of this runs on your GPU through WebGL, with WebGL2 used when available.</p>
+<div class="scroll"><table><tr><th>Term</th><th>Meaning</th><th>What it stresses</th></tr>
+<tr><td>Volume shader</td><td>Estimates light through a 3D region, not just a surface</td><td>Shader math, many steps per pixel</td></tr>
+<tr><td>Ray marching</td><td>Advance a ray in small safe steps</td><td>Loops and branching</td></tr>
+<tr><td>Mandelbulb</td><td>The 3D fractal used as the scene</td><td>Trigonometry and powers</td></tr>
+<tr><td>Volumetric fog</td><td>Smoke or fog lit by sampling density</td><td>Texture reads, blending (not used here)</td></tr></table></div>
+</section>
+
+<section id="tips">
+<h2>Best practices for an accurate score</h2>
+<ul><li>Keep the test tab in front. Browsers slow background tabs.</li><li>Use the same browser, level and power mode when comparing devices.</li><li>Run three times and take the middle result. The first run is often lower.</li><li>Do not run long tests on a hot phone or while it charges in warm places.</li><li>Close the tab if the device gets very hot or unresponsive.</li></ul>
+</section>
+
+<section id="who">
+<h2>Who uses this test</h2>
+<div class="grid">
+<div><h3>Phone buyers</h3><p>Run the same level on each phone in a shop. See the <a href="phone-gpu-test.html">phone GPU test guide</a>.</p></div>
+<div><h3>Gamers</h3><p>Check if a laptop or desktop holds its speed. Use the 3 minute run or the <a href="gpu-stress-test.html">GPU stress test</a>.</p></div>
+<div><h3>Troubleshooting</h3><p>Find out if lag is hardware or software, as in <a href="how-to-test-gpu.html">how to test a GPU</a>.</p></div>
+<div><h3>Developers</h3><p>Confirm WebGL works across browsers. Read the <a href="webgl-benchmark.html">WebGL benchmark notes</a>.</p></div></div>
 </section>
 
 <section id="compare">
-<h2>How it differs from other graphics tests</h2>
-<div class="scroll"><table>
-<tr><th>Tool type</th><th>Strength</th><th>Limit</th></tr>
-<tr><td>Volume shader BM</td><td>Instant, free, works on phones, pure shader and math load.</td><td>Browser based; one scene; not a game-like workload.</td></tr>
-<tr><td>Native 3D benchmarks (for example GravityMark)</td><td>Closer to games, more detailed scoring.</td><td>Need installing; mostly desktop.</td></tr>
-<tr><td>Compute tests (for example Blender benchmark)</td><td>Tests rendering and CPU or GPU compute.</td><td>Large download; long runtime.</td></tr>
-<tr><td>Online stress pages</td><td>Quick heat and stability check.</td><td>Often no meaningful score.</td></tr>
-</table></div>
-<p>Use volume shader for a fast first look, then a native tool if you need a deeper or game-focused answer.</p>
-</section>
-
-<section id="original">
-<h2>How is this different from the original VSBM?</h2>
-<p>The original VSBM page was created by a developer known as cznull and is hosted at <a href="https://cznull.github.io/vsbm" rel="noopener">cznull.github.io/vsbm</a>. This site is independent and not affiliated with it. Here the scene is a lighter ray-marched volume shader, with fixed test lengths, 1% low FPS, a result panel and hardware details. Because the workload is different, numbers from the two pages should not be compared directly.</p>
-</section>
-
-<section id="uses">
-<h2>When this test helps</h2>
-<ul>
-<li><b>Before buying:</b> run the same test on two phones or laptops in a shop.</li>
-<li><b>After a driver or system update:</b> see whether performance changed.</li>
-<li><b>Troubleshooting:</b> check if lag is a hardware limit or a software issue.</li>
-<li><b>Overclock or cooling changes:</b> use a longer run to see stability.</li>
-<li><b>Web developers:</b> confirm WebGL works across devices and browsers.</li>
-</ul>
+<h2>How it compares with other graphics tests</h2>
+<div class="scroll"><table><tr><th>Tool type</th><th>Strength</th><th>Limit</th></tr>
+<tr><td>Volume shader BM</td><td>Instant, free, works on phones, heavy pure shader load</td><td>One scene, browser based, not a game workload</td></tr>
+<tr><td>Native 3D benchmarks</td><td>Closer to games, richer scoring</td><td>Install needed, mostly desktop</td></tr>
+<tr><td>Compute and render tests</td><td>Test CPU and GPU compute</td><td>Large download, long runtime</td></tr>
+<tr><td>Online stress pages</td><td>Quick heat check</td><td>Often no useful score</td></tr></table></div>
+<p>The original VSBM page by cznull is at <a href="https://cznull.github.io/vsbm" rel="noopener">cznull.github.io/vsbm</a>. This site is independent and not affiliated with it. Scores from different benchmark pages use different scenes and should not be compared with each other.</p>
 </section>
 
 <section id="faq">
 <h2>Frequently asked questions</h2>
-<details><summary>What is volume shader BM?</summary><p>It is a WebGL benchmark that ray-marches a Mandelbulb fractal and reports FPS, frame time and stability. The BM stands for benchmark.</p></details>
-<details><summary>Is it a real GPU stress test?</summary><p>It loads the shader units heavily, so it works as a short gpu stress tester. It does not exercise video memory or every part of the card, so use dedicated tools for long hardware validation.</p></details>
-<details><summary>Can I use it to test my phone's graphics?</summary><p>Yes. Open it in the phone browser, begin with Simple, and plug the phone in. Expect scores to drop as the phone warms.</p></details>
-<details><summary>Does it send my data anywhere?</summary><p>The demo on this page runs entirely in your browser and sends nothing. It only reads the graphics adapter name to show you what is being tested.</p></details>
-<details><summary>Why is my FPS capped at 60?</summary><p>Browsers sync to your screen refresh rate. A cap means the GPU handled that level easily. Move to a harder mode to see its limit.</p></details>
-<details><summary>Can I compare my score with the original VSBM page?</summary><p>Not directly. The scenes and step counts differ, so use the same page for every device you compare. See the section above for the difference.</p></details>
+<details><summary>What is volume shader BM?</summary><p>A browser GPU benchmark that ray-marches a 3D fractal and shows live FPS, 1% low and stability.</p></details>
+<details><summary>Is the volume shader test safe for my phone or PC?</summary><p>Normal runs are fine. The test is demanding on purpose, so the device warms up. Stop it if it becomes very hot.</p></details>
+<details><summary>What is a good volume shader score?</summary><p>Compare at one level. 60+ FPS is excellent, 30 to 60 good, 15 to 30 moderate. The 1% low matters as much as the average.</p></details>
+<details><summary>Why is my FPS stuck at 60?</summary><p>Your screen refresh rate is capping it. Move to Advanced or Extreme to find the GPU limit.</p></details>
+<details><summary>Is it a real GPU stress test?</summary><p>It loads the shader units, so the 3 minute run works as a short stress test. It does not fully test video memory, so use dedicated tools for long hardware validation.</p></details>
+<details><summary>Why did my score drop on the second run?</summary><p>Heat. Phones and thin laptops throttle quickly. Let the device cool and compare again.</p></details>
+<details><summary>Does it send my results anywhere?</summary><p>No. The test and the numbers stay in your browser.</p></details>
 </section>
 </main>
-<footer><div class="w"><p><a href="gpu-stress-test.html">GPU stress test</a> | <a href="phone-gpu-test.html">Phone GPU test</a> | <a href="how-to-test-gpu.html">How to test a GPU</a> | <a href="webgl-benchmark.html">WebGL benchmark</a> | <a href="about.html">About</a> | <a href="privacy.html">Privacy</a></p>Volume Shader: free browser GPU test and guide. Independent, and not affiliated with the original VSBM project. Scores from browser tests vary with browser, driver, power mode and temperature.</div></footer>
-
-<script>
-(function(){
-var c=document.getElementById('c'),
-    gl=c.getContext('webgl2',{antialias:false,preserveDrawingBuffer:false,powerPreference:'high-performance'}),
-    go=document.getElementById('go'),
-    hw=document.getElementById('hw'),
-    hud=document.getElementById('hud');
-
-function $(id,value){
-  var el=document.getElementById(id);
-  if(el) el.textContent=value;
-}
-
-if(!gl){
-  hw.textContent='WebGL2 is not available in this browser. Turn on hardware acceleration or try another browser.';
-  go.disabled=true;
-  return;
-}
-
-/*
- * Benchmark core based on the supplied reference code:
- * - real WebGL2 fragment-shader Mandelbulb distance estimation
- * - fixed camera during a run (no prerecorded/video-like animation)
- * - quality presets change shader complexity and fixed internal render resolution
- * - optional EXT_disjoint_timer_query_webgl2 GPU timing
- */
-var v2=!!(window.WebGL2RenderingContext&&gl instanceof WebGL2RenderingContext);
-var P=[
-  {n:'Simple',   iter:6,  steps:48,  eps:0.0040, w:960,  h:540},
-  {n:'Standard', iter:8,  steps:80,  eps:0.0020, w:1280, h:720},
-  {n:'Advanced', iter:10, steps:120, eps:0.0012, w:1440, h:810},
-  {n:'Extreme',  iter:12, steps:180, eps:0.0008, w:1600, h:900}
-];
-var D=[12,30,180,0],m=1,ty=1,run=false,raf=0,T=0;
-var timerExt=null,gpuTimer=false,pending=[],canvasLost=false,software=false;
-
-var vs=`#version 300 es
-in vec2 aPos;
-void main(){gl_Position=vec4(aPos,0.0,1.0);}`;
-
-var fs=`#version 300 es
-precision highp float;
-out vec4 fragColor;
-
-uniform vec2 uRes;
-uniform float uTime;
-uniform vec3 uCamPos;
-uniform mat3 uCamRot;
-uniform float uPower;
-uniform int uMaxIter;
-uniform int uMaxSteps;
-uniform float uEpsilon;
-
-// Mandelbulb distance estimator
-float mandelbulbDE(vec3 pos, out float trap){
-  vec3 z=pos;
-  float dr=1.0;
-  float r=0.0;
-  trap=1e10;
-  for(int i=0;i<32;i++){
-    if(i>=uMaxIter) break;
-    r=length(z);
-    if(r>2.0) break;
-    float rr=max(r,0.00001);
-    float theta=acos(clamp(z.z/rr,-1.0,1.0));
-    float phi=atan(z.y,z.x);
-    dr=pow(r,uPower-1.0)*uPower*dr+1.0;
-    float zr=pow(r,uPower);
-    theta*=uPower;
-    phi*=uPower;
-    z=zr*vec3(sin(theta)*cos(phi),sin(theta)*sin(phi),cos(theta));
-    z+=pos;
-    trap=min(trap,r);
-  }
-  return 0.5*log(max(r,0.00001))*r/dr;
-}
-
-vec3 calcNormal(vec3 p){
-  float e=uEpsilon*2.0;
-  float t;
-  return normalize(vec3(
-    mandelbulbDE(p+vec3(e,0,0),t)-mandelbulbDE(p-vec3(e,0,0),t),
-    mandelbulbDE(p+vec3(0,e,0),t)-mandelbulbDE(p-vec3(0,e,0),t),
-    mandelbulbDE(p+vec3(0,0,e),t)-mandelbulbDE(p-vec3(0,0,e),t)
-  ));
-}
-
-float softShadow(vec3 ro,vec3 rd){
-  float res=1.0;
-  float t=0.02;
-  float trap;
-  for(int i=0;i<24;i++){
-    float h=mandelbulbDE(ro+rd*t,trap);
-    res=min(res,8.0*h/t);
-    t+=clamp(h,0.02,0.15);
-    if(res<0.005||t>4.0) break;
-  }
-  return clamp(res,0.0,1.0);
-}
-
-void main(){
-  vec2 uv=(gl_FragCoord.xy-0.5*uRes)/min(uRes.x,uRes.y);
-  vec3 ro=uCamPos;
-  vec3 rd=normalize(uCamRot*vec3(uv,1.6));
-
-  float t=0.0;
-  float trap=0.0;
-  float d=0.0;
-  bool hit=false;
-
-  for(int i=0;i<256;i++){
-    if(i>=uMaxSteps) break;
-    vec3 p=ro+rd*t;
-    d=mandelbulbDE(p,trap);
-    if(d<uEpsilon){
-      hit=true;
-      break;
-    }
-    t+=d;
-    if(t>12.0) break;
-  }
-
-  vec3 col=vec3(0.02,0.03,0.06);
-  if(hit){
-    vec3 p=ro+rd*t;
-    vec3 n=calcNormal(p);
-    vec3 lightDir=normalize(vec3(0.6,0.8,-0.4));
-    float diff=max(dot(n,lightDir),0.0);
-    float sha=softShadow(p+n*0.01,lightDir);
-    float ao=clamp(trap*0.6,0.15,1.0);
-
-    vec3 base=0.5+0.5*cos(6.2831*trap*vec3(1.0,0.7,0.4)+vec3(0.0,0.8,1.5));
-    col=base*(0.15+0.85*diff*sha)*ao;
-
-    vec3 h=normalize(lightDir-rd);
-    float spec=pow(max(dot(n,h),0.0),32.0);
-    col+=0.35*spec*sha;
-
-    float fog=exp(-0.08*t*t);
-    col=mix(vec3(0.02,0.03,0.06),col,fog);
-  }
-
-  float vig=1.0-0.35*length(uv);
-  col*=vig;
-  col=pow(max(col,0.0),vec3(0.85));
-  fragColor=vec4(col,1.0);
-}`;
-
-function compile(type,src){
-  var shader=gl.createShader(type);
-  gl.shaderSource(shader,src);
-  gl.compileShader(shader);
-  if(!gl.getShaderParameter(shader,gl.COMPILE_STATUS)){
-    console.error(gl.getShaderInfoLog(shader));
-    return null;
-  }
-  return shader;
-}
-
-var vert=compile(gl.VERTEX_SHADER,vs);
-var frag=compile(gl.FRAGMENT_SHADER,fs);
-if(!vert||!frag){
-  hw.textContent='The GPU shader failed to compile in this browser. Try another current browser with hardware acceleration enabled.';
-  go.disabled=true;
-  return;
-}
-
-var prog=gl.createProgram();
-gl.attachShader(prog,vert);
-gl.attachShader(prog,frag);
-gl.linkProgram(prog);
-if(!gl.getProgramParameter(prog,gl.LINK_STATUS)){
-  console.error(gl.getProgramInfoLog(prog));
-  hw.textContent='The GPU shader could not be linked in this browser. Try another current browser.';
-  go.disabled=true;
-  return;
-}
-gl.useProgram(prog);
-
-var buf=gl.createBuffer();
-gl.bindBuffer(gl.ARRAY_BUFFER,buf);
-gl.bufferData(gl.ARRAY_BUFFER,new Float32Array([-1,-1,3,-1,-1,3]),gl.STATIC_DRAW);
-var aPos=gl.getAttribLocation(prog,'aPos');
-gl.enableVertexAttribArray(aPos);
-gl.vertexAttribPointer(aPos,2,gl.FLOAT,false,0,0);
-
-var U={
-  R:gl.getUniformLocation(prog,'uRes'),
-  t:gl.getUniformLocation(prog,'uTime'),
-  camPos:gl.getUniformLocation(prog,'uCamPos'),
-  camRot:gl.getUniformLocation(prog,'uCamRot'),
-  power:gl.getUniformLocation(prog,'uPower'),
-  maxIter:gl.getUniformLocation(prog,'uMaxIter'),
-  maxSteps:gl.getUniformLocation(prog,'uMaxSteps'),
-  epsilon:gl.getUniformLocation(prog,'uEpsilon')
-};
-
-var debugInfo=gl.getExtension('WEBGL_debug_renderer_info');
-var rend=debugInfo?gl.getParameter(debugInfo.UNMASKED_RENDERER_WEBGL):'Hidden by browser';
-var vend=debugInfo?gl.getParameter(debugInfo.UNMASKED_VENDOR_WEBGL):gl.getParameter(gl.VENDOR);
-software=/swiftshader|llvmpipe|software rasterizer|microsoft basic render|softpipe/i.test((rend||'').toLowerCase());
-
-timerExt=gl.getExtension('EXT_disjoint_timer_query_webgl2');
-gpuTimer=!!timerExt;
-
-$('fps', '--');
-$('ms','--');
-$('st','--');
-var fpsLab=document.getElementById('fpslab');
-var r1Lab=document.getElementById('r1lab');
-if(fpsLab) fpsLab.textContent=gpuTimer?'GPU FPS':'Render FPS';
-if(r1Lab) r1Lab.textContent=gpuTimer?'Average GPU FPS':'Average Render FPS';
-
-hud.textContent='GPU: '+String(rend).slice(0,48)+' | WebGL 2';
-
-function statusText(){
-  var p=P[m];
-  var text='Real WebGL2 shader workload • '+p.w+'×'+p.h+' internal render';
-  text+=gpuTimer?' • GPU timer enabled':' • browser frame timing fallback';
-  if(software) text+=' • SOFTWARE RENDERER DETECTED';
-  return text+'<br>Renderer: '+rend+' | Vendor: '+vend+' | WebGL 2 | Screen: '+screen.width+'×'+screen.height+' at '+(window.devicePixelRatio||1)+'× pixel ratio.'+
-    (software?' <b>This result reflects software rendering, not normal hardware GPU acceleration.</b>':'');
-}
-hw.innerHTML=statusText();
-
-function size(){
-  var p=P[m];
-  c.width=p.w;
-  c.height=p.h;
-  gl.viewport(0,0,c.width,c.height);
-  $('r6',c.width+'×'+c.height);
-}
-
-function mat3Look(yaw,pitch){
-  var cy=Math.cos(yaw),sy=Math.sin(yaw);
-  var cp=Math.cos(pitch),sp=Math.sin(pitch);
-  var fx=sy*cp,fy=-sp,fz=cy*cp;
-  var rx=cy,ry=0,rz=-sy;
-  var ux=-sy*sp,uy=cp,uz=-cy*sp;
-  return new Float32Array([rx,ux,fx,ry,uy,fy,rz,uz,fz]);
-}
-
-var yaw=0.4,pitch=0.3,dist=2.8;
-var panX=0,panY=0;
-var targetYaw=yaw,targetPitch=pitch,targetDist=dist;
-var targetPanX=0,targetPanY=0;
-
-function drawScene(ts){
-  var rot=mat3Look(yaw,pitch);
-  var camPos=[
-    -rot[2]*dist+panX*rot[0]+panY*rot[1],
-    -rot[5]*dist+panX*rot[3]+panY*rot[4],
-    -rot[8]*dist+panX*rot[6]+panY*rot[7]
-  ];
-  var p=P[m];
-
-  gl.uniform2f(U.R,c.width,c.height);
-  if(U.t) gl.uniform1f(U.t,0);
-  gl.uniform3fv(U.camPos,camPos);
-  gl.uniformMatrix3fv(U.camRot,false,rot);
-  gl.uniform1f(U.power,8.0);
-  gl.uniform1i(U.maxIter,p.iter);
-  gl.uniform1i(U.maxSteps,p.steps);
-  gl.uniform1f(U.epsilon,p.eps);
-
-  gl.drawArrays(gl.TRIANGLES,0,3);
-}
-
-var pointers=new Map(),dragging=false,panning=false,lastX=0,lastY=0;
-c.style.touchAction='none';
-
-c.addEventListener('pointerdown',function(e){
-  pointers.set(e.pointerId,{x:e.clientX,y:e.clientY});
-  if(pointers.size===1){
-    dragging=true;
-    panning=(e.button===2);
-    lastX=e.clientX;
-    lastY=e.clientY;
-  }
-  c.setPointerCapture(e.pointerId);
-});
-
-c.addEventListener('pointermove',function(e){
-  if(!pointers.has(e.pointerId)) return;
-  var prev=pointers.get(e.pointerId);
-  var dx=e.clientX-prev.x;
-  var dy=e.clientY-prev.y;
-  pointers.set(e.pointerId,{x:e.clientX,y:e.clientY});
-
-  if(pointers.size===2){
-    targetPanX-=dx*0.003*dist;
-    targetPanY+=dy*0.003*dist;
-  }else if(dragging){
-    if(panning){
-      targetPanX-=dx*0.003*dist;
-      targetPanY+=dy*0.003*dist;
-    }else{
-      targetYaw+=dx*0.005;
-      targetPitch=Math.max(-1.4,Math.min(1.4,targetPitch+dy*0.005));
-    }
-  }
-
-  if(!run) drawScene(0);
-});
-
-c.addEventListener('pointerup',function(e){
-  pointers.delete(e.pointerId);
-  if(pointers.size===0){
-    dragging=false;
-    panning=false;
-  }
-});
-c.addEventListener('pointercancel',function(e){pointers.delete(e.pointerId);});
-c.addEventListener('wheel',function(e){
-  e.preventDefault();
-  targetDist=Math.max(1.2,Math.min(8,targetDist*(1+e.deltaY*0.001)));
-  if(!run) drawScene(0);
-},{passive:false});
-c.addEventListener('contextmenu',function(e){e.preventDefault();});
-
-var lastPinch=0;
-c.addEventListener('touchmove',function(e){
-  if(e.touches.length===2){
-    var d=Math.hypot(
-      e.touches[0].clientX-e.touches[1].clientX,
-      e.touches[0].clientY-e.touches[1].clientY
-    );
-    if(lastPinch>0){
-      targetDist=Math.max(1.2,Math.min(8,targetDist*(lastPinch/d)));
-      if(!run) drawScene(0);
-    }
-    lastPinch=d;
-  }
-},{passive:false});
-c.addEventListener('touchend',function(){lastPinch=0;});
-
-var last=0,t0=0,dur=30,warmUntil=0;
-var wallSamples=[],gpuSamples=[];
-var warmupMs=750,finishPending=false;
-
-function startGpuQuery(){
-  if(!gpuTimer||canvasLost) return null;
-  var q=gl.createQuery();
-  gl.beginQuery(timerExt.TIME_ELAPSED_EXT,q);
-  return q;
-}
-
-function endGpuQuery(q){
-  if(!gpuTimer||!q||canvasLost) return;
-  gl.endQuery(timerExt.TIME_ELAPSED_EXT);
-  pending.push(q);
-}
-
-function collectGpuQueries(){
-  if(!gpuTimer||canvasLost||!pending.length) return;
-  var keep=[];
-  for(var i=0;i<pending.length;i++){
-    var q=pending[i];
-    if(gl.getQueryParameter(q,gl.QUERY_RESULT_AVAILABLE)){
-      if(!gl.getParameter(timerExt.GPU_DISJOINT_EXT)){
-        var ns=gl.getQueryParameter(q,gl.QUERY_RESULT);
-        if(typeof ns==='number'&&ns>0) gpuSamples.push(ns/1000000);
-      }
-      gl.deleteQuery(q);
-    }else{
-      keep.push(q);
-    }
-  }
-  pending=keep;
-}
-
-function average(arr){
-  if(!arr.length) return 0;
-  var sum=0;
-  for(var i=0;i<arr.length;i++) sum+=arr[i];
-  return sum/arr.length;
-}
-
-function updateLive(){
-  var arr=gpuTimer?gpuSamples:wallSamples;
-  if(!arr.length) return;
-  var recent=arr.slice(-20);
-  var mean=average(recent);
-  if(!isFinite(mean)||mean<=0) return;
-
-  var variance=0;
-  for(var i=0;i<recent.length;i++){
-    variance+=(recent[i]-mean)*(recent[i]-mean);
-  }
-  var stability=Math.max(0,Math.round(100*(1-Math.sqrt(variance/recent.length)/mean)));
-  $('fps',(1000/mean).toFixed(1));
-  $('ms',mean.toFixed(1));
-  $('st',stability);
-}
-
-function finish(){
-  if(finishPending) return;
-  finishPending=true;
-  window.setTimeout(function(){
-    if(gpuTimer){
-      collectGpuQueries();
-      // Give late GPU queries a short, non-blocking grace period.
-      if(pending.length && performance.now()-t0<dur*1000+1200){
-        finishPending=false;
-        finish();
-        return;
-      }
-    }
-
-    run=false;
-    if(raf) cancelAnimationFrame(raf);
-    go.textContent='Run again';
-
-    var arr=gpuTimer&&gpuSamples.length>=5?gpuSamples:wallSamples;
-    if(arr.length<5){
-      hw.innerHTML=statusText()+'<br>The test ended before enough timing samples were collected. Please run it again.';
-      return;
-    }
-
-    var a=average(arr);
-    var sorted=arr.slice().sort(function(x,y){return y-x;});
-    var k=Math.max(1,Math.ceil(arr.length*0.01));
-    var slowSum=0;
-    for(var i=0;i<k;i++) slowSum+=sorted[i];
-
-    var worst=sorted[0];
-    var best=sorted[sorted.length-1];
-
-    $('r1',(1000/a).toFixed(1));
-    $('r2',(1000/(slowSum/k)).toFixed(1));
-    $('r3',(1000/worst).toFixed(1));
-    $('r4',(1000/best).toFixed(1));
-    $('r5',Math.round((performance.now()-t0)/1000)+' s');
-    $('r6',c.width+'×'+c.height);
-    $('r7',P[m].n);
-    $('r8',arr.length);
-    document.getElementById('res').hidden=false;
-
-    finishPending=false;
-  },60);
-}
-
-function loop(now){
-  if(!run) return;
-
-  var wallDt=last?now-last:16.67;
-  last=now;
-
-  yaw+=(targetYaw-yaw)*0.15;
-  pitch+=(targetPitch-pitch)*0.15;
-  dist+=(targetDist-dist)*0.12;
-  panX+=(targetPanX-panX)*0.12;
-  panY+=(targetPanY-panY)*0.12;
-
-  if(now>=warmUntil){
-    if(wallDt>0&&wallDt<1000) wallSamples.push(wallDt);
-  }
-
-  var q=startGpuQuery();
-  drawScene(now);
-  endGpuQuery(q);
-
-  collectGpuQueries();
-  updateLive();
-
-  var elapsed=(now-t0)/1000;
-  var pct=Math.min(100,100*elapsed/dur);
-  document.getElementById('pb').style.width=pct+'%';
-
-  if(elapsed>=dur){
-    finish();
-    return;
-  }
-
-  raf=requestAnimationFrame(loop);
-}
-
-function stopTest(resetProgress){
-  run=false;
-  if(raf) cancelAnimationFrame(raf);
-  raf=0;
-  if(resetProgress) document.getElementById('pb').style.width='0';
-  go.textContent='Start test';
-}
-
-go.onclick=function(){
-  if(run){
-    stopTest(true);
-    return;
-  }
-
-  dur=ty===3?+document.getElementById('cd').value:D[ty];
-  if(!isFinite(dur)||dur<=0) dur=30;
-
-  if(pending.length&&gpuTimer){
-    for(var i=0;i<pending.length;i++){
-      try{gl.deleteQuery(pending[i]);}catch(e){}
-    }
-  }
-  pending=[];
-  wallSamples=[];
-  gpuSamples=[];
-  finishPending=false;
-
-  document.getElementById('res').hidden=true;
-  document.getElementById('pb').style.width='0';
-  $('fps','--');
-  $('ms','--');
-  $('st','--');
-
-  size();
-  yaw=targetYaw;
-  pitch=targetPitch;
-  dist=targetDist;
-
-  run=true;
-  t0=performance.now();
-  last=t0;
-  warmUntil=t0+warmupMs;
-  go.textContent='Stop test';
-
-  raf=requestAnimationFrame(loop);
-};
-
-function pick(sel,fn){
-  document.querySelectorAll(sel).forEach(function(x){
-    x.onclick=function(){
-      if(run) return;
-      document.querySelectorAll(sel).forEach(function(y){
-        y.setAttribute('aria-pressed',y===x?'true':'false');
-      });
-      fn(+x.dataset[sel.slice(6,7)]);
-    };
-  });
-}
-
-pick('[data-t]',function(v){
-  ty=v;
-  document.getElementById('cd').hidden=(v!==3);
-});
-
-pick('[data-m]',function(v){
-  m=v;
-  size();
-  hw.innerHTML=statusText();
-  drawScene(0);
-});
-
-document.addEventListener('visibilitychange',function(){
-  if(document.hidden&&run){
-    stopTest(true);
-    hw.innerHTML=statusText()+'<br>The test was stopped because this tab was moved to the background. Run it again with the test tab in front for consistent timing.';
-  }
-});
-
-c.addEventListener('webglcontextlost',function(ev){
-  ev.preventDefault();
-  canvasLost=true;
-  stopTest(true);
-  hw.innerHTML='The browser lost the WebGL context, so the benchmark was stopped safely. Reload this page before running the test again.';
-});
-
-c.addEventListener('webglcontextrestored',function(){
-  hw.innerHTML='WebGL context restored. Reload the page before starting another benchmark run.';
-});
-
-var qs=new URLSearchParams(location.search);
-var tq=document.querySelector('[data-t="'+qs.get('t')+'"]');
-var mq=document.querySelector('[data-m="'+qs.get('m')+'"]');
-if(tq) tq.click();
-if(mq) mq.click();
-
-size();
-drawScene(0);
-})();
-</script>
+<footer><div class="w"><p><a href="gpu-stress-test.html">GPU stress test</a> | <a href="phone-gpu-test.html">Phone GPU test</a> | <a href="how-to-test-gpu.html">How to test a GPU</a> | <a href="webgl-benchmark.html">WebGL benchmark</a> | <a href="about.html">About</a> | <a href="privacy.html">Privacy</a></p>Volume Shader: free browser GPU test and guide. Independent, and not affiliated with the original VSBM project. Scores vary with browser, driver, power mode and temperature.</div></footer>
+<script src="tool.js"></script>
 </body>
 </html>
