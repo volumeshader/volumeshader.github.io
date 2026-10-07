@@ -11,7 +11,40 @@
 <meta property="og:type" content="website">
 <meta name="theme-color" content="#0b0a1f">
 <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🍄</text></svg>">
-<link rel="stylesheet" href="style.css">
+<style>:root{--bg:#0b0a1f;--bg2:#15123a;--ink:#f1efff;--mute:#b4afd9;--pink:#ff6fb5;--teal:#6ee7d8;--vio:#8b7cff;--amber:#ffc46b;--line:rgba(255,255,255,.13);--card:rgba(255,255,255,.05);--r:14px}
+*{box-sizing:border-box}html{scroll-behavior:smooth;scroll-padding-top:70px}
+body{margin:0;color:var(--ink);font:17px/1.75 "Segoe UI",Inter,system-ui,-apple-system,sans-serif;background:radial-gradient(900px 500px at 85% -5%,rgba(139,124,255,.28),transparent 60%),radial-gradient(700px 500px at -5% 20%,rgba(255,111,181,.16),transparent 60%),var(--bg);background-attachment:fixed}
+a{color:var(--teal)}a:focus-visible,button:focus-visible,select:focus-visible{outline:3px solid var(--amber);outline-offset:2px}
+header{position:sticky;top:0;z-index:20;background:rgba(11,10,31,.82);backdrop-filter:blur(12px);border-bottom:1px solid var(--line)}
+nav{max-width:1100px;margin:auto;padding:12px 20px;display:flex;gap:6px 20px;flex-wrap:wrap;align-items:center}
+nav b{margin-right:auto;font-size:19px}nav a{text-decoration:none;color:var(--mute);font-size:15px}nav a:hover{color:var(--ink)}
+main,.w{max-width:1100px;margin:auto;padding:0 20px}
+h1{font:800 clamp(34px,6vw,60px)/1.06 "Segoe UI",system-ui,sans-serif;margin:44px 0 14px;letter-spacing:-1px;background:linear-gradient(100deg,#fff 20%,var(--pink),var(--amber));-webkit-background-clip:text;background-clip:text;color:transparent}
+h2{font:750 clamp(25px,4vw,36px)/1.2 "Segoe UI",system-ui,sans-serif;margin:68px 0 12px;letter-spacing:-.5px}
+h3{font-size:19px;margin:0 0 6px;color:var(--amber)}
+p{margin:0 0 15px;max-width:74ch}.lead{font-size:19px;color:var(--mute)}
+.pills{display:flex;flex-wrap:wrap;gap:10px;margin:18px 0 8px}.pills span{border:1px solid var(--line);background:var(--card);padding:6px 14px;border-radius:99px;font-size:14.5px;color:var(--mute)}
+button,select{font:inherit;font-size:15px;padding:9px 15px;border-radius:10px;border:1px solid var(--line);background:rgba(255,255,255,.07);color:var(--ink);cursor:pointer}
+button:hover{border-color:var(--vio)}button[aria-pressed=true]{background:linear-gradient(120deg,var(--vio),var(--pink));border-color:transparent;font-weight:700}
+.big{font-size:19px;padding:14px 34px;background:linear-gradient(120deg,var(--pink),var(--amber));color:#2a0f20;border:0;font-weight:800;border-radius:99px;box-shadow:0 8px 30px rgba(255,111,181,.35)}
+.tool{position:relative;border-radius:var(--r);overflow:hidden;border:1px solid var(--line);margin:24px 0 0;background:#07061a;box-shadow:0 20px 60px rgba(0,0,0,.45)}
+canvas{display:block;width:100%;aspect-ratio:16/9;cursor:grab}.tool:fullscreen canvas,.tool:-webkit-full-screen canvas{aspect-ratio:auto;height:100vh}
+.ov{position:absolute;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:12px;background:rgba(7,6,26,.62);backdrop-filter:blur(3px);text-align:center;padding:16px}
+.ov[hidden],.hud[hidden]{display:none}.ov p{margin:0;font-size:14px;color:var(--mute)}.ov h3{font-size:22px;margin:0;color:#fff}
+.hud{position:absolute;left:14px;top:12px;pointer-events:none}.hud>b{font-size:clamp(34px,7vw,58px);line-height:1;font-variant-numeric:tabular-nums;text-shadow:0 2px 14px #000}.hud>span{margin-left:6px;color:var(--mute);font-size:14px}
+.chips{display:flex;flex-wrap:wrap;gap:6px;margin-top:6px}.chips i{font-style:normal;font-size:12px;background:rgba(7,6,26,.7);padding:3px 9px;border-radius:99px;color:var(--mute)}.chips b{color:#fff}
+.ctl{position:absolute;right:10px;top:10px;display:flex;gap:8px}.ctl button{padding:8px 12px;background:rgba(7,6,26,.7)}
+.res{display:grid;grid-template-columns:repeat(auto-fit,minmax(110px,1fr));gap:8px;width:100%;max-width:640px}.res div{background:var(--card);border:1px solid var(--line);border-radius:10px;padding:8px}.res b{display:block;font-size:22px}.res span{font-size:12px;color:var(--mute)}
+.row{display:flex;flex-wrap:wrap;gap:10px;align-items:center;padding:14px 2px}.row small{color:var(--mute)}.row button+button,.row select{margin-left:2px}#sh{margin-left:auto}
+.note{font-size:13.5px;color:var(--mute);max-width:none}
+.grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:14px;margin:16px 0}.grid>div{background:var(--card);border:1px solid var(--line);border-radius:var(--r);padding:20px}.grid p{font-size:15.5px;margin:0;color:#d9d5f7}
+table{width:100%;border-collapse:collapse;font-size:15.5px;margin:14px 0 22px;background:var(--card);border-radius:var(--r);overflow:hidden}
+th,td{text-align:left;padding:11px 14px;border-bottom:1px solid var(--line);vertical-align:top}th{color:var(--teal);background:rgba(255,255,255,.04)}.scroll{overflow-x:auto}
+ol,ul{max-width:74ch;padding-left:22px}li{margin-bottom:8px}
+details{background:var(--card);border:1px solid var(--line);border-radius:12px;padding:14px 18px;margin-bottom:10px}summary{cursor:pointer;font-weight:650}details p{margin:10px 0 0}
+footer{margin-top:90px;border-top:1px solid var(--line);padding:30px 0 50px;color:var(--mute);font-size:14.5px}
+@media(prefers-reduced-motion:reduce){html{scroll-behavior:auto}}
+</style>
 <script type="application/ld+json">
 {"@context":"https://schema.org","@type":"FAQPage","mainEntity":[
 {"@type":"Question","name":"What is volume shader BM?","acceptedAnswer":{"@type":"Answer","text":"Volume shader BM (volumeshader_bm) is a browser GPU benchmark. It ray-marches a 3D fractal on every pixel and shows live FPS, 1% low FPS and stability."}},
@@ -50,7 +83,7 @@
 
 <section id="levels">
 <h2>Complexity levels: Simple, Standard, Advanced, Extreme</h2>
-<p>Each level changes how many ray steps and fractal iterations the shader does, and how sharp the image is rendered. Higher levels cost far more GPU time, so scores are only comparable at the same level.</p>
+<p>Each level changes how many ray steps and fractal iterations the shader does, and how sharp the image is rendered. Higher levels cost far more GPU time, so scores are only comparable at the same level. Extreme is very heavy and can freeze weak or older PCs, so the test steps down automatically if frames take over 1.5 seconds.</p>
 <div class="scroll"><table><tr><th>Level</th><th>Load</th><th>Best for</th></tr>
 <tr><td>Simple</td><td>Lowest steps, iterations and resolution</td><td>Older phones, budget tablets, integrated graphics, first runs</td></tr>
 <tr><td>Standard</td><td>Balanced, the default</td><td>Most phones, laptops and office PCs</td></tr>
@@ -122,6 +155,67 @@
 </section>
 </main>
 <footer><div class="w"><p><a href="gpu-stress-test.html">GPU stress test</a> | <a href="phone-gpu-test.html">Phone GPU test</a> | <a href="how-to-test-gpu.html">How to test a GPU</a> | <a href="webgl-benchmark.html">WebGL benchmark</a> | <a href="about.html">About</a> | <a href="privacy.html">Privacy</a></p>Volume Shader: free browser GPU test and guide. Independent, and not affiliated with the original VSBM project. Scores vary with browser, driver, power mode and temperature.</div></footer>
-<script src="tool.js"></script>
+<script>(function(){
+var host=document.getElementById('vs');if(!host)return;
+host.innerHTML='<div class="tool" id="tl"><canvas id="cv"></canvas><div class="ov" id="ov" hidden></div><div class="hud" id="hud"><b id="f">0</b><span>FPS</span><div class="chips"><i>AVG <b id="a">-</b></i><i>1% LOW <b id="l">-</b></i><i>MIN <b id="mn">-</b></i><i>STABLE <b id="s">-</b>%</i></div></div><div class="ctl"><button id="ps" aria-label="Pause or resume (P)">&#10074;&#10074;</button><button id="fs" aria-label="Fullscreen">&#9974;</button></div></div><div class="row"><small>Complexity</small><span role="group" aria-label="Complexity"><button data-m="0">Simple</button><button data-m="1" aria-pressed="true">Standard</button><button data-m="2">Advanced</button><button data-m="3">Extreme</button></span><small>Run for</small><select id="du" aria-label="Duration"><option value="0">Until I stop</option><option value="30">30 seconds</option><option value="180">3 minutes</option></select><button id="go" class="big" style="font-size:16px;padding:10px 22px">Run benchmark</button><button id="sh">Share</button></div><p class="note" id="gpu"></p>';
+var $=function(i){return document.getElementById(i)},cv=$('cv'),ov=$('ov'),tl=$('tl');
+var gl=cv.getContext('webgl2',{antialias:false,powerPreference:'high-performance'})||cv.getContext('webgl',{antialias:false,powerPreference:'high-performance'});
+if(!gl){ov.hidden=false;ov.innerHTML='<h3>WebGL not supported</h3><p>Try Chrome, Firefox, Safari or Edge, and make sure hardware acceleration is on.</p>';return}
+var v2=!!(window.WebGL2RenderingContext&&gl instanceof WebGL2RenderingContext);
+var P=[{n:'Simple',s:32,i:5,k:.5},{n:'Standard',s:64,i:8,k:.75},{n:'Advanced',s:110,i:12,k:1},{n:'Extreme',s:160,i:16,k:1.25}],m=1,run=false,raf=0;
+var fs='precision highp float;uniform vec2 R;uniform vec3 O,G;uniform int S,I;'+
+'float dens(vec3 p){vec3 z=p;float r=0.,n=0.;for(int i=0;i<16;i++){if(i>=I)break;r=length(z);if(r>2.)break;float th=acos(clamp(z.z/r,-1.,1.))*8.,ph=atan(z.y,z.x)*8.;z=pow(r,8.)*vec3(sin(th)*cos(ph),sin(ph)*sin(th),cos(th))+p;n+=1.;}return n/float(I);}'+
+'void main(){vec2 u=(gl_FragCoord.xy*2.-R)/R.y;vec3 f=normalize(G-O),rt=normalize(cross(f,vec3(0,1,0))),up=cross(rt,f),rd=normalize(f*1.6+rt*u.x+up*u.y);'+
+'vec3 bg=mix(vec3(.04,.03,.12),vec3(.1,.04,.2),.5+.5*u.y);float b=dot(O,rd),h=b*b-(dot(O,O)-2.4);vec3 col=vec3(0.);float T=1.;'+
+'if(h>0.){float s=sqrt(h),t0=-b-s,dt=2.*s/float(S);for(int i=0;i<160;i++){if(i>=S)break;float d=dens(O+rd*(t0+(float(i)+.5)*dt));float a=d*d*d*dt*10.;col+=T*a*(.5+.5*cos(6.28*(d*.9+vec3(0.,.15,.3))))*1.6;T*=exp(-a);}}'+
+'gl_FragColor=vec4(col+T*bg,1);}';
+function sh(t,s){var o=gl.createShader(t);gl.shaderSource(o,s);gl.compileShader(o);return o}
+var pr=gl.createProgram();gl.attachShader(pr,sh(gl.VERTEX_SHADER,'attribute vec2 p;void main(){gl_Position=vec4(p,0,1);}'));gl.attachShader(pr,sh(gl.FRAGMENT_SHADER,fs));gl.linkProgram(pr);
+if(!gl.getProgramParameter(pr,gl.LINK_STATUS)){ov.hidden=false;ov.innerHTML='<h3>Shader could not start</h3><p>This GPU or browser rejected the shader. Try another browser.</p>';return}
+gl.useProgram(pr);gl.bindBuffer(gl.ARRAY_BUFFER,gl.createBuffer());gl.bufferData(gl.ARRAY_BUFFER,new Float32Array([-1,-1,3,-1,-1,3]),gl.STATIC_DRAW);
+var al=gl.getAttribLocation(pr,'p');gl.enableVertexAttribArray(al);gl.vertexAttribPointer(al,2,gl.FLOAT,false,0,0);
+var U={};['R','O','G','S','I'].forEach(function(k){U[k]=gl.getUniformLocation(pr,k)});
+var e=gl.getExtension('WEBGL_debug_renderer_info'),rend=e?gl.getParameter(e.UNMASKED_RENDERER_WEBGL):'GPU name hidden by browser';
+$('gpu').textContent='GPU: '+rend+' | WebGL '+(v2?2:1)+' | Screen '+screen.width+'x'+screen.height+' @'+(window.devicePixelRatio||1)+'x. Drag to rotate, scroll or pinch to zoom, right-click or two fingers to pan, P to pause, Space to reset.';
+var yaw,pit,dist,tg;function reset(){yaw=.7;pit=.35;dist=3.1;tg=[0,0,0]}reset();
+function size(){var r=cv.getBoundingClientRect(),d=Math.min(window.devicePixelRatio||1,2)*P[m].k,w=r.width*d,h=r.height*d,c=Math.sqrt(Math.min(1,2.2e6/(w*h)));cv.width=Math.max(2,Math.round(w*c));cv.height=Math.max(2,Math.round(h*c));gl.viewport(0,0,cv.width,cv.height)}
+function draw(){var cp=Math.cos(pit);gl.uniform2f(U.R,cv.width,cv.height);gl.uniform3f(U.O,tg[0]+dist*cp*Math.sin(yaw),tg[1]+dist*Math.sin(pit),tg[2]+dist*cp*Math.cos(yaw));gl.uniform3f(U.G,tg[0],tg[1],tg[2]);gl.uniform1i(U.S,P[m].s);gl.uniform1i(U.I,P[m].i);gl.drawArrays(gl.TRIANGLES,0,3)}
+var pts={};cv.style.touchAction='none';cv.oncontextmenu=function(x){x.preventDefault()};
+function pan(dx,dy){var k=dist*.0022;tg[0]+=(-Math.cos(yaw)*dx)*k;tg[2]+=(Math.sin(yaw)*dx)*k;tg[1]+=dy*k}
+cv.onpointerdown=function(x){idle=false;cv.setPointerCapture(x.pointerId);pts[x.pointerId]={x:x.clientX,y:x.clientY,b:x.button}};
+cv.onpointerup=cv.onpointercancel=function(x){delete pts[x.pointerId]};
+cv.onpointermove=function(x){var p=pts[x.pointerId];if(!p)return;var ks=Object.keys(pts),dx=x.clientX-p.x,dy=x.clientY-p.y;
+if(ks.length==1){if(p.b==2||x.shiftKey)pan(dx,dy);else{yaw-=dx*.006;pit=Math.max(-1.45,Math.min(1.45,pit+dy*.006))}}
+else{var q=pts[ks[0]==x.pointerId?ks[1]:ks[0]],pd=Math.hypot(p.x-q.x,p.y-q.y),nd=Math.hypot(x.clientX-q.x,x.clientY-q.y);if(nd>0)dist=Math.max(1.5,Math.min(8,dist*pd/nd));pan(dx/2,dy/2)}
+p.x=x.clientX;p.y=x.clientY;if(paused)draw()};
+cv.addEventListener('wheel',function(x){x.preventDefault();dist=Math.max(1.5,Math.min(8,dist*Math.exp(x.deltaY*.001)))},{passive:false});
+var L=new Float32Array(4096),ln=0,M=new Float32Array(65536),mn=0,mtot=0,mcnt=0,wa=0,wn=0,last=performance.now(),paused=false,inview=true,idle=true,meas=false,t0=0,dur=0,slow=0;
+function stats(a,n){n=Math.min(n,a.length);if(n<5)return null;var s=Array.prototype.slice.call(a,0,n).sort(function(x,y){return y-x}),k=Math.max(1,Math.ceil(n*.01)),w=0,t=0,i;for(i=0;i<k;i++)w+=s[i];for(i=0;i<n;i++)t+=s[i];var mean=t/n,v=0;for(i=0;i<n;i++)v+=(s[i]-mean)*(s[i]-mean);
+return{avg:1000/mean,low:1000/(w/k),min:1000/s[0],max:1000/s[n-1],st:Math.max(0,Math.round(100*(1-Math.sqrt(v/n)/mean)))}}
+function loop(now){raf=requestAnimationFrame(loop);var d=now-last;last=now;if(paused||!inview)return;if(d>1500&&d<30000&&m>0)slow++;else slow=0;if(slow>=2){slow=0;lower();return}
+if(d>0&&d<1000){L[ln++%4096]=d;wa+=d;wn++;if(meas){M[mn++%65536]=d;mtot+=d;mcnt++}}
+if(idle)yaw+=d*.00022;draw();
+if(wa>=500){var s=stats(L,ln);$('f').textContent=Math.round(1000*wn/wa);if(s){$('a').textContent=s.avg.toFixed(1);$('l').textContent=s.low.toFixed(1);$('mn').textContent=s.min.toFixed(1);$('s').textContent=s.st}wa=0;wn=0}
+if(meas&&dur&&now-t0>=dur*1000)finish()}
+function lower(){m--;if(meas)finish();document.querySelectorAll('[data-m]').forEach(function(b){b.setAttribute('aria-pressed',+b.dataset.m==m)});size();ln=0;$('gpu').textContent='This level was too heavy for your GPU, so the test stepped down to '+P[m].n+' to keep your device responsive.'}
+function begin(){mn=0;mtot=0;mcnt=0;dur=+$('du').value;t0=performance.now();meas=true;ov.hidden=true;if(paused)setPause(false);$('go').textContent='Stop and see result'}
+function finish(){meas=false;$('go').textContent='Run benchmark';var s=stats(M,mn);if(!s)return;var c=function(l,v){return'<div><b>'+v+'</b><span>'+l+'</span></div>'};
+ov.innerHTML='<h3>Your result</h3><div class="res">'+c('Average FPS',(1000*mcnt/mtot).toFixed(1))+c('1% low FPS',s.low.toFixed(1))+c('Minimum FPS',s.min.toFixed(1))+c('Maximum FPS',s.max.toFixed(1))+c('Stability',s.st+'%')+c('Duration',Math.round(mtot/1000)+' s')+c('Complexity',P[m].n)+c('Resolution',cv.width+'x'+cv.height)+'</div><button id="cl" class="big">Close</button>';
+ov.hidden=false;$('cl').onclick=function(){ov.hidden=true}}
+function setPause(v){paused=v;last=performance.now();$('ps').innerHTML=v?'&#9654;':'&#10074;&#10074;';if(v)draw()}
+$('go').onclick=function(){meas?finish():begin()};$('ps').onclick=function(){setPause(!paused)};
+document.querySelectorAll('[data-m]').forEach(function(b){b.setAttribute('aria-pressed',+b.dataset.m==m);b.onclick=function(){m=+b.dataset.m;document.querySelectorAll('[data-m]').forEach(function(y){y.setAttribute('aria-pressed',y===b)});size();ln=0;if(paused)draw();if(m==3)$('gpu').textContent='Extreme is very heavy and can freeze weak or older PCs. Close other tabs first. The test steps down by itself if frames take over 1.5 seconds.'}});
+$('fs').onclick=function(){var d=document;if(d.fullscreenElement||d.webkitFullscreenElement){(d.exitFullscreen||d.webkitExitFullscreen).call(d)}else{(tl.requestFullscreen||tl.webkitRequestFullscreen).call(tl)}};
+$('sh').onclick=function(){var u=location.href.split('?')[0];if(navigator.share)navigator.share({title:document.title,url:u}).catch(function(){});else if(navigator.clipboard){navigator.clipboard.writeText(u);$('sh').textContent='Link copied'}};
+addEventListener('keydown',function(x){if(x.key==='p'||x.key==='P')setPause(!paused);if(x.key===' '&&x.target===document.body){x.preventDefault();reset();idle=true;if(paused)draw()}});
+addEventListener('resize',function(){size();if(paused)draw()});document.addEventListener('fullscreenchange',function(){setTimeout(function(){size();if(paused)draw()},100)});
+if(window.IntersectionObserver)new IntersectionObserver(function(e){inview=e[0].isIntersecting}).observe(tl);
+cv.addEventListener('webglcontextlost',function(x){x.preventDefault();paused=true});
+var q=new URLSearchParams(location.search),qm=q.get('m'),qt=q.get('t');
+if(qm!==null&&P[+qm]){m=+qm;document.querySelectorAll('[data-m]').forEach(function(b){b.setAttribute('aria-pressed',+b.dataset.m==m)})}
+if(qt==='1')$('du').value='30';if(qt==='2')$('du').value='180';
+size();raf=requestAnimationFrame(loop);if(qt==='1'||qt==='2')setTimeout(begin,600);
+})();
+</script>
 </body>
 </html>
