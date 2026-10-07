@@ -5,12 +5,13 @@ var $=function(i){return document.getElementById(i)},cv=$('cv'),ov=$('ov'),tl=$(
 var gl=cv.getContext('webgl2',{antialias:false,powerPreference:'high-performance'})||cv.getContext('webgl',{antialias:false,powerPreference:'high-performance'});
 if(!gl){ov.hidden=false;ov.innerHTML='<h3>WebGL not supported</h3><p>Try Chrome, Firefox, Safari or Edge, and make sure hardware acceleration is on.</p>';return}
 var v2=!!(window.WebGL2RenderingContext&&gl instanceof WebGL2RenderingContext);
-var P=[{n:'Simple',s:48,i:4,k:.5},{n:'Standard',s:80,i:7,k:.8},{n:'Advanced',s:110,i:10,k:1},{n:'Extreme',s:128,i:14,k:1.25}],m=1,run=false,raf=0;
-var fs='precision highp float;uniform vec2 R;uniform vec3 O,G;uniform int S,I;float tr;'+
-'float de(vec3 p){vec3 z=p;float dr=1.,r=0.;tr=9.;for(int i=0;i<16;i++){if(i>=I)break;r=length(z);if(r>2.)break;tr=min(tr,r);float th=acos(clamp(z.z/r,-1.,1.))*8.,ph=atan(z.y,z.x)*8.;dr=pow(r,7.)*8.*dr+1.;z=pow(r,8.)*vec3(sin(th)*cos(ph),sin(ph)*sin(th),cos(th))+p;}return .5*log(r)*r/dr;}'+
+var P=[{n:'Simple',s:32,i:5,k:.5},{n:'Standard',s:64,i:8,k:.75},{n:'Advanced',s:110,i:12,k:1},{n:'Extreme',s:160,i:16,k:1.25}],m=1,run=false,raf=0;
+var fs='precision highp float;uniform vec2 R;uniform vec3 O,G;uniform int S,I;'+
+'float dens(vec3 p){vec3 z=p;float r=0.,n=0.;for(int i=0;i<16;i++){if(i>=I)break;r=length(z);if(r>2.)break;float th=acos(clamp(z.z/r,-1.,1.))*8.,ph=atan(z.y,z.x)*8.;z=pow(r,8.)*vec3(sin(th)*cos(ph),sin(ph)*sin(th),cos(th))+p;n+=1.;}return n/float(I);}'+
 'void main(){vec2 u=(gl_FragCoord.xy*2.-R)/R.y;vec3 f=normalize(G-O),rt=normalize(cross(f,vec3(0,1,0))),up=cross(rt,f),rd=normalize(f*1.6+rt*u.x+up*u.y);'+
-'float d=0.,n=0.,gw=0.;bool hit=false;for(int i=0;i<128;i++){if(i>=S)break;float h=de(O+rd*d);gw+=.012/(.04+h*h*40.);if(h<.0012){hit=true;break;}d+=h;n+=1.;if(d>8.)break;}'+
-'vec3 bg=mix(vec3(.04,.03,.12),vec3(.1,.04,.2),.5+.5*u.y);vec3 c=hit?(.5+.5*cos(6.28*(tr*.7+vec3(0.,.15,.3))))*(1.15-n/float(S)):bg;c+=vec3(.5,.25,.9)*gw*.012;gl_FragColor=vec4(c,1);}';
+'vec3 bg=mix(vec3(.04,.03,.12),vec3(.1,.04,.2),.5+.5*u.y);float b=dot(O,rd),h=b*b-(dot(O,O)-2.4);vec3 col=vec3(0.);float T=1.;'+
+'if(h>0.){float s=sqrt(h),t0=-b-s,dt=2.*s/float(S);for(int i=0;i<160;i++){if(i>=S)break;float d=dens(O+rd*(t0+(float(i)+.5)*dt));float a=d*d*d*dt*10.;col+=T*a*(.5+.5*cos(6.28*(d*.9+vec3(0.,.15,.3))))*1.6;T*=exp(-a);}}'+
+'gl_FragColor=vec4(col+T*bg,1);}';
 function sh(t,s){var o=gl.createShader(t);gl.shaderSource(o,s);gl.compileShader(o);return o}
 var pr=gl.createProgram();gl.attachShader(pr,sh(gl.VERTEX_SHADER,'attribute vec2 p;void main(){gl_Position=vec4(p,0,1);}'));gl.attachShader(pr,sh(gl.FRAGMENT_SHADER,fs));gl.linkProgram(pr);
 if(!gl.getProgramParameter(pr,gl.LINK_STATUS)){ov.hidden=false;ov.innerHTML='<h3>Shader could not start</h3><p>This GPU or browser rejected the shader. Try another browser.</p>';return}
@@ -20,7 +21,7 @@ var U={};['R','O','G','S','I'].forEach(function(k){U[k]=gl.getUniformLocation(pr
 var e=gl.getExtension('WEBGL_debug_renderer_info'),rend=e?gl.getParameter(e.UNMASKED_RENDERER_WEBGL):'GPU name hidden by browser';
 $('gpu').textContent='GPU: '+rend+' | WebGL '+(v2?2:1)+' | Screen '+screen.width+'x'+screen.height+' @'+(window.devicePixelRatio||1)+'x. Drag to rotate, scroll or pinch to zoom, right-click or two fingers to pan, P to pause, Space to reset.';
 var yaw,pit,dist,tg;function reset(){yaw=.7;pit=.35;dist=3.1;tg=[0,0,0]}reset();
-function size(){var r=cv.getBoundingClientRect(),d=Math.min(window.devicePixelRatio||1,2)*P[m].k;cv.width=Math.max(2,Math.round(r.width*d));cv.height=Math.max(2,Math.round(r.height*d));gl.viewport(0,0,cv.width,cv.height)}
+function size(){var r=cv.getBoundingClientRect(),d=Math.min(window.devicePixelRatio||1,2)*P[m].k,w=r.width*d,h=r.height*d,c=Math.sqrt(Math.min(1,2.2e6/(w*h)));cv.width=Math.max(2,Math.round(w*c));cv.height=Math.max(2,Math.round(h*c));gl.viewport(0,0,cv.width,cv.height)}
 function draw(){var cp=Math.cos(pit);gl.uniform2f(U.R,cv.width,cv.height);gl.uniform3f(U.O,tg[0]+dist*cp*Math.sin(yaw),tg[1]+dist*Math.sin(pit),tg[2]+dist*cp*Math.cos(yaw));gl.uniform3f(U.G,tg[0],tg[1],tg[2]);gl.uniform1i(U.S,P[m].s);gl.uniform1i(U.I,P[m].i);gl.drawArrays(gl.TRIANGLES,0,3)}
 var pts={};cv.style.touchAction='none';cv.oncontextmenu=function(x){x.preventDefault()};
 function pan(dx,dy){var k=dist*.0022;tg[0]+=(-Math.cos(yaw)*dx)*k;tg[2]+=(Math.sin(yaw)*dx)*k;tg[1]+=dy*k}
@@ -31,21 +32,22 @@ if(ks.length==1){if(p.b==2||x.shiftKey)pan(dx,dy);else{yaw-=dx*.006;pit=Math.max
 else{var q=pts[ks[0]==x.pointerId?ks[1]:ks[0]],pd=Math.hypot(p.x-q.x,p.y-q.y),nd=Math.hypot(x.clientX-q.x,x.clientY-q.y);if(nd>0)dist=Math.max(1.5,Math.min(8,dist*pd/nd));pan(dx/2,dy/2)}
 p.x=x.clientX;p.y=x.clientY;if(paused)draw()};
 cv.addEventListener('wheel',function(x){x.preventDefault();dist=Math.max(1.5,Math.min(8,dist*Math.exp(x.deltaY*.001)))},{passive:false});
-var L=new Float32Array(4096),ln=0,M=new Float32Array(65536),mn=0,mtot=0,mcnt=0,wa=0,wn=0,last=performance.now(),paused=false,inview=true,idle=true,meas=false,t0=0,dur=0;
+var L=new Float32Array(4096),ln=0,M=new Float32Array(65536),mn=0,mtot=0,mcnt=0,wa=0,wn=0,last=performance.now(),paused=false,inview=true,idle=true,meas=false,t0=0,dur=0,slow=0;
 function stats(a,n){n=Math.min(n,a.length);if(n<5)return null;var s=Array.prototype.slice.call(a,0,n).sort(function(x,y){return y-x}),k=Math.max(1,Math.ceil(n*.01)),w=0,t=0,i;for(i=0;i<k;i++)w+=s[i];for(i=0;i<n;i++)t+=s[i];var mean=t/n,v=0;for(i=0;i<n;i++)v+=(s[i]-mean)*(s[i]-mean);
 return{avg:1000/mean,low:1000/(w/k),min:1000/s[0],max:1000/s[n-1],st:Math.max(0,Math.round(100*(1-Math.sqrt(v/n)/mean)))}}
-function loop(now){raf=requestAnimationFrame(loop);var d=now-last;last=now;if(paused||!inview)return;
+function loop(now){raf=requestAnimationFrame(loop);var d=now-last;last=now;if(paused||!inview)return;if(d>1500&&d<30000&&m>0)slow++;else slow=0;if(slow>=2){slow=0;lower();return}
 if(d>0&&d<1000){L[ln++%4096]=d;wa+=d;wn++;if(meas){M[mn++%65536]=d;mtot+=d;mcnt++}}
 if(idle)yaw+=d*.00022;draw();
 if(wa>=500){var s=stats(L,ln);$('f').textContent=Math.round(1000*wn/wa);if(s){$('a').textContent=s.avg.toFixed(1);$('l').textContent=s.low.toFixed(1);$('mn').textContent=s.min.toFixed(1);$('s').textContent=s.st}wa=0;wn=0}
 if(meas&&dur&&now-t0>=dur*1000)finish()}
+function lower(){m--;if(meas)finish();document.querySelectorAll('[data-m]').forEach(function(b){b.setAttribute('aria-pressed',+b.dataset.m==m)});size();ln=0;$('gpu').textContent='This level was too heavy for your GPU, so the test stepped down to '+P[m].n+' to keep your device responsive.'}
 function begin(){mn=0;mtot=0;mcnt=0;dur=+$('du').value;t0=performance.now();meas=true;ov.hidden=true;if(paused)setPause(false);$('go').textContent='Stop and see result'}
 function finish(){meas=false;$('go').textContent='Run benchmark';var s=stats(M,mn);if(!s)return;var c=function(l,v){return'<div><b>'+v+'</b><span>'+l+'</span></div>'};
 ov.innerHTML='<h3>Your result</h3><div class="res">'+c('Average FPS',(1000*mcnt/mtot).toFixed(1))+c('1% low FPS',s.low.toFixed(1))+c('Minimum FPS',s.min.toFixed(1))+c('Maximum FPS',s.max.toFixed(1))+c('Stability',s.st+'%')+c('Duration',Math.round(mtot/1000)+' s')+c('Complexity',P[m].n)+c('Resolution',cv.width+'x'+cv.height)+'</div><button id="cl" class="big">Close</button>';
 ov.hidden=false;$('cl').onclick=function(){ov.hidden=true}}
 function setPause(v){paused=v;last=performance.now();$('ps').innerHTML=v?'&#9654;':'&#10074;&#10074;';if(v)draw()}
 $('go').onclick=function(){meas?finish():begin()};$('ps').onclick=function(){setPause(!paused)};
-document.querySelectorAll('[data-m]').forEach(function(b){b.setAttribute('aria-pressed',+b.dataset.m==m);b.onclick=function(){m=+b.dataset.m;document.querySelectorAll('[data-m]').forEach(function(y){y.setAttribute('aria-pressed',y===b)});size();ln=0;if(paused)draw()}});
+document.querySelectorAll('[data-m]').forEach(function(b){b.setAttribute('aria-pressed',+b.dataset.m==m);b.onclick=function(){m=+b.dataset.m;document.querySelectorAll('[data-m]').forEach(function(y){y.setAttribute('aria-pressed',y===b)});size();ln=0;if(paused)draw();if(m==3)$('gpu').textContent='Extreme is very heavy and can freeze weak or older PCs. Close other tabs first. The test steps down by itself if frames take over 1.5 seconds.'}});
 $('fs').onclick=function(){var d=document;if(d.fullscreenElement||d.webkitFullscreenElement){(d.exitFullscreen||d.webkitExitFullscreen).call(d)}else{(tl.requestFullscreen||tl.webkitRequestFullscreen).call(tl)}};
 $('sh').onclick=function(){var u=location.href.split('?')[0];if(navigator.share)navigator.share({title:document.title,url:u}).catch(function(){});else if(navigator.clipboard){navigator.clipboard.writeText(u);$('sh').textContent='Link copied'}};
 addEventListener('keydown',function(x){if(x.key==='p'||x.key==='P')setPause(!paused);if(x.key===' '&&x.target===document.body){x.preventDefault();reset();idle=true;if(paused)draw()}});
