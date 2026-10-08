@@ -31,3 +31,5 @@ ol,ul{max-width:74ch;padding-left:22px}li{margin-bottom:8px}
 details{background:var(--card);border:1px solid var(--line);border-radius:12px;padding:14px 18px;margin-bottom:10px}summary{cursor:pointer;font-weight:650}details p{margin:10px 0 0}
 footer{margin-top:90px;border-top:1px solid var(--line);padding:30px 0 50px;color:var(--mute);font-size:14.5px}
 @media(prefers-reduced-motion:reduce){html{scroll-behavior:auto}}
+
+.ov{overflow-y:auto;justify-content:flex-start}.ov>*:first-child{margin-top:auto}.ov>*:last-child{margin-bottom:auto}
