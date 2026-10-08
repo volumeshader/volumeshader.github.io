@@ -1,0 +1,50 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Volume Shader BM FAQ – GPU Benchmark, FPS, Safety &amp; Results</title>
+  <meta name="description" content="Answers about Volume Shader BM, GPU benchmark scores, FPS caps, WebGL, phone testing, safety, privacy and comparing results.">
+  <meta name="robots" content="index,follow,max-image-preview:large">
+  <meta name="theme-color" content="#090816">
+  <link rel="canonical" href="https://volumeshader.github.io/faq.html">
+  <meta property="og:type" content="website">
+  <meta property="og:title" content="Volume Shader BM FAQ – GPU Benchmark, FPS, Safety &amp; Results">
+  <meta property="og:description" content="Answers about Volume Shader BM, GPU benchmark scores, FPS caps, WebGL, phone testing, safety, privacy and comparing results.">
+  <meta property="og:url" content="https://volumeshader.github.io/faq.html">
+  <meta property="og:image" content="https://volumeshader.github.io/og-image.png">
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="Volume Shader BM FAQ – GPU Benchmark, FPS, Safety &amp; Results">
+  <meta name="twitter:description" content="Answers about Volume Shader BM, GPU benchmark scores, FPS caps, WebGL, phone testing, safety, privacy and comparing results.">
+  <meta name="twitter:image" content="https://volumeshader.github.io/og-image.png">
+  <link rel="icon" href="data:,">
+  <link rel="manifest" href="site.webmanifest">
+  <link rel="stylesheet" href="style.css">
+  <script type="application/ld+json">{"@context":"https://schema.org","@graph":[{"@type":"WebPage","name":"Volume Shader BM FAQ \u2013 GPU Benchmark, FPS, Safety & Results","description":"Answers about Volume Shader BM, GPU benchmark scores, FPS caps, WebGL, phone testing, safety, privacy and comparing results.","url":"https://volumeshader.github.io/faq.html"},{"@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"Home","item":"https://volumeshader.github.io/"},{"@type":"ListItem","position":2,"name":"Volume Shader BM FAQ \u2013 GPU Benchmark, FPS, Safety & Results","item":"https://volumeshader.github.io/faq.html"}]}]}</script>
+</head>
+<body><header><nav class="nav"><a class="brand" href="index.html"><span>◈</span> Volume Shader BM</a><a href="index.html">Test</a><a href="gpu-benchmark.html">GPU Benchmark</a><a href="pc-stress-test.html">PC Stress</a><a href="3d-benchmark.html">3D Test</a><a href="phone-gpu-test.html">Phone GPU</a><a href="blog/index.html">Guides</a><a href="faq.html" class="active">FAQ</a><a class="nav-cta" href="index.html#benchmark">Run benchmark</a></nav></header><main class="wrap">
+<div class="breadcrumbs"><a href="index.html">Home</a><span>›</span><span>FAQ</span></div>
+<section class="page-head"><p class="disclosure">Updated October 8, 2026 · Benchmark version 1.0</p><h1>Volume Shader BM FAQ</h1><p class="lead">Straight answers to the questions that matter when you run a browser GPU test and need to understand the result.</p></section>
+<section><h2>Benchmark basics</h2>
+<details open><summary>What is Volume Shader BM?</summary><p>It is an independent browser-based GPU shader benchmark inspired by the original VSBM concept. It renders a fixed volume-shader workload and reports frame-rate and frame-time metrics locally.</p></details>
+<details><summary>Is Volume Shader BM affiliated with the original VSBM?</summary><p>No. This implementation is independent. Because the implementations and workloads can differ, scores from different sites should not be treated as directly interchangeable.</p></details>
+<details><summary>Can I test my GPU online?</summary><p>Yes. A WebGL-capable browser can run the benchmark without a native installer.</p></details>
+<details><summary>Is this a gaming benchmark?</summary><p>No. It is a shader benchmark. It can show how a device handles this graphics workload, but it cannot predict performance in every game or 3D application.</p></details>
+</section>
+<section><h2>FPS and results</h2>
+<details><summary>What is a good FPS?</summary><p>There is no universal “good” number because preset, display synchronization, device, browser and temperature all affect the result. Use the same conditions for comparisons.</p></details>
+<details><summary>Why is my FPS stuck at 60, 90 or 120?</summary><p>The browser may synchronize rendering with your display refresh rate. A flat ceiling can mean the test is display-limited.</p></details>
+<details><summary>Why is my second run slower?</summary><p>Heat, power management, background tasks or browser scheduling can change sustained performance. Repeat under the same conditions before drawing conclusions.</p></details>
+<details><summary>What does 1% low mean?</summary><p>It summarizes the slowest 1% of measured frame times. It can expose uneven rendering that an average FPS number hides.</p></details>
+<details><summary>Can I compare phone and desktop results?</summary><p>You can compare broad behavior, but cross-device results need extra caution because resolution, browser stack, power limits and thermals can differ substantially.</p></details>
+</section>
+<div class="ad-slot" aria-label="Advertisement">Advertisement · FAQ page</div>
+<section><h2>Safety and hardware questions</h2>
+<details><summary>Is the test safe?</summary><p>The software runs in the browser, but heavy graphics workloads can raise temperature and trigger throttling. Stop if the system becomes excessively hot, unstable or unresponsive.</p></details>
+<details><summary>Does it test VRAM?</summary><p>Not directly. This is a shader-focused benchmark and not a dedicated VRAM capacity or memory-error diagnostic.</p></details>
+<details><summary>Can a low score prove a phone is fake?</summary><p>No. A benchmark result alone cannot establish authenticity. Browser version, temperature, battery state, power mode and software settings can all affect performance.</p></details>
+<details><summary>Does the benchmark upload my result?</summary><p>The benchmark calculates the metrics locally and can keep history in browser storage. It does not need to upload benchmark results to a server for the test to work.</p></details>
+<details><summary>Why did the benchmark step down?</summary><p>On extremely slow devices, the benchmark can lower the workload after prolonged frame delays. The result is marked adaptive so it is clear that the requested preset was not sustained.</p></details>
+</section>
+<section><h2>More help</h2><div class="intent-nav"><a href="how-to-test-gpu.html"><strong>How to test a GPU</strong><span>Step-by-step testing guide.</span></a><a href="methodology.html"><strong>Methodology</strong><span>Exact metric and workload details.</span></a><a href="privacy.html"><strong>Privacy</strong><span>Local history and future advertising disclosures.</span></a></div></section>
+</main><footer><div class="wrap"><div class="links"><a href="index.html">Volume Shader BM</a><a href="gpu-benchmark.html">GPU benchmark</a><a href="pc-stress-test.html">PC stress test</a><a href="3d-benchmark.html">3D benchmark</a><a href="graphics-test.html">Graphics test</a><a href="webgl-benchmark.html">WebGL benchmark</a><a href="shader-test.html">Shader test</a><a href="gpu-load-test.html">GPU load test</a><a href="phone-gpu-test.html">Phone GPU test</a><a href="how-to-test-gpu.html">How to test GPU</a><a href="blog/index.html">Guides</a><a href="results.html">Results</a><a href="methodology.html">Methodology</a><a href="faq.html">FAQ</a><a href="about.html">About</a><a href="privacy.html">Privacy</a></div><p>Volume Shader BM is an independent browser GPU shader benchmark inspired by the original VSBM. It is not affiliated with or operated by the original VSBM project.</p><p>Benchmark v1.0 · For the fairest comparison, keep the preset, benchmark version and test conditions consistent.</p></div></footer></body></html>

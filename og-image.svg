@@ -1,0 +1,10 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="630" viewBox="0 0 1200 630">
+<defs><radialGradient id="g" cx="90%" cy="0%"><stop offset="0" stop-color="#8e7dff" stop-opacity=".45"/><stop offset=".65" stop-color="#8e7dff" stop-opacity="0"/></radialGradient></defs>
+<rect width="1200" height="630" fill="#090816"/><rect width="1200" height="630" fill="url(#g)"/>
+<text x="70" y="110" fill="#72e9d9" font-family="Segoe UI,Arial,sans-serif" font-size="28" font-weight="700">🍄 VOLUME SHADER BM</text>
+<text x="70" y="215" fill="#fff" font-family="Segoe UI,Arial,sans-serif" font-size="74" font-weight="800">Browser GPU</text>
+<text x="70" y="300" fill="#ff71b8" font-family="Segoe UI,Arial,sans-serif" font-size="74" font-weight="800">Shader Benchmark</text>
+<text x="70" y="365" fill="#b8b2d4" font-family="Segoe UI,Arial,sans-serif" font-size="28">Live FPS · 1% low · stability · 4 complexity levels</text>
+<rect x="70" y="455" rx="24" width="390" height="66" fill="#15132e" stroke="#ffffff" stroke-opacity=".15"/>
+<text x="98" y="498" fill="#ffd37a" font-family="Segoe UI,Arial,sans-serif" font-size="22" font-weight="700">Free · Local · No install</text>
+</svg>

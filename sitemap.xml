@@ -1,1 +1,30 @@
-<?xml version="1.0" encoding="UTF-8"?><urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"><url><loc>https://volumeshader.github.io/</loc></url><url><loc>https://volumeshader.github.io/gpu-stress-test.html</loc></url><url><loc>https://volumeshader.github.io/phone-gpu-test.html</loc></url><url><loc>https://volumeshader.github.io/how-to-test-gpu.html</loc></url><url><loc>https://volumeshader.github.io/webgl-benchmark.html</loc></url><url><loc>https://volumeshader.github.io/about.html</loc></url><url><loc>https://volumeshader.github.io/privacy.html</loc></url><url><loc>https://volumeshader.github.io/methodology.html</loc></url></urlset>
+<?xml version="1.0" encoding="UTF-8"?>
+<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
+  <url><loc>https://volumeshader.github.io/</loc><lastmod>2026-10-08</lastmod></url>
+  <url><loc>https://volumeshader.github.io/3d-benchmark.html</loc><lastmod>2026-10-08</lastmod></url>
+  <url><loc>https://volumeshader.github.io/about.html</loc><lastmod>2026-10-08</lastmod></url>
+  <url><loc>https://volumeshader.github.io/blog/gpu-benchmark-vs-stress-test.html</loc><lastmod>2026-10-08</lastmod></url>
+  <url><loc>https://volumeshader.github.io/blog/how-to-read-gpu-benchmark-results.html</loc><lastmod>2026-10-08</lastmod></url>
+  <url><loc>https://volumeshader.github.io/blog/how-to-test-your-gpu-online.html</loc><lastmod>2026-10-08</lastmod></url>
+  <url><loc>https://volumeshader.github.io/blog/index.html</loc><lastmod>2026-10-08</lastmod></url>
+  <url><loc>https://volumeshader.github.io/blog/webgl-gpu-test-guide.html</loc><lastmod>2026-10-08</lastmod></url>
+  <url><loc>https://volumeshader.github.io/blog/why-gpu-benchmark-fps-is-low.html</loc><lastmod>2026-10-08</lastmod></url>
+  <url><loc>https://volumeshader.github.io/faq.html</loc><lastmod>2026-10-08</lastmod></url>
+  <url><loc>https://volumeshader.github.io/gpu-benchmark.html</loc><lastmod>2026-10-08</lastmod></url>
+  <url><loc>https://volumeshader.github.io/gpu-load-test.html</loc><lastmod>2026-10-08</lastmod></url>
+  <url><loc>https://volumeshader.github.io/gpu-stress-test.html</loc><lastmod>2026-10-08</lastmod></url>
+  <url><loc>https://volumeshader.github.io/graphics-test.html</loc><lastmod>2026-10-08</lastmod></url>
+  <url><loc>https://volumeshader.github.io/how-to-test-gpu.html</loc><lastmod>2026-10-08</lastmod></url>
+  <url><loc>https://volumeshader.github.io/how-to-test-graphics-card.html</loc><lastmod>2026-10-08</lastmod></url>
+  <url><loc>https://volumeshader.github.io/how-to-use.html</loc><lastmod>2026-10-08</lastmod></url>
+  <url><loc>https://volumeshader.github.io/index.html</loc><lastmod>2026-10-08</lastmod></url>
+  <url><loc>https://volumeshader.github.io/levels.html</loc><lastmod>2026-10-08</lastmod></url>
+  <url><loc>https://volumeshader.github.io/methodology.html</loc><lastmod>2026-10-08</lastmod></url>
+  <url><loc>https://volumeshader.github.io/pc-stress-test.html</loc><lastmod>2026-10-08</lastmod></url>
+  <url><loc>https://volumeshader.github.io/phone-gpu-test.html</loc><lastmod>2026-10-08</lastmod></url>
+  <url><loc>https://volumeshader.github.io/privacy.html</loc><lastmod>2026-10-08</lastmod></url>
+  <url><loc>https://volumeshader.github.io/results.html</loc><lastmod>2026-10-08</lastmod></url>
+  <url><loc>https://volumeshader.github.io/shader-test.html</loc><lastmod>2026-10-08</lastmod></url>
+  <url><loc>https://volumeshader.github.io/test.html</loc><lastmod>2026-10-08</lastmod></url>
+  <url><loc>https://volumeshader.github.io/webgl-benchmark.html</loc><lastmod>2026-10-08</lastmod></url>
+</urlset>

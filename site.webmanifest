@@ -1,0 +1,9 @@
+{
+  "name": "Volume Shader BM",
+  "short_name": "Volume Shader BM",
+  "start_url": "/",
+  "display": "standalone",
+  "background_color": "#090816",
+  "theme_color": "#090816",
+  "description": "Free browser GPU shader benchmark."
+}
