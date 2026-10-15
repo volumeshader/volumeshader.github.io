@@ -9,6 +9,11 @@
     const canvas = document.getElementById('shader-canvas');
     if (!canvas) return;
 
+    // Start Overlay Elements
+    const startOverlay = document.getElementById('canvas-start-overlay');
+    const btnStartShader = document.getElementById('btn-start-shader');
+    const btnPlayPause = document.getElementById('btn-play-pause');
+
     // HUD Elements
     const fpsVal = document.getElementById('hud-fps');
     const frametimeVal = document.getElementById('hud-frametime');
@@ -39,11 +44,12 @@
 
     let currentResults = null;
 
-    // Initialize Engine
+    // Initialize Engine with autoStart: false (Prevents auto-run on page load)
     const initialRes = selectRes ? parseInt(selectRes.value, 10) : 1024;
     const engine = new window.VolumeShaderEngine(canvas, {
       resolution: initialRes,
       autoRotate: true,
+      autoStart: false,
       onFrameStats: (stats) => {
         if (fpsVal) fpsVal.textContent = stats.fps;
         if (frametimeVal) frametimeVal.textContent = stats.frameTimeMs + ' ms';
@@ -70,6 +76,37 @@
       }
     });
 
+    // Function to start rendering
+    function launchEngine() {
+      if (startOverlay) {
+        startOverlay.classList.add('hidden');
+      }
+      engine.start();
+      if (btnPlayPause) {
+        btnPlayPause.textContent = 'Pause ⏸';
+      }
+    }
+
+    // Start Button Overlay Click
+    if (btnStartShader) {
+      btnStartShader.addEventListener('click', launchEngine);
+    }
+
+    // Play/Pause Toggle
+    if (btnPlayPause) {
+      btnPlayPause.addEventListener('click', () => {
+        if (!engine.running && startOverlay && !startOverlay.classList.contains('hidden')) {
+          launchEngine();
+          return;
+        }
+        const isRunning = engine.togglePlay();
+        btnPlayPause.textContent = isRunning ? 'Pause ⏸' : 'Resume ▶';
+        if (!isRunning && fpsVal) {
+          fpsVal.textContent = 'Paused';
+        }
+      });
+    }
+
     // Populate Detected Hardware
     if (gpuRendererTag && engine.gpuInfo) {
       gpuRendererTag.textContent = `${engine.gpuInfo.renderer} (${engine.gpuInfo.webglVersion})`;
@@ -83,10 +120,11 @@
       });
     }
 
-    // Benchmark Run
+    // Benchmark Run Button
     if (btnBenchmark) {
       btnBenchmark.addEventListener('click', () => {
         if (scorecardBanner) scorecardBanner.style.display = 'none';
+        launchEngine();
         engine.startTimedBenchmark(20000);
       });
     }
@@ -111,39 +149,17 @@
       });
     }
 
-    // Preset Selection (if present on Shader Lab or Homepage)
+    // Preset Selection
     if (selectPreset) {
       selectPreset.addEventListener('change', (e) => {
         const preset = e.target.value;
         let code = window.MANDELBULB_KERNEL;
-        if (preset === 'julia') {
-          code = `
-            float kernal(vec3 ver) {
-              vec3 a = ver;
-              float b;
-              for(int i=0; i<6; i++) {
-                b = length(a);
-                a = vec3(a.x*a.x - a.y*a.y - a.z*a.z, 2.0*a.x*a.y, 2.0*a.x*a.z) + vec3(-0.4, 0.6, 0.1);
-                if(b > 4.0) break;
-              }
-              return 2.5 - dot(a, a);
-            }
-          `;
-        } else if (preset === 'torus') {
-          code = `
-            float kernal(vec3 ver) {
-              vec2 q = vec2(length(ver.xz) - 1.2, ver.y);
-              float d = length(q) - 0.45;
-              return -d * 4.0;
-            }
-          `;
-        } else if (preset === 'cosine') {
-          code = `
-            float kernal(vec3 ver) {
-              float d = length(ver) - 1.0 + 0.2 * (sin(ver.x * 6.0) * cos(ver.y * 6.0) * sin(ver.z * 6.0));
-              return -d * 3.5;
-            }
-          `;
+        if (preset === 'julia' && window.PRESET_JULIA) {
+          code = window.PRESET_JULIA;
+        } else if (preset === 'torus' && window.PRESET_TORUS) {
+          code = window.PRESET_TORUS;
+        } else if (preset === 'cosine' && window.PRESET_COSINE) {
+          code = window.PRESET_COSINE;
         }
         engine.buildProgram(code);
       });

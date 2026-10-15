@@ -101,6 +101,17 @@
     <!-- Live Tool Hero Component -->
     <section class="tool-hero" aria-label="Interactive Volume Shader Benchmark Tool">
       <div class="canvas-viewport-container">
+        <!-- Canvas Start Overlay (Prevents auto-run on page load) -->
+        <div id="canvas-start-overlay" class="canvas-start-overlay">
+          <div class="start-card">
+            <button id="btn-start-shader" class="btn-start-pulse">
+              <span style="font-size: 1.3rem;">▶</span>
+              <span>Start Volume Shader</span>
+            </button>
+            <p class="start-subtext">Click to start WebGL raymarching & live FPS telemetry. Preserves battery and prevents instant GPU spin-up.</p>
+          </div>
+        </div>
+
         <!-- Live WebGL Canvas -->
         <canvas id="shader-canvas" width="1024" height="1024"></canvas>
 
@@ -142,6 +153,7 @@
       <div class="tool-controls-bar">
         <div class="control-group">
           <button class="btn btn-primary" id="btn-benchmark">Run 20s Benchmark</button>
+          <button class="btn" id="btn-play-pause">Resume ▶</button>
           <a href="stress-test/index.html" class="btn btn-danger">GPU Stress Mode</a>
         </div>
 

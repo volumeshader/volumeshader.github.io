@@ -192,6 +192,7 @@
       this.options = Object.assign({
         resolution: 1024,
         autoRotate: true,
+        autoStart: false, // Do not auto-start by default to save GPU & battery
         onFrameStats: null,
         onBenchmarkComplete: null
       }, options);
@@ -286,11 +287,43 @@
       // 6. Bind Gestures & Listeners
       this.bindEvents();
 
+      this.loop = this.loop.bind(this);
+      this.running = false;
+      this.lastFrameTimestamp = performance.now();
+
+      // Render single preview frame so canvas is primed
+      this.draw();
+
+      if (this.options.autoStart) {
+        this.start();
+      }
+      return true;
+    }
+
+    start() {
+      if (this.running) return;
       this.running = true;
       this.lastFrameTimestamp = performance.now();
-      this.loop = this.loop.bind(this);
+      this.lastFpsUpdate = performance.now();
       this.animFrameId = requestAnimationFrame(this.loop);
-      return true;
+    }
+
+    pause() {
+      this.running = false;
+      if (this.animFrameId) {
+        cancelAnimationFrame(this.animFrameId);
+        this.animFrameId = null;
+      }
+    }
+
+    togglePlay() {
+      if (this.running) {
+        this.pause();
+        return false;
+      } else {
+        this.start();
+        return true;
+      }
     }
 
     detectHardware() {
@@ -447,6 +480,7 @@
     }
 
     startTimedBenchmark(durationMs = 20000) {
+      this.start();
       this.benchmarkMode = true;
       this.benchmarkDurationMs = durationMs;
       this.benchmarkStartTime = performance.now();

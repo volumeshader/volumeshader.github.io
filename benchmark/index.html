@@ -42,6 +42,15 @@
 
     <section class="tool-hero" aria-label="Standardized Benchmark Runner">
       <div class="canvas-viewport-container">
+        <div id="canvas-start-overlay" class="canvas-start-overlay">
+          <div class="start-card">
+            <button id="btn-start-shader" class="btn-start-pulse">
+              <span style="font-size: 1.3rem;">▶</span>
+              <span>Load Benchmark Scene</span>
+            </button>
+            <p class="start-subtext">Click to initialize WebGL viewport, or click 'Start 20s Standardized Run' below.</p>
+          </div>
+        </div>
         <canvas id="shader-canvas" width="1024" height="1024"></canvas>
         <div class="hud-overlay">
           <div class="hud-panel">
@@ -79,6 +88,7 @@
           <button class="btn btn-primary" id="btn-benchmark" style="font-size:0.95rem; padding:0.5rem 1.25rem;">
             ▶ Start 20s Standardized Run
           </button>
+          <button class="btn" id="btn-play-pause">Resume ▶</button>
         </div>
 
         <div class="control-group">
