@@ -1,0 +1,408 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Volume Shader BM — Online WebGL GPU Benchmark & Stress Test</title>
+  <meta name="description" content="Run the authentic Volume Shader BM (volumeshader_bm) WebGL GPU benchmark directly in your browser. Measure real-time FPS, 1% low frame times, and stress test your graphics card with 3D Mandelbulb raymarching.">
+  <link rel="canonical" href="https://volumeshader.github.io/">
+  <meta property="og:title" content="Volume Shader BM — Online WebGL GPU Benchmark & Stress Test">
+  <meta property="og:description" content="Test your GPU performance with the viral 3D raymarching Mandelbulb volume shader benchmark. No download needed.">
+  <meta property="og:type" content="website">
+  <meta property="og:url" content="https://volumeshader.github.io/">
+  <link rel="stylesheet" href="assets/css/style.css">
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@graph": [
+      {
+        "@type": "WebApplication",
+        "name": "Volume Shader BM",
+        "url": "https://volumeshader.github.io/",
+        "applicationCategory": "BenchmarkApplication",
+        "operatingSystem": "All modern browsers with WebGL support",
+        "browserRequirements": "Requires WebGL 1.0 or WebGL 2.0",
+        "description": "Browser-based GPU benchmark and stress test utilizing an 8th-order Mandelbulb volumetric raymarching fragment shader."
+      },
+      {
+        "@type": "FAQPage",
+        "mainEntity": [
+          {
+            "@type": "Question",
+            "name": "What is Volume Shader BM (volumeshader_bm)?",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "Volume Shader BM (VSBM) is an intensive browser-based GPU benchmark that computes an 8th-order Mandelbulb 3D fractal entirely within a WebGL fragment shader using raymarching and complex trigonometric functions."
+            }
+          },
+          {
+            "@type": "Question",
+            "name": "Why is Volume Shader BM also called the Toxic Mushroom (毒蘑菇) test?",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "In Chinese hardware communities and social platforms, the test became known as the 'Toxic Mushroom' (毒蘑菇) test due to the psychedelic, mushroom-like fractal geometry rendered by the raymarching kernel and its ability to heavily stress mobile and PC graphics chips."
+            }
+          },
+          {
+            "@type": "Question",
+            "name": "How does Volume Shader BM stress the GPU?",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "Unlike game benchmarks that rely on rasterization and polygon counts, Volume Shader BM forces the GPU's Arithmetic Logic Units (ALUs) to solve thousands of trigonometric and power calculations (sin, cos, atan, acos, pow) for every pixel per frame, saturating compute capacity."
+            }
+          },
+          {
+            "@type": "Question",
+            "name": "Is running Volume Shader BM safe on mobile devices?",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "Yes, but because it pushes the mobile GPU to 100% compute load, phones will quickly heat up and initiate thermal throttling. We recommend running 20-second standardized benchmarks and avoiding prolonged multi-minute stress tests on battery power."
+            }
+          }
+        ]
+      }
+    ]
+  }
+  </script>
+</head>
+<body>
+
+  <header class="site-header">
+    <div class="nav-container">
+      <a href="index.html" class="brand-logo">
+        <span style="color:#00f0ff;">⚡</span> VolumeShader<span class="brand-badge">BM</span>
+      </a>
+      <nav>
+        <ul class="nav-links">
+          <li><a href="index.html" class="active">Home</a></li>
+          <li><a href="benchmark/index.html" class="">Benchmark</a></li>
+          <li><a href="stress-test/index.html" class="">Stress Test</a></li>
+          <li><a href="compare/index.html" class="">Compare</a></li>
+          <li><a href="webgl-inspector/index.html" class="">Diagnostics</a></li>
+          <li><a href="shader-lab/index.html" class="">Shader Lab</a></li>
+          <li><a href="learn/index.html" class="">Guides</a></li>
+          <li><a href="benchmark/index.html" class="nav-cta">Run Test</a></li>
+        </ul>
+      </nav>
+    </div>
+  </header>
+
+
+  <main class="main-wrapper">
+    <div style="text-align:center; margin-bottom:1.5rem;">
+      <h1 style="font-size:2.2rem; font-weight:900; letter-spacing:-0.03em; margin-bottom:0.4rem;">
+        Volume Shader BM <span style="color:#00f0ff;">GPU Benchmark</span>
+      </h1>
+      <p style="color:var(--text-muted); max-width:760px; margin:0 auto; font-size:1.05rem;">
+        The authoritative browser-first WebGL volumetric raymarching benchmark. Measures pure GPU arithmetic compute performance, frame times, and thermal stability in real time.
+      </p>
+    </div>
+
+    <!-- Live Tool Hero Component -->
+    <section class="tool-hero" aria-label="Interactive Volume Shader Benchmark Tool">
+      <div class="canvas-viewport-container">
+        <!-- Live WebGL Canvas -->
+        <canvas id="shader-canvas" width="1024" height="1024"></canvas>
+
+        <!-- Canvas HUD Overlay -->
+        <div class="hud-overlay">
+          <div class="hud-panel">
+            <div class="hud-metrics">
+              <div class="metric-unit">
+                <span class="metric-label">FPS</span>
+                <span class="metric-value" id="hud-fps">--</span>
+              </div>
+              <div class="metric-unit">
+                <span class="metric-label">Frame Time</span>
+                <span class="metric-value highlight-amber" id="hud-frametime">-- ms</span>
+              </div>
+              <div class="metric-unit">
+                <span class="metric-label">Avg FPS</span>
+                <span class="metric-value" id="hud-avg-fps">--</span>
+              </div>
+              <div class="metric-unit">
+                <span class="metric-label">1% Low</span>
+                <span class="metric-value highlight-rose" id="hud-low-fps">--</span>
+              </div>
+            </div>
+            <div class="hud-badge-row">
+              <span class="badge-tag" id="hud-gpu-renderer">Detecting GPU...</span>
+              <span class="badge-tag">Drag: Orbit | Wheel: Zoom</span>
+            </div>
+          </div>
+
+          <div class="hud-panel" style="display:flex; gap:0.5rem;">
+            <button class="btn" id="btn-autorotate" title="Toggle automatic rotation">Auto-Rotate: ON</button>
+            <button class="btn" id="btn-reset-cam" title="Reset camera position">Reset View</button>
+          </div>
+        </div>
+      </div>
+
+      <!-- Controls Bar -->
+      <div class="tool-controls-bar">
+        <div class="control-group">
+          <button class="btn btn-primary" id="btn-benchmark">Run 20s Benchmark</button>
+          <a href="stress-test/index.html" class="btn btn-danger">GPU Stress Mode</a>
+        </div>
+
+        <div class="control-group">
+          <label class="control-label" for="select-resolution">Resolution:</label>
+          <select id="select-resolution" class="select-control">
+            <option value="512">Mobile / Eco (512×512)</option>
+            <option value="720">Standard (720×720)</option>
+            <option value="1024" selected>Full HD Benchmark (1024×1024)</option>
+            <option value="1440">Extreme 2K (1440×1440)</option>
+          </select>
+
+          <label class="control-label" for="select-preset" style="margin-left:0.5rem;">Kernel Preset:</label>
+          <select id="select-preset" class="select-control">
+            <option value="mandelbulb" selected>Mandelbulb (Original VSBM)</option>
+            <option value="julia">Julia Quaternion Bulb</option>
+            <option value="cosine">Cosine Field Resonator</option>
+            <option value="torus">Twisted Torus Raymarcher</option>
+          </select>
+        </div>
+      </div>
+
+      <!-- Real-Time Frametime Graph -->
+      <div class="perf-graph-container">
+        <div class="graph-header">
+          <span class="graph-title">LIVE FRAMETIME TELEMETRY (ms) // Green: 60 FPS (16.6ms) | Amber: 30 FPS (33.3ms)</span>
+          <span style="font-size:0.75rem; color:#65708a; font-family:var(--font-mono);">120 FRAMES BUFFER</span>
+        </div>
+        <canvas id="perf-graph" width="800" height="90"></canvas>
+      </div>
+
+      <!-- Benchmark Scorecard Banner (Visible on Benchmark Finish) -->
+      <div id="scorecard-banner" class="scorecard-banner">
+        <div style="display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:1rem;">
+          <div>
+            <h3 style="font-size:1.3rem; font-weight:800; color:#00f0ff;">Benchmark Run Complete!</h3>
+            <p style="color:var(--text-muted); font-size:0.9rem;">Standardized 20-second volumetric raymarching execution finished.</p>
+          </div>
+          <div style="display:flex; gap:0.5rem;">
+            <button class="btn btn-primary" id="btn-copy-score">Copy Score Summary</button>
+            <button class="btn" id="btn-export-card">Download Score Card (PNG)</button>
+          </div>
+        </div>
+
+        <div class="scorecard-grid">
+          <div class="scorecard-card">
+            <div class="metric-label">Composite Score</div>
+            <div class="metric-value highlight-emerald" id="sc-score">--</div>
+          </div>
+          <div class="scorecard-card">
+            <div class="metric-label">Performance Tier</div>
+            <div class="metric-value" id="sc-tier">Tier --</div>
+          </div>
+          <div class="scorecard-card">
+            <div class="metric-label">Average Framerate</div>
+            <div class="metric-value" id="sc-avg-fps">-- FPS</div>
+          </div>
+          <div class="scorecard-card">
+            <div class="metric-label">1% Low Framerate</div>
+            <div class="metric-value highlight-rose" id="sc-low-fps">-- FPS</div>
+          </div>
+          <div class="scorecard-card">
+            <div class="metric-label">Resolution</div>
+            <div class="metric-value" style="font-size:1.1rem;" id="sc-res">--</div>
+          </div>
+          <div class="scorecard-card" style="grid-column: span 2;">
+            <div class="metric-label">Active GPU Renderer</div>
+            <div class="metric-value" style="font-size:0.95rem; color:#fff;" id="sc-gpu">--</div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Quick Tools Grid -->
+    <section style="margin-bottom:3.5rem;">
+      <h2 class="section-title">VolumeShader Ecosystem Tools</h2>
+      <p class="section-subtitle">Dedicated interactive utilities engineered for browser GPU performance analysis.</p>
+
+      <div class="feature-grid">
+        <div class="card">
+          <span class="card-icon">⏱️</span>
+          <h3 class="card-title">Standardized 20s Benchmark</h3>
+          <p class="card-desc">Execute an automated, controlled 20-second test with warm-up phase discard, percentile calculations, and baseline hardware tier comparisons.</p>
+          <a href="benchmark/index.html" class="btn">Open Benchmark ↗</a>
+        </div>
+
+        <div class="card">
+          <span class="card-icon">🔥</span>
+          <h3 class="card-title">GPU Stress & Thermal Test</h3>
+          <p class="card-desc">Continuous high-iteration raymarching loop designed to detect thermal throttling, clock degradation, and browser stability under sustained GPU load.</p>
+          <a href="stress-test/index.html" class="btn">Launch Stress Test ↗</a>
+        </div>
+
+        <div class="card">
+          <span class="card-icon">📊</span>
+          <h3 class="card-title">Device Results & Comparison</h3>
+          <p class="card-desc">Compare your benchmark score against verified baselines across Apple M-series, Nvidia RTX, AMD Radeon, Qualcomm Snapdragon, and Intel Arc.</p>
+          <a href="compare/index.html" class="btn">View Leaderboard ↗</a>
+        </div>
+
+        <div class="card">
+          <span class="card-icon">🔍</span>
+          <h3 class="card-title">WebGL Hardware Inspector</h3>
+          <p class="card-desc">Audit your browser's unmasked GPU renderer, maximum texture allocations, uniform vector limits, precision thresholds, and WebGPU availability.</p>
+          <a href="webgl-inspector/index.html" class="btn">Inspect Hardware ↗</a>
+        </div>
+
+        <div class="card">
+          <span class="card-icon">💻</span>
+          <h3 class="card-title">Custom GLSL Shader Lab</h3>
+          <p class="card-desc">Directly modify the mathematical kernel in real time. Experiment with Mandelbulb exponents, Julia bulb coordinates, and custom raymarching equations.</p>
+          <a href="shader-lab/index.html" class="btn">Open Shader Lab ↗</a>
+        </div>
+
+        <div class="card">
+          <span class="card-icon">📖</span>
+          <h3 class="card-title">Technical Knowledge Hub</h3>
+          <p class="card-desc">In-depth guides covering the cznull vsbm origin, mathematical raymarching mechanics, safe mobile GPU benchmarking, and WebGL troubleshooting.</p>
+          <a href="learn/index.html" class="btn">Explore Guides ↗</a>
+        </div>
+      </div>
+    </section>
+
+    <!-- Deep In-Depth Technical Content Sections -->
+    <article style="background:var(--bg-secondary); border:1px solid var(--border-color); border-radius:var(--radius-lg); padding:2.5rem; margin-bottom:3.5rem;">
+      <h2 style="font-size:1.8rem; font-weight:800; margin-bottom:1rem; color:var(--text-main);">
+        Understanding Volume Shader BM: Architecture, Mathematics & GPU Compute Stress
+      </h2>
+      
+      <p style="margin-bottom:1.25rem; font-size:1rem; color:var(--text-muted); line-height:1.7;">
+        <strong>Volume Shader BM</strong> (commonly queried as <code>volumeshader_bm</code>, <code>volume shader bm</code>, or the viral <em>"Toxic Mushroom" / 毒蘑菇</em> benchmark) is an interactive, zero-install graphical test created to measure pure floating-point arithmetic performance on graphics processors. Unlike traditional 3D benchmarks (such as 3DMark or Heaven) that evaluate polygon throughput, geometry tessellation, and texture memory bandwidth, Volume Shader BM renders a single 2D quad covering the viewport and executes thousands of raymarching steps inside a single fragment shader.
+      </p>
+
+      <h3 style="font-size:1.3rem; font-weight:700; color:#00f0ff; margin:1.5rem 0 0.5rem 0;">The Mandelbulb Mathematical Kernel</h3>
+      <p style="margin-bottom:1rem; color:var(--text-muted); line-height:1.7;">
+        The visual center of the benchmark is an 8th-order 3D Mandelbulb fractal. Every light ray originating from the virtual camera marches through space via the following iterative kernel equation:
+      </p>
+
+      <div class="code-block">
+float kernal(vec3 ver) {
+  vec3 a = ver;
+  float b, c, d, e;
+  for (int i = 0; i &lt; 5; i++) {
+    b = length(a);
+    c = atan(a.y, a.x) * 8.0;
+    e = 1.0 / b;
+    d = acos(a.z / b) * 8.0;
+    b = pow(b, 8.0);
+    a = vec3(b * sin(d) * cos(c), b * sin(d) * sin(c), b * cos(d)) + ver;
+    if (b &gt; 6.0) break;
+  }
+  return 4.0 - a.x * a.x - a.y * a.y - a.z * a.z;
+}
+      </div>
+
+      <p style="margin-bottom:1.25rem; color:var(--text-muted); line-height:1.7;">
+        Notice the intensity of mathematical operations: within each loop iteration, the GPU must evaluate <code>atan()</code>, <code>acos()</code>, <code>pow(b, 8.0)</code>, <code>sin()</code>, and <code>cos()</code>. In typical 3D game engines, trigonometric functions are utilized sparingly because they require specialized transcendent execution units inside the GPU's Special Function Units (SFUs). By forcing up to 1,000 ray steps per pixel with five trigonometric iterations per step, Volume Shader BM completely saturates GPU ALU compute registers without relying on memory bandwidth.
+      </p>
+
+      <h3 style="font-size:1.3rem; font-weight:700; color:#00f0ff; margin:1.5rem 0 0.5rem 0;">Why Frame Times & 1% Lows Matter More Than Peak FPS</h3>
+      <p style="margin-bottom:1.25rem; color:var(--text-muted); line-height:1.7;">
+        Many users look exclusively at instantaneous FPS, but frame time consistency reveals the true health of the graphics driver and thermal cooling solution. When an integrated mobile GPU or ultrabook heats up, thermal management firmware downclocks GPU frequencies. This causes micro-stutters where single frames take 50ms to 100ms to render, even while the average FPS appears acceptable. Volume Shader BM measures the <strong>1% Low FPS</strong> (the 99th percentile slowest frame times) to reveal micro-stuttering and thermal throttling.
+      </p>
+    </article>
+
+    <!-- FAQ Section -->
+    <section style="margin-bottom:3.5rem;">
+      <h2 class="section-title">Frequently Asked Questions</h2>
+      <p class="section-subtitle">Common technical questions regarding Volume Shader BM testing and hardware metrics.</p>
+
+      <div class="faq-list">
+        <div class="faq-item">
+          <button class="faq-question">
+            <span>What hardware does Volume Shader BM run on?</span>
+            <span>+</span>
+          </button>
+          <div class="faq-answer">
+            Volume Shader BM runs on any modern device supporting WebGL 1.0 or WebGL 2.0. This includes Windows PCs, macOS (Apple Silicon M1/M2/M3/M4 & Intel), Linux, iOS (iPhone & iPad Safari), Android smartphones (Chrome, Firefox, Samsung Internet), and Chromium-based tablets.
+          </div>
+        </div>
+
+        <div class="faq-item">
+          <button class="faq-question">
+            <span>Why did my phone become hot during the benchmark?</span>
+            <span>+</span>
+          </button>
+          <div class="faq-answer">
+            Unlike web browsing which mostly idles, raymarching shaders force all GPU shader cores to 100% capacity simultaneously. Smartphones are passively cooled without internal fans, meaning heat transfers directly to the chassis. This is normal behavior for intensive 3D workloads.
+          </div>
+        </div>
+
+        <div class="faq-item">
+          <button class="faq-question">
+            <span>How does the VolumeShader Score get calculated?</span>
+            <span>+</span>
+          </button>
+          <div class="faq-answer">
+            The composite benchmark score incorporates both average throughput and rendering consistency: <code>Score = ((Average FPS × 8.5) + (1% Low FPS × 4.5)) × Resolution Factor</code>. A system with high average FPS but severe stuttering receives a lower score than a balanced, consistent system.
+          </div>
+        </div>
+
+        <div class="faq-item">
+          <button class="faq-question">
+            <span>Can I test my GPU in different web browsers?</span>
+            <span>+</span>
+          </button>
+          <div class="faq-answer">
+            Yes. Different browser engines (Chromium ANGLE D3D11/Vulkan, Mozilla Firefox, Apple WebKit Metal) compile WebGL shaders through different driver backends. Comparing Chrome vs Firefox or Safari can expose significant browser-specific shader optimization variations.
+          </div>
+        </div>
+      </div>
+    </section>
+  </main>
+
+
+  <footer class="site-footer">
+    <div class="footer-grid">
+      <div class="footer-col">
+        <h4 style="color:#00f0ff;">VolumeShader BM</h4>
+        <p style="margin-bottom:1rem; line-height:1.6;">A modern, browser-first WebGL volumetric raymarching benchmark and GPU stress testing platform. Built on the authoritative Mandelbulb raymarching kernel originally conceived by cznull.</p>
+        <p style="font-size:0.8rem; color:#65708a;">100% Client-Side. No installation, zero tracking, zero data collection.</p>
+      </div>
+      <div class="footer-col">
+        <h4>Core Tools</h4>
+        <ul>
+          <li><a href="index.html">Live Benchmark</a></li>
+          <li><a href="benchmark/index.html">Standard 20s Test</a></li>
+          <li><a href="stress-test/index.html">GPU Stress Test</a></li>
+          <li><a href="webgl-inspector/index.html">Hardware Inspector</a></li>
+          <li><a href="shader-lab/index.html">Shader Kernel Lab</a></li>
+          <li><a href="compare/index.html">Device Database</a></li>
+        </ul>
+      </div>
+      <div class="footer-col">
+        <h4>Knowledge & Resources</h4>
+        <ul>
+          <li><a href="learn/cznull-vsbm-history/index.html">History of Cznull & VSBM</a></li>
+          <li><a href="learn/volumetric-raymarching-explained/index.html">Raymarching Math Guide</a></li>
+          <li><a href="learn/how-to-test-gpu-online/index.html">How to Test GPU Safely</a></li>
+          <li><a href="troubleshooting/index.html">WebGL Troubleshooting</a></li>
+          <li><a href="glossary/index.html">GPU & Shader Glossary</a></li>
+        </ul>
+      </div>
+      <div class="footer-col">
+        <h4>About & Legal</h4>
+        <ul>
+          <li><a href="about/index.html">About VolumeShader</a></li>
+          <li><a href="privacy/index.html">Privacy Policy</a></li>
+          <li><a href="terms/index.html">Terms & Thermal Safety</a></li>
+          <li><a href="https://github.com/cznull/cznull.github.io" target="_blank" rel="noopener noreferrer">Original Cznull GitHub ↗</a></li>
+        </ul>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <div>&copy; 2026 VolumeShader. Hosted on GitHub Pages. Dedicated to pure web graphics performance.</div>
+      <div>Designed for developers, gamers, and hardware enthusiasts.</div>
+    </div>
+  </footer>
+
+
+  <script src="assets/js/volumeshader-core.js"></script>
+  <script src="assets/js/hud-controls.js"></script>
+</body>
+</html>
