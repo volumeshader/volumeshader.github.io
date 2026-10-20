@@ -11,8 +11,8 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
 
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Volume Shader BM Standardized 20s GPU Benchmark | VolumeShader</title>
-  <meta name="description" content="Run the standardized 20-second Volume Shader BM GPU benchmark. Automated warm-up phase, exact 1% low calculations, and instant comparison against hardware baseline percentiles.">
+  <title>20 Second GPU Benchmark Online: FPS, 1% Low and Score | VolumeShader</title>
+  <meta name="description" content="Run a free 20 second GPU benchmark in your browser. Get average FPS, 1% low, a score and a tier. Warm up frames are ignored for a fairer result.">
   <link rel="canonical" href="https://volumeshader.github.io/benchmark/">
   <link rel="stylesheet" href="../assets/css/style.css">
 </head>
@@ -23,7 +23,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
 <!-- End Google Tag Manager (noscript) -->
 
 
-  <header class="site-header">
+    <header class="site-header">
     <div class="nav-container">
       <a href="../index.html" class="brand-logo">
         <span style="color:#00f0ff;">⚡</span> VolumeShader<span class="brand-badge">BM</span>
@@ -36,7 +36,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
           <li><a href="../compare/index.html" class="">Compare</a></li>
           <li><a href="../webgl-inspector/index.html" class="">Diagnostics</a></li>
           <li><a href="../shader-lab/index.html" class="">Shader Lab</a></li>
-          <li><a href="../learn/index.html" class="">Guides</a></li>
+          <li><a href="../blog/index.html" class="">Blog</a></li>
           <li><a href="../benchmark/index.html" class="nav-cta">Run Test</a></li>
         </ul>
       </nav>
@@ -49,7 +49,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
         Standardized 20-Second <span style="color:#00f0ff;">GPU Benchmark</span>
       </h1>
       <p style="color:var(--text-muted); font-size:1rem;">
-        Controlled benchmark protocol with a 2-second warm-up phase discard, locked resolution targets, and percentile scoring against mobile and desktop baselines.
+        A timed 20 second run. The first two seconds count as warm up, then the page records every frame and shows average FPS, 1% low FPS, a score and a tier.
       </p>
     </div>
 
@@ -164,68 +164,108 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
       </div>
     </section>
 
-    <article style="background:var(--bg-secondary); border:1px solid var(--border-color); border-radius:var(--radius-lg); padding:2rem; margin:2.5rem 0;">
-      <h2 style="font-size:1.5rem; font-weight:800; margin-bottom:1rem;">Standardized Testing Protocol & Repeatability Rules</h2>
-      <p style="color:var(--text-muted); margin-bottom:1rem;">To ensure your VolumeShader BM score is fair and comparable with other devices on the <a href="../compare/index.html">Hardware Comparison Database</a>, follow these testing conditions:</p>
-      
-      <div style="display:grid; grid-template-columns:repeat(auto-fit, minmax(260px, 1fr)); gap:1rem; margin-top:1.5rem;">
+<article class="page-prose" style="background:var(--bg-secondary); border:1px solid var(--border-color); border-radius:var(--radius-lg); padding:2rem; margin:2.5rem 0;">
+      <h2 style="font-size:1.5rem; font-weight:800; margin-bottom:1rem;">How the 20 second benchmark works</h2>
+      <p>The benchmark is a timed version of the volume shader test. When you press the run button, the page does four things.</p>
+      <ol>
+        <li>It starts rendering the fractal at the resolution you chose.</li>
+        <li>It ignores the first two seconds, which are the warm up.</li>
+        <li>It records the time of every frame for the remaining time.</li>
+        <li>It works out the average FPS, the 1% low FPS, the minimum FPS, a score and a tier, and shows them on a score card.</li>
+      </ol>
+      <p>The 1% low value comes from sorting all frame times and taking the one that 99 percent of frames beat. It tells you how bad the slow moments were. A device with a high average but a very low 1% low is stuttering.</p>
+
+      <h2 style="font-size:1.5rem; font-weight:800; margin:2rem 0 0.75rem 0;">Prepare in four steps</h2>
+      <p>Follow these steps so that your score is fair and can be compared later.</p>
+      <div style="display:grid; grid-template-columns:repeat(auto-fit, minmax(240px, 1fr)); gap:1rem; margin:1.25rem 0;">
         <div style="background:var(--bg-tertiary); padding:1.2rem; border-radius:var(--radius-sm); border:1px solid var(--border-color);">
-          <h4 style="color:#00f0ff; margin-bottom:0.4rem;">1. Close Background Tabs</h4>
-          <p style="font-size:0.88rem; color:var(--text-muted);">Video streams, background tabs, and browser extensions consume compositor threads and introduce false frame drops.</p>
+          <h4 style="color:#00f0ff; margin-bottom:0.4rem;">1. Close other tabs</h4>
+          <p style="font-size:0.9rem; margin:0;">Videos, games and many open tabs share the GPU and can cause false frame drops.</p>
         </div>
         <div style="background:var(--bg-tertiary); padding:1.2rem; border-radius:var(--radius-sm); border:1px solid var(--border-color);">
-          <h4 style="color:#00f0ff; margin-bottom:0.4rem;">2. Connect AC Power</h4>
-          <p style="font-size:0.88rem; color:var(--text-muted);">Laptops and mobile devices throttle GPU clock speeds by 30% to 50% when running on battery power to conserve energy.</p>
+          <h4 style="color:#00f0ff; margin-bottom:0.4rem;">2. Use wall power</h4>
+          <p style="font-size:0.9rem; margin:0;">Many laptops and phones lower GPU speed on battery or in power saving mode.</p>
         </div>
         <div style="background:var(--bg-tertiary); padding:1.2rem; border-radius:var(--radius-sm); border:1px solid var(--border-color);">
-          <h4 style="color:#00f0ff; margin-bottom:0.4rem;">3. Cold Device Run</h4>
-          <p style="font-size:0.88rem; color:var(--text-muted);">Allow mobile devices and ultrabooks to cool down for 2 minutes prior to running the test to measure peak baseline performance.</p>
+          <h4 style="color:#00f0ff; margin-bottom:0.4rem;">3. Start cool</h4>
+          <p style="font-size:0.9rem; margin:0;">Give a warm phone or laptop a few minutes to rest so that heat does not affect the first run.</p>
+        </div>
+        <div style="background:var(--bg-tertiary); padding:1.2rem; border-radius:var(--radius-sm); border:1px solid var(--border-color);">
+          <h4 style="color:#00f0ff; margin-bottom:0.4rem;">4. Keep the settings</h4>
+          <p style="font-size:0.9rem; margin:0;">Use the same browser, resolution and preset every time you compare two runs.</p>
         </div>
       </div>
+
+      <h2 style="font-size:1.5rem; font-weight:800; margin:2rem 0 0.75rem 0;">How the score and the tier are set</h2>
+      <p>The score is <code>(average FPS x 8.5 + 1% low FPS x 4.5) x resolution factor</code>. The factor is 0.6 at 512, 0.85 at 720, 1.0 at 1024 and 1.4 at 1440. For example, a run at 1024 with 60 average FPS and 55 for the 1% low gives 758 points, which is tier A. The same average with a 1% low of 15 gives 578 points, which is tier B. The steady device is rewarded.</p>
+      <p>Tiers start at 950 for S, 600 for A, 350 for B, 180 for C, 80 for D, and anything lower is F. For more examples, read the <a href="../blog/volume-shader-test-guide/index.html">volume shader test guide</a>.</p>
+
+      <h2 style="font-size:1.5rem; font-weight:800; margin:2rem 0 0.75rem 0;">If the result looks strange</h2>
+      <ul>
+        <li><strong>Very low FPS:</strong> the browser may be using software rendering. Check hardware acceleration and the graphics driver.</li>
+        <li><strong>FPS stuck at 60:</strong> your screen refresh rate is the limit. Use a larger resolution.</li>
+        <li><strong>First run lower than the second:</strong> this is common. The browser and GPU need a moment to settle.</li>
+        <li><strong>Black canvas or a lost context:</strong> see the <a href="../troubleshooting/index.html">troubleshooting page</a>.</li>
+      </ul>
+      <p>For a complete routine with screenshots of settings in words, see <a href="../blog/how-to-test-gpu-online/index.html">how to test your GPU online</a>.</p>
     </article>
+
+    <section style="margin:2.5rem 0;">
+      <h2 class="section-title">Frequently asked questions</h2>
+      <div class="faq-list">
+<details class="faq-item"><summary class="faq-question"><span>How long is the benchmark?</span><span class="faq-plus">+</span></summary><div class="faq-answer"><p>The run takes 20 seconds. The first two seconds are treated as warm up and are not counted. The rest of the frames are used for the result.</p></div></details>
+<details class="faq-item"><summary class="faq-question"><span>Why is the first two seconds ignored?</span><span class="faq-plus">+</span></summary><div class="faq-answer"><p>At the start the browser compiles the shader and the GPU may be waking up from a low power state. Those first frames are slower than normal and would unfairly lower the result.</p></div></details>
+<details class="faq-item"><summary class="faq-question"><span>What is a good score?</span><span class="faq-plus">+</span></summary><div class="faq-answer"><p>It depends on the device. Compare with a similar phone or computer, or with your own earlier runs. A steady result with a small gap between average FPS and 1% low is a healthy sign.</p></div></details>
+<details class="faq-item"><summary class="faq-question"><span>Why does the score change between runs?</span><span class="faq-plus">+</span></summary><div class="faq-answer"><p>Small differences are normal because temperature and background tasks change from run to run. If the results differ a lot, check for heat, battery saver and other apps.</p></div></details>
+<details class="faq-item"><summary class="faq-question"><span>Can I share my result?</span><span class="faq-plus">+</span></summary><div class="faq-answer"><p>Yes. After the run, use the copy button for a text summary or download the score card as an image.</p></div></details>
+<details class="faq-item"><summary class="faq-question"><span>Can I compare my score with other websites?</span><span class="faq-plus">+</span></summary><div class="faq-answer"><p>No. Each website uses its own scene settings and formula. Compare only results made with the same test and the same settings.</p></div></details>
+</div>
+    </section>
   </main>
 
   <footer class="site-footer">
     <div class="footer-grid">
       <div class="footer-col">
         <h4 style="color:#00f0ff;">VolumeShader BM</h4>
-        <p style="margin-bottom:1rem; line-height:1.6;">A modern, browser-first WebGL volumetric raymarching benchmark and GPU stress testing platform. Built on the authoritative Mandelbulb raymarching kernel originally conceived by cznull.</p>
-        <p style="font-size:0.8rem; color:#65708a;">100% Client-Side. No installation, zero tracking, zero data collection.</p>
+        <p style="margin-bottom:1rem; line-height:1.6;">A free browser based GPU benchmark and stress test. The main test draws a 3D fractal with WebGL raymarching and shows live FPS, 1% low and a score. This is an independent site and is not run by the author of the original volumeshader_bm page.</p>
+        <p style="font-size:0.8rem; color:#65708a;">The test runs on your own GPU and your results stay in your browser. See the privacy policy for how Google Tag Manager is used on this site.</p>
       </div>
       <div class="footer-col">
-        <h4>Core Tools</h4>
+        <h4>Tools</h4>
         <ul>
-          <li><a href="../index.html">Live Benchmark</a></li>
-          <li><a href="../benchmark/index.html">Standard 20s Test</a></li>
+          <li><a href="../index.html">Volume Shader BM Test</a></li>
+          <li><a href="../benchmark/index.html">20 Second Benchmark</a></li>
           <li><a href="../stress-test/index.html">GPU Stress Test</a></li>
-          <li><a href="../webgl-inspector/index.html">Hardware Inspector</a></li>
-          <li><a href="../shader-lab/index.html">Shader Kernel Lab</a></li>
-          <li><a href="../compare/index.html">Device Database</a></li>
+          <li><a href="../webgl-inspector/index.html">WebGL Diagnostics</a></li>
+          <li><a href="../shader-lab/index.html">Shader Lab</a></li>
+          <li><a href="../compare/index.html">Score Comparison</a></li>
         </ul>
       </div>
       <div class="footer-col">
-        <h4>Knowledge & Resources</h4>
+        <h4>Blog and Help</h4>
         <ul>
-          <li><a href="../learn/cznull-vsbm-history/index.html">History of Cznull & VSBM</a></li>
-          <li><a href="../learn/volumetric-raymarching-explained/index.html">Raymarching Math Guide</a></li>
-          <li><a href="../learn/how-to-test-gpu-online/index.html">How to Test GPU Safely</a></li>
+          <li><a href="../blog/what-is-volume-shader-bm/index.html">What Is Volume Shader BM (volumeshader_bm)?</a></li>
+          <li><a href="../blog/volume-shader-test-guide/index.html">Volume Shader Test: How to Run It and Read Your Score</a></li>
+          <li><a href="../blog/how-to-test-gpu-online/index.html">How to Test Your GPU Online</a></li>
+          <li><a href="../blog/gpu-stress-test-online-guide/index.html">PC Stress Test Online: GPU Stress Testing in the Browser</a></li>
+          <li><a href="../blog/index.html">All blog posts</a></li>
           <li><a href="../troubleshooting/index.html">WebGL Troubleshooting</a></li>
-          <li><a href="../glossary/index.html">GPU & Shader Glossary</a></li>
+          <li><a href="../glossary/index.html">GPU Glossary</a></li>
         </ul>
       </div>
       <div class="footer-col">
-        <h4>About & Legal</h4>
+        <h4>About and Legal</h4>
         <ul>
-          <li><a href="../about/index.html">About VolumeShader</a></li>
+          <li><a href="../about/index.html">About</a></li>
           <li><a href="../privacy/index.html">Privacy Policy</a></li>
-          <li><a href="../terms/index.html">Terms & Thermal Safety</a></li>
-          <li><a href="https://github.com/cznull/cznull.github.io" target="_blank" rel="noopener noreferrer">Original Cznull GitHub ↗</a></li>
+          <li><a href="../terms/index.html">Terms and Safety</a></li>
+          <li><a href="https://github.com/cznull/cznull.github.io" target="_blank" rel="noopener noreferrer">cznull on GitHub ↗</a></li>
         </ul>
       </div>
     </div>
     <div class="footer-bottom">
-      <div>&copy; 2026 VolumeShader. Hosted on GitHub Pages. Dedicated to pure web graphics performance.</div>
-      <div>Designed for developers, gamers, and hardware enthusiasts.</div>
+      <div>&copy; 2026 VolumeShader. Hosted on GitHub Pages.</div>
+      <div>Made for gamers, developers and anyone who wants to check their graphics hardware.</div>
     </div>
   </footer>
 

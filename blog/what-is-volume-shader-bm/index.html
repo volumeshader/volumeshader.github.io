@@ -1,0 +1,330 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<!-- Google Tag Manager -->
+<script>(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
+new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
+j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
+'https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
+})(window,document,'script','dataLayer','GTM-5224J62Q');</script>
+<!-- End Google Tag Manager -->
+
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>What Is Volume Shader BM (volumeshader_bm)? Simple Guide | VolumeShader</title>
+  <meta name="description" content="Volume Shader BM (volumeshader_bm, VSBM) is a browser GPU test that draws a 3D Mandelbulb with raymarching. Learn what it does, how it works and how to read the results.">
+  <link rel="canonical" href="https://volumeshader.github.io/blog/what-is-volume-shader-bm/">
+  <meta property="og:title" content="What Is Volume Shader BM (volumeshader_bm)? Simple Guide | VolumeShader">
+  <meta property="og:description" content="Volume Shader BM (volumeshader_bm, VSBM) is a browser GPU test that draws a 3D Mandelbulb with raymarching. Learn what it does, how it works and how to read the results.">
+  <meta property="og:type" content="article">
+  <meta property="og:url" content="https://volumeshader.github.io/blog/what-is-volume-shader-bm/">
+  <link rel="stylesheet" href="../../assets/css/style.css">
+  <script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@graph": [
+    {
+      "@type": "BlogPosting",
+      "headline": "What Is Volume Shader BM (volumeshader_bm)? A Simple Guide",
+      "description": "Volume Shader BM (volumeshader_bm, VSBM) is a browser GPU test that draws a 3D Mandelbulb with raymarching. Learn what it does, how it works and how to read the results.",
+      "mainEntityOfPage": "https://volumeshader.github.io/blog/what-is-volume-shader-bm/",
+      "datePublished": "2026-10-21",
+      "dateModified": "2026-10-21",
+      "author": {
+        "@type": "Organization",
+        "name": "VolumeShader",
+        "url": "https://volumeshader.github.io/"
+      },
+      "publisher": {
+        "@type": "Organization",
+        "name": "VolumeShader",
+        "url": "https://volumeshader.github.io/"
+      }
+    },
+    {
+      "@type": "BreadcrumbList",
+      "itemListElement": [
+        {
+          "@type": "ListItem",
+          "position": 1,
+          "name": "Home",
+          "item": "https://volumeshader.github.io/"
+        },
+        {
+          "@type": "ListItem",
+          "position": 2,
+          "name": "Blog",
+          "item": "https://volumeshader.github.io/blog/"
+        },
+        {
+          "@type": "ListItem",
+          "position": 3,
+          "name": "What Is Volume Shader BM (volumeshader_bm)? A Simple Guide",
+          "item": "https://volumeshader.github.io/blog/what-is-volume-shader-bm/"
+        }
+      ]
+    },
+    {
+      "@type": "FAQPage",
+      "mainEntity": [
+        {
+          "@type": "Question",
+          "name": "What is volumeshader_bm?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "It is another way of writing Volume Shader BM, a browser test that renders a 3D Mandelbulb fractal with a heavy shader to measure how fast your GPU can calculate. People also type it as volume shader bm, volumeshaderbm or VSBM."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "Is Volume Shader BM a virus or malware?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "No. It is a normal web page that runs a graphics program in your browser through WebGL. It does not install software. The page can make your fans spin up and your device warm, because the work is heavy, but that is the test doing its job."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "What does BM mean in volume shader BM?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "BM is most commonly read as benchmark. The short form is not explained on the original page, so this is an informal reading, but it fits what the test does."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "Does it work on a phone?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Yes, on any phone with a browser that supports WebGL. Use the 512 resolution on older phones, keep the first run short, and stop if the phone becomes very hot."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "Why is my FPS so low?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "The most common reason is that the browser is not using your GPU. Check that hardware acceleration is on, update graphics drivers, and make sure a laptop is plugged in. Our troubleshooting page lists the other common causes."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "Can this test damage my GPU?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "A normal GPU has built in protection and slows itself down before it gets dangerously hot. The risk is low on a healthy, clean computer, but a weak cooler, dust or a phone in a thick case can make the heat uncomfortable. Run short tests and stop if something feels wrong."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "Is a high score here the same as a good gaming GPU?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Not always. The test measures shader math. Games also use memory, textures and the CPU. A high score is a good sign for shader speed, but it does not replace a game benchmark."
+          }
+        }
+      ]
+    }
+  ]
+}
+  </script>
+</head>
+<body>
+<!-- Google Tag Manager (noscript) -->
+<noscript><iframe src="https://www.googletagmanager.com/ns.html?id=GTM-5224J62Q"
+height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
+<!-- End Google Tag Manager (noscript) -->
+
+  <header class="site-header">
+    <div class="nav-container">
+      <a href="../../index.html" class="brand-logo">
+        <span style="color:#00f0ff;">⚡</span> VolumeShader<span class="brand-badge">BM</span>
+      </a>
+      <nav>
+        <ul class="nav-links">
+          <li><a href="../../index.html" class="">Home</a></li>
+          <li><a href="../../benchmark/index.html" class="">Benchmark</a></li>
+          <li><a href="../../stress-test/index.html" class="">Stress Test</a></li>
+          <li><a href="../../compare/index.html" class="">Compare</a></li>
+          <li><a href="../../webgl-inspector/index.html" class="">Diagnostics</a></li>
+          <li><a href="../../shader-lab/index.html" class="">Shader Lab</a></li>
+          <li><a href="../../blog/index.html" class="active">Blog</a></li>
+          <li><a href="../../benchmark/index.html" class="nav-cta">Run Test</a></li>
+        </ul>
+      </nav>
+    </div>
+  </header>
+
+  <main class="main-wrapper">
+    <div class="blog-wrap">
+    <nav class="crumbs" aria-label="Breadcrumb"><a href="../../index.html">Home</a> / <a href="../index.html">Blog</a> / <span>What Is Volume Shader BM (volumeshader_bm)? A Simple Guide</span></nav>
+    <article class="post">
+      <span class="badge-tag" style="color:#00f0ff; border-color:#00f0ff;">BEGINNER GUIDE</span>
+      <h1>What Is Volume Shader BM (volumeshader_bm)? A Simple Guide</h1>
+      <p class="post-meta">Updated 2026-10-21 &middot; 11 min read &middot; by the VolumeShader team</p>
+      <p class="lead">Volume Shader BM, also written as volumeshader_bm or VSBM, is a free browser test that pushes your graphics card hard and draws a 3D fractal while doing it. This guide explains what it is, how it works and what the numbers mean, without any heavy jargon.</p>
+      <div class="toc"><strong>In this post</strong><ol><li><a href="#short-answer">The short answer</a></li><li><a href="#what-you-see">What you actually see on the screen</a></li><li><a href="#name">Why it is called volume shader, BM and VSBM</a></li><li><a href="#how-it-works">How the test works, step by step</a></li><li><a href="#why-heavy">Why it can be harder on a GPU than a game</a></li><li><a href="#numbers">The numbers you get from the test</a></li><li><a href="#who">Who uses a test like this</a></li><li><a href="#limits">What the test cannot tell you</a></li><li><a href="#original">Is this the original page?</a></li><li><a href="#try-it">How to try it in one minute</a></li><li><a href="#faq">Frequently asked questions</a></li></ol></div>
+      
+<h2 id="short-answer">The short answer</h2>
+
+<p><strong>Volume Shader BM</strong> is a web page that asks your graphics card to do a very large amount of math and shows you how well it keeps up. While it works, it draws a glowing 3D fractal shape that slowly spins on the screen. You do not install anything. You open the page, press start, and watch the numbers.</p>
+<p>The name looks odd, so here is how to read it. "Volume shader" describes how the picture is made. "BM" is most often read as short for benchmark. You will also see it written as <code>volumeshader_bm</code>, <code>volume shader bm</code>, <code>volumeshaderbm</code> or <code>VSBM</code>. They all point to the same idea: a browser test that makes a GPU render a heavy volumetric scene and reports how fast it can do it.</p>
+<p>If you only want to try it, open the <a href="../../index.html">live test on the home page</a>. If you want to understand what is happening behind the screen, keep reading. Everything below is written in plain language.</p>
+
+<h2 id="what-you-see">What you actually see on the screen</h2>
+
+<p>The shape in the middle of the screen is called a <strong>Mandelbulb</strong>. It is a 3D cousin of the famous Mandelbrot fractal. A fractal is a shape that keeps showing new detail the closer you look at it. The Mandelbulb has bumps, folds and tiny curls on its surface, and the test lights it with soft colors so those details are easy to see.</p>
+<p>Most 3D games draw objects made of triangles. A character or a car is a mesh of thousands of small flat pieces. The Mandelbulb in this test has no triangles at all. It is defined by a formula, and the GPU has to work out where the surface is, one pixel at a time. That is why the test is so demanding. The surface is not stored anywhere. It must be calculated again for every pixel, in every frame.</p>
+<p>On this site you also get a few extra shapes in the preset menu, such as a Julia style bulb, a cosine field and a twisted torus. They use the same drawing method with a different formula, so you can compare how your GPU handles each one.</p>
+
+<h2 id="name">Why it is called volume shader, BM and VSBM</h2>
+
+<p>Each part of the name has a simple meaning.</p>
+<ul>
+<li><strong>Volume</strong> points to volumetric rendering. Instead of drawing flat surfaces, the program looks through a region of 3D space and decides what is inside it.</li>
+<li><strong>Shader</strong> is the name for a small program that runs on the GPU. The heavy work in this test happens inside a single fragment shader, which runs once for every pixel on the screen.</li>
+<li><strong>BM</strong> is usually read as benchmark. A benchmark is a repeatable test that gives a number you can compare with another device.</li>
+<li><strong>VSBM</strong> is simply the short form of "volume shader BM".</li>
+</ul>
+<p>The original public page for this kind of test lives on the GitHub Pages site of a developer who uses the name cznull. Many people find the test by searching for that name, for the address <code>cznull.github.io/vsbm</code>, or for words like "volume shader" and "bm test". We explain the original page and how this site relates to it in a separate post, <a href="../cznull-github-vsbm-explained/index.html">cznull, cznull.github.io/vsbm and the original volumeshader_bm page</a>.</p>
+
+<h2 id="how-it-works">How the test works, step by step</h2>
+
+<p>You do not need to know any graphics programming to follow the idea. Here is the process in six small steps.</p>
+<ol>
+<li><strong>The page draws one big rectangle.</strong> It covers the whole canvas. There is nothing else in the scene to draw.</li>
+<li><strong>The GPU runs a small program for every pixel.</strong> A canvas at 1024 by 1024 has more than one million pixels, so that program runs more than one million times per frame.</li>
+<li><strong>Each pixel sends out an imaginary ray.</strong> Think of a thin laser line that starts at the camera and travels into the scene.</li>
+<li><strong>The ray moves forward in small steps.</strong> At each step the program asks the fractal formula: "Is this point inside the shape yet?" The shader in this test allows up to about one thousand steps per ray.</li>
+<li><strong>When the ray hits the shape, the program refines the hit point.</strong> It uses a short search to find the surface more exactly, then works out the direction the surface is facing so it can add light and color.</li>
+<li><strong>The frame is shown and the next one starts.</strong> The page counts how long each frame took and turns that into FPS.</li>
+</ol>
+<p>The formula in step four is where most of the time goes. For every single sample, the fractal formula loops several times and uses expensive math such as sine, cosine, arc tangent, arc cosine and a power function. Multiply that by many steps and many pixels, and you get a very large amount of arithmetic per frame. You can read the details, with the actual code, in our post on <a href="../volumetric-shader-raymarching-explained/index.html">volumetric shaders and raymarching</a>.</p>
+
+<h2 id="why-heavy">Why it can be harder on a GPU than a game</h2>
+
+<p>A modern game spends a lot of its time moving data around. It reads textures, writes to buffers and handles many different effects. The Volume Shader BM scene does almost the opposite. It reads almost no data and spends nearly all its time on math. This is often called a compute heavy or ALU heavy workload. ALU stands for arithmetic logic unit, the part of a GPU core that does the calculations.</p>
+<p>That has two practical effects.</p>
+<ul>
+<li><strong>It shows raw shader speed.</strong> Because memory is hardly involved, the result depends mostly on how fast the shader cores can calculate. This makes it a useful quick check for comparing two devices.</li>
+<li><strong>It creates a lot of heat.</strong> When the cores stay busy for a long time, the chip warms up. Phones and thin laptops do not have much room for cooling, so they may slow themselves down after a while. This slowdown is called thermal throttling, and the test makes it easy to notice.</li>
+</ul>
+<p>Keep in mind that a game result and this result do not always match. A card with fast memory but average shader math may feel great in games and look average here. The other way around is also possible. Use this test as one data point, not as the final word.</p>
+
+<h2 id="numbers">The numbers you get from the test</h2>
+
+<p>While the test runs, the page shows live numbers. When you finish a 20 second run on this site, you also get a score card. Here is what each number means.</p>
+<table>
+<thead><tr><th>Number</th><th>What it tells you</th></tr></thead>
+<tbody>
+<tr><td>FPS</td><td>Frames per second, right now. Higher is better.</td></tr>
+<tr><td>Frame time</td><td>How many milliseconds one frame took. Lower is better. 16.7 ms matches 60 FPS.</td></tr>
+<tr><td>Average FPS</td><td>The overall speed during the run.</td></tr>
+<tr><td>1% low FPS</td><td>The speed of the slowest moments. It shows stutter that the average hides.</td></tr>
+<tr><td>Score</td><td>One combined number built from average FPS, 1% low FPS and the resolution you picked.</td></tr>
+</tbody>
+</table>
+<p>In the 20 second benchmark, the first two seconds are treated as warm up and are not counted. After that the page records every frame, works out the average, and finds the frame time that 99 percent of frames beat. That slow frame time becomes the 1% low value. The score is then calculated as average FPS times 8.5, plus 1% low FPS times 4.5, multiplied by a resolution factor. The factor is 0.6 at 512, 0.85 at 720, 1.0 at 1024 and 1.4 at 1440.</p>
+<p>The second half of that formula is the important part. A device that runs at a steady speed gets a better score than a device with the same average that keeps stuttering. We explain how to read these values in detail in the <a href="../volume-shader-test-guide/index.html">volume shader test guide</a>.</p>
+
+<h2 id="who">Who uses a test like this</h2>
+
+<p>People use it for simple, practical reasons.</p>
+<ul>
+<li><strong>Checking a new or used phone.</strong> A quick run shows whether the GPU is fast and whether the phone slows down quickly when it gets warm.</li>
+<li><strong>Comparing two laptops or two PCs.</strong> Run the same settings on both and compare average FPS and 1% low.</li>
+<li><strong>Looking for problems.</strong> If a computer that should be fast gives a very low result, the browser may be using software rendering instead of the GPU. The test makes that obvious.</li>
+<li><strong>Checking cooling.</strong> A longer run on the <a href="../../stress-test/index.html">stress test page</a> shows whether performance drops as the device heats up.</li>
+<li><strong>Learning.</strong> Students and hobbyists use it to see what a shader and raymarching look like in practice. The <a href="../../shader-lab/index.html">Shader Lab</a> on this site lets you change the formula and watch the result.</li>
+</ul>
+
+<h2 id="limits">What the test cannot tell you</h2>
+
+<p>Every benchmark has limits, and it is better to know them early.</p>
+<ul>
+<li><strong>It is not a game benchmark.</strong> It measures one kind of work. Real games also depend on memory speed, drivers, the CPU and more.</li>
+<li><strong>It does not read temperature or clock speed.</strong> A web page is not allowed to see those values. You can only notice their effect, because FPS drops over time.</li>
+<li><strong>It does not test video memory.</strong> The scene uses very little memory, so a card with a small amount of VRAM is not punished here.</li>
+<li><strong>The browser matters.</strong> WebGL goes through the browser and the operating system before it reaches the GPU. Chrome, Firefox and Safari can give slightly different results on the same machine.</li>
+<li><strong>Background tasks matter.</strong> Open videos, many tabs and battery saver mode can all lower the result.</li>
+</ul>
+<div class="callout warn"><p>Heavy tests make a device hot. On a phone, a tablet or a thin laptop, keep runs short and stop if the device feels uncomfortably warm. See our <a href="../../terms/index.html">safety notes</a>.</p></div>
+
+<h2 id="original">Is this the original page?</h2>
+
+<p>No. This website is an independent project. It is not run by the person who made the original public volumeshader_bm page, and it has no official link with that person. We credit the original idea and use the same style of Mandelbulb raymarching, then add features such as a live HUD with frame times, a timed 20 second run, a score card, a diagnostics page and a Shader Lab. If you want the original page, our <a href="../cznull-github-vsbm-explained/index.html">cznull explainer</a> shows how to find it and how to tell the two apart.</p>
+
+<h2 id="try-it">How to try it in one minute</h2>
+
+<ol>
+<li>Open the <a href="../../index.html">home page</a> and press the large start button on the canvas.</li>
+<li>Leave the resolution at 1024 for a normal comparison. Pick 512 on an older phone.</li>
+<li>Watch the FPS and frame time for a few seconds.</li>
+<li>Press the 20 second benchmark button for a result you can copy or save as an image.</li>
+</ol>
+<p>For a clean and fair run, close other tabs and plug in a laptop first. The full routine is in our guide on <a href="../how-to-test-gpu-online/index.html">how to test your GPU online</a>.</p>
+
+      <div class="post-cta"><strong>Ready to see it run?</strong><p>Open the live test and get your own FPS, 1% low and score in under a minute.</p><a class="btn btn-primary" href="../../index.html">Open the Volume Shader Test</a></div>
+      <h2 id="faq">Frequently asked questions</h2>
+      <div class="faq-list">
+<details class="faq-item"><summary class="faq-question"><span>What is volumeshader_bm?</span><span class="faq-plus">+</span></summary><div class="faq-answer"><p>It is another way of writing Volume Shader BM, a browser test that renders a 3D Mandelbulb fractal with a heavy shader to measure how fast your GPU can calculate. People also type it as volume shader bm, volumeshaderbm or VSBM.</p></div></details>
+<details class="faq-item"><summary class="faq-question"><span>Is Volume Shader BM a virus or malware?</span><span class="faq-plus">+</span></summary><div class="faq-answer"><p>No. It is a normal web page that runs a graphics program in your browser through WebGL. It does not install software. The page can make your fans spin up and your device warm, because the work is heavy, but that is the test doing its job.</p></div></details>
+<details class="faq-item"><summary class="faq-question"><span>What does BM mean in volume shader BM?</span><span class="faq-plus">+</span></summary><div class="faq-answer"><p>BM is most commonly read as benchmark. The short form is not explained on the original page, so this is an informal reading, but it fits what the test does.</p></div></details>
+<details class="faq-item"><summary class="faq-question"><span>Does it work on a phone?</span><span class="faq-plus">+</span></summary><div class="faq-answer"><p>Yes, on any phone with a browser that supports WebGL. Use the 512 resolution on older phones, keep the first run short, and stop if the phone becomes very hot.</p></div></details>
+<details class="faq-item"><summary class="faq-question"><span>Why is my FPS so low?</span><span class="faq-plus">+</span></summary><div class="faq-answer"><p>The most common reason is that the browser is not using your GPU. Check that hardware acceleration is on, update graphics drivers, and make sure a laptop is plugged in. Our <a href="../../troubleshooting/index.html">troubleshooting page</a> lists the other common causes.</p></div></details>
+<details class="faq-item"><summary class="faq-question"><span>Can this test damage my GPU?</span><span class="faq-plus">+</span></summary><div class="faq-answer"><p>A normal GPU has built in protection and slows itself down before it gets dangerously hot. The risk is low on a healthy, clean computer, but a weak cooler, dust or a phone in a thick case can make the heat uncomfortable. Run short tests and stop if something feels wrong.</p></div></details>
+<details class="faq-item"><summary class="faq-question"><span>Is a high score here the same as a good gaming GPU?</span><span class="faq-plus">+</span></summary><div class="faq-answer"><p>Not always. The test measures shader math. Games also use memory, textures and the CPU. A high score is a good sign for shader speed, but it does not replace a game benchmark.</p></div></details>
+</div>
+    </article>
+    <section class="related"><h2>Keep reading</h2><div class="blog-grid"><a class="blog-card" href="../volume-shader-test-guide/index.html"><strong>Volume Shader Test: How to Run It and Read Your Score</strong><span>Step by step help for running the test, picking settings, and understanding FPS, 1% low and score.</span></a><a class="blog-card" href="../cznull-github-vsbm-explained/index.html"><strong>cznull, cznull.github.io/vsbm and the Original volumeshader_bm Page</strong><span>What the original public page is, how this site relates to it, and how to tell the pages apart.</span></a><a class="blog-card" href="../volumetric-shader-raymarching-explained/index.html"><strong>Volumetric Shader and Raymarching Explained Simply</strong><span>How a volumetric shader draws a 3D fractal without any polygons, and why it is so heavy.</span></a></div></section>
+    </div>
+  </main>
+
+  <footer class="site-footer">
+    <div class="footer-grid">
+      <div class="footer-col">
+        <h4 style="color:#00f0ff;">VolumeShader BM</h4>
+        <p style="margin-bottom:1rem; line-height:1.6;">A free browser based GPU benchmark and stress test. The main test draws a 3D fractal with WebGL raymarching and shows live FPS, 1% low and a score. This is an independent site and is not run by the author of the original volumeshader_bm page.</p>
+        <p style="font-size:0.8rem; color:#65708a;">The test runs on your own GPU and your results stay in your browser. See the privacy policy for how Google Tag Manager is used on this site.</p>
+      </div>
+      <div class="footer-col">
+        <h4>Tools</h4>
+        <ul>
+          <li><a href="../../index.html">Volume Shader BM Test</a></li>
+          <li><a href="../../benchmark/index.html">20 Second Benchmark</a></li>
+          <li><a href="../../stress-test/index.html">GPU Stress Test</a></li>
+          <li><a href="../../webgl-inspector/index.html">WebGL Diagnostics</a></li>
+          <li><a href="../../shader-lab/index.html">Shader Lab</a></li>
+          <li><a href="../../compare/index.html">Score Comparison</a></li>
+        </ul>
+      </div>
+      <div class="footer-col">
+        <h4>Blog and Help</h4>
+        <ul>
+          <li><a href="../../blog/what-is-volume-shader-bm/index.html">What Is Volume Shader BM (volumeshader_bm)?</a></li>
+          <li><a href="../../blog/volume-shader-test-guide/index.html">Volume Shader Test: How to Run It and Read Your Score</a></li>
+          <li><a href="../../blog/how-to-test-gpu-online/index.html">How to Test Your GPU Online</a></li>
+          <li><a href="../../blog/gpu-stress-test-online-guide/index.html">PC Stress Test Online: GPU Stress Testing in the Browser</a></li>
+          <li><a href="../../blog/index.html">All blog posts</a></li>
+          <li><a href="../../troubleshooting/index.html">WebGL Troubleshooting</a></li>
+          <li><a href="../../glossary/index.html">GPU Glossary</a></li>
+        </ul>
+      </div>
+      <div class="footer-col">
+        <h4>About and Legal</h4>
+        <ul>
+          <li><a href="../../about/index.html">About</a></li>
+          <li><a href="../../privacy/index.html">Privacy Policy</a></li>
+          <li><a href="../../terms/index.html">Terms and Safety</a></li>
+          <li><a href="https://github.com/cznull/cznull.github.io" target="_blank" rel="noopener noreferrer">cznull on GitHub ↗</a></li>
+        </ul>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <div>&copy; 2026 VolumeShader. Hosted on GitHub Pages.</div>
+      <div>Made for gamers, developers and anyone who wants to check their graphics hardware.</div>
+    </div>
+  </footer>
+
+</body>
+</html>

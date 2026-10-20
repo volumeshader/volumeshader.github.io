@@ -1,0 +1,324 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<!-- Google Tag Manager -->
+<script>(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
+new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
+j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
+'https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
+})(window,document,'script','dataLayer','GTM-5224J62Q');</script>
+<!-- End Google Tag Manager -->
+
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>How to Test Your GPU Online (Free, Safe, Step by Step) | VolumeShader</title>
+  <meta name="description" content="Learn how to test your GPU online for free. Check hardware acceleration, run a WebGL benchmark, read FPS and 1% low, and check heat on PC, Mac, iPhone and Android.">
+  <link rel="canonical" href="https://volumeshader.github.io/blog/how-to-test-gpu-online/">
+  <meta property="og:title" content="How to Test Your GPU Online (Free, Safe, Step by Step) | VolumeShader">
+  <meta property="og:description" content="Learn how to test your GPU online for free. Check hardware acceleration, run a WebGL benchmark, read FPS and 1% low, and check heat on PC, Mac, iPhone and Android.">
+  <meta property="og:type" content="article">
+  <meta property="og:url" content="https://volumeshader.github.io/blog/how-to-test-gpu-online/">
+  <link rel="stylesheet" href="../../assets/css/style.css">
+  <script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@graph": [
+    {
+      "@type": "BlogPosting",
+      "headline": "How to Test Your GPU Online: A Safe, Step by Step Guide",
+      "description": "Learn how to test your GPU online for free. Check hardware acceleration, run a WebGL benchmark, read FPS and 1% low, and check heat on PC, Mac, iPhone and Android.",
+      "mainEntityOfPage": "https://volumeshader.github.io/blog/how-to-test-gpu-online/",
+      "datePublished": "2026-10-21",
+      "dateModified": "2026-10-21",
+      "author": {
+        "@type": "Organization",
+        "name": "VolumeShader",
+        "url": "https://volumeshader.github.io/"
+      },
+      "publisher": {
+        "@type": "Organization",
+        "name": "VolumeShader",
+        "url": "https://volumeshader.github.io/"
+      }
+    },
+    {
+      "@type": "BreadcrumbList",
+      "itemListElement": [
+        {
+          "@type": "ListItem",
+          "position": 1,
+          "name": "Home",
+          "item": "https://volumeshader.github.io/"
+        },
+        {
+          "@type": "ListItem",
+          "position": 2,
+          "name": "Blog",
+          "item": "https://volumeshader.github.io/blog/"
+        },
+        {
+          "@type": "ListItem",
+          "position": 3,
+          "name": "How to Test Your GPU Online: A Safe, Step by Step Guide",
+          "item": "https://volumeshader.github.io/blog/how-to-test-gpu-online/"
+        }
+      ]
+    },
+    {
+      "@type": "FAQPage",
+      "mainEntity": [
+        {
+          "@type": "Question",
+          "name": "How can I test my GPU online for free?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Open a browser based test such as the volume shader test on this site, press start and watch the FPS and frame time. For a score you can compare later, run the 20 second benchmark."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "Is it safe to test my GPU online?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Short tests are safe on a healthy device, because GPUs protect themselves by slowing down when they get hot. Be careful with long runs on phones, thin laptops and computers with dusty or blocked vents."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "How do I test a video card or graphics card?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Check that the browser uses hardware acceleration, close other apps, run the benchmark twice, then run a longer stress test to see how the card behaves when it is hot. Compare results with a similar card."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "Can an online test show my GPU temperature?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "No. Browsers do not let web pages read temperature or fan speed. You can only see the effect of heat, such as an FPS drop. Use a monitoring tool from your device maker for the exact temperature."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "Why is my GPU score low?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "The usual reasons are software rendering, battery or power saver mode, an old driver, the wrong GPU on a dual GPU laptop, background tabs, or heat. Go through Steps 2 and 3 above."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "Does the browser change the result?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Yes, a little. Chrome, Edge, Firefox and Safari handle WebGL in different ways. Use the same browser when you compare devices."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "How often should I test my GPU?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Test when you buy a device, after a driver or cooling change, and when something feels slower than before. Save the score card each time so you have a record."
+          }
+        }
+      ]
+    }
+  ]
+}
+  </script>
+</head>
+<body>
+<!-- Google Tag Manager (noscript) -->
+<noscript><iframe src="https://www.googletagmanager.com/ns.html?id=GTM-5224J62Q"
+height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
+<!-- End Google Tag Manager (noscript) -->
+
+  <header class="site-header">
+    <div class="nav-container">
+      <a href="../../index.html" class="brand-logo">
+        <span style="color:#00f0ff;">⚡</span> VolumeShader<span class="brand-badge">BM</span>
+      </a>
+      <nav>
+        <ul class="nav-links">
+          <li><a href="../../index.html" class="">Home</a></li>
+          <li><a href="../../benchmark/index.html" class="">Benchmark</a></li>
+          <li><a href="../../stress-test/index.html" class="">Stress Test</a></li>
+          <li><a href="../../compare/index.html" class="">Compare</a></li>
+          <li><a href="../../webgl-inspector/index.html" class="">Diagnostics</a></li>
+          <li><a href="../../shader-lab/index.html" class="">Shader Lab</a></li>
+          <li><a href="../../blog/index.html" class="active">Blog</a></li>
+          <li><a href="../../benchmark/index.html" class="nav-cta">Run Test</a></li>
+        </ul>
+      </nav>
+    </div>
+  </header>
+
+  <main class="main-wrapper">
+    <div class="blog-wrap">
+    <nav class="crumbs" aria-label="Breadcrumb"><a href="../../index.html">Home</a> / <a href="../index.html">Blog</a> / <span>How to Test Your GPU Online: A Safe, Step by Step Guide</span></nav>
+    <article class="post">
+      <span class="badge-tag" style="color:#00f0ff; border-color:#00f0ff;">PRACTICAL GUIDE</span>
+      <h1>How to Test Your GPU Online: A Safe, Step by Step Guide</h1>
+      <p class="post-meta">Updated 2026-10-21 &middot; 8 min read &middot; by the VolumeShader team</p>
+      <p class="lead">You can check a graphics card or a phone GPU from your browser in a few minutes. This guide shows a safe routine for PC, Mac, iPhone and Android: make sure the GPU is really in use, run the benchmark, read the numbers and check for heat.</p>
+      <div class="toc"><strong>In this post</strong><ol><li><a href="#what">What an online GPU test can and cannot do</a></li><li><a href="#step1">Step 1: Find out which GPU you have</a></li><li><a href="#step2">Step 2: Make sure the browser uses the GPU</a></li><li><a href="#step3">Step 3: Prepare the device</a></li><li><a href="#step4">Step 4: Run a quick check</a></li><li><a href="#step5">Step 5: Run the 20 second benchmark</a></li><li><a href="#step6">Step 6: Check for heat and throttling</a></li><li><a href="#step7">Step 7: Make sense of the results</a></li><li><a href="#phone">Notes for testing phones and tablets</a></li><li><a href="#mistakes">Common mistakes to avoid</a></li><li><a href="#faq">Frequently asked questions</a></li></ol></div>
+      
+<h2 id="what">What an online GPU test can and cannot do</h2>
+
+<p>An online test runs inside your browser, so there is nothing to download and nothing to uninstall. That makes it fast and safe to try. It also means the test has limits that you should know about.</p>
+<p><strong>What it can do:</strong> show whether your browser can use the GPU, measure how fast the GPU does heavy shader math, reveal stutter, and show whether the speed drops as the device gets hot.</p>
+<p><strong>What it cannot do:</strong> read the GPU temperature, fan speed or clock speed, test video memory in depth, or replace a full game benchmark. A web page is not allowed to read those hardware sensors. If you need exact temperatures, use a monitoring tool from your device maker or the operating system.</p>
+<p>Think of an online test as a quick health check. It tells you if something looks normal or strange, and then you decide if you need to dig deeper.</p>
+
+<h2 id="step1">Step 1: Find out which GPU you have</h2>
+
+<p>Before testing, it helps to know what you are testing.</p>
+<ul>
+<li><strong>Windows:</strong> press Ctrl + Shift + Esc, open the Performance tab and select GPU. The name appears in the top right corner. Laptops may list two GPUs, one integrated and one dedicated.</li>
+<li><strong>Mac:</strong> open the Apple menu and choose About This Mac. Apple silicon Macs show the chip name, and the GPU is part of it.</li>
+<li><strong>Phones and tablets:</strong> the system settings show the model name. The chip name can be looked up from the model.</li>
+<li><strong>Any device:</strong> open the <a href="../../webgl-inspector/index.html">WebGL diagnostics page</a>. It shows the GPU name the browser sees, the WebGL version and whether WebGPU is available.</li>
+</ul>
+<p>Some browsers hide the exact GPU name for privacy. If you see a general name, that does not mean something is wrong.</p>
+
+<h2 id="step2">Step 2: Make sure the browser uses the GPU</h2>
+
+<p>This is the most common reason for bad online test results. If hardware acceleration is off, the browser draws everything with the CPU, and a fast graphics card sits idle.</p>
+<ol>
+<li>In Chrome or Edge, open the settings and search for "acceleration". Turn on the option to use graphics or hardware acceleration when available, then restart the browser.</li>
+<li>Type <code>chrome://gpu</code> in the address bar of Chrome. Look for WebGL and WebGL2. They should say hardware accelerated. If they say software only, the driver may be old or blocked.</li>
+<li>In Firefox, open Settings, go to General, find Performance and make sure the recommended performance settings and hardware acceleration are enabled.</li>
+<li>On Safari for Mac and iPhone, there is no switch to flip. Safari uses the GPU by default.</li>
+</ol>
+<p>If WebGL does not run at all, see our <a href="../../troubleshooting/index.html">WebGL troubleshooting guide</a>.</p>
+
+<h2 id="step3">Step 3: Prepare the device</h2>
+
+<p>A clean setup gives repeatable results.</p>
+<ul>
+<li><strong>Close heavy tabs.</strong> Video calls, streams and games compete with the test for the GPU.</li>
+<li><strong>Use wall power on laptops.</strong> Battery mode can reduce GPU power.</li>
+<li><strong>Pick the right power mode.</strong> On Windows, choose a balanced or best performance mode. On phones, turn off battery saver.</li>
+<li><strong>Choose the right GPU on dual GPU laptops.</strong> On Windows, open Settings, System, Display, Graphics and set your browser to high performance so it uses the dedicated card.</li>
+<li><strong>Update the graphics driver.</strong> Old drivers cause crashes, black screens and low scores.</li>
+<li><strong>Let a hot device cool down first.</strong> A phone that just finished charging or a laptop that just exported a video should rest for a few minutes.</li>
+</ul>
+
+<h2 id="step4">Step 4: Run a quick check</h2>
+
+<p>Open the <a href="../../index.html">home page test</a> and press start. Let it run for about 15 seconds without touching anything else. You are looking for three things.</p>
+<ol>
+<li>The picture appears and spins smoothly. If the canvas stays black, stop and check the troubleshooting page.</li>
+<li>The FPS is not stuck at a very low number such as 1 to 5. That would point back to Step 2.</li>
+<li>The frame time looks steady. A frame time that jumps around a lot suggests background load.</li>
+</ol>
+<p>If your FPS sits at exactly 60, your screen refresh rate is probably the limit. Raise the resolution in the settings until the FPS drops below the cap.</p>
+
+<h2 id="step5">Step 5: Run the 20 second benchmark</h2>
+
+<p>Now press the 20 second benchmark button, or open the <a href="../../benchmark/index.html">benchmark page</a>. The test ignores the first two seconds, records the rest, and shows a score card with average FPS, 1% low FPS, score and tier.</p>
+<p>Run it at least twice. If the two scores are close, you have a reliable number. Save the result with the copy button or download the score card, so that you can compare it later.</p>
+<p>Which resolution should you pick? Use 512 on older phones, 720 on typical phones and thin laptops, 1024 for the standard comparison, and 1440 on strong desktop GPUs. The details are in our <a href="../volume-shader-test-guide/index.html">volume shader test guide</a>.</p>
+
+<h2 id="step6">Step 6: Check for heat and throttling</h2>
+
+<p>A GPU can be fast for ten seconds and slower after two minutes. To see this, run a longer test on the <a href="../../stress-test/index.html">stress test page</a> and watch the FPS over time.</p>
+<ul>
+<li>If the FPS stays almost the same, the cooling is doing its job.</li>
+<li>If the FPS slowly drops by a small amount, that is normal for many thin devices.</li>
+<li>If the FPS falls sharply and stays low, the device is throttling heavily. Dust, a weak fan, a thick phone case or a hot room can all cause this.</li>
+</ul>
+<div class="callout warn"><p>Do not run long stress tests on a phone that is charging, in a case, or in direct sun. Stop the test if the device feels hot to hold. For longer sessions on a PC, make sure the vents are not blocked.</p></div>
+
+<h2 id="step7">Step 7: Make sense of the results</h2>
+
+<p>Look at the average FPS and the 1% low FPS together. A good result has a high average and a 1% low that is close to it. A weak result has either a low average or a big gap between the two.</p>
+<p>To judge your number, compare it with a similar device, with your own earlier runs, or with the rough ranges on our <a href="../../compare/index.html">comparison page</a>. Remember that those ranges are estimates and should only guide you, not decide anything.</p>
+<p>If your result is far lower than a similar device, go through this list: hardware acceleration, battery mode, driver version, background tabs, heat and the browser you used.</p>
+
+<h2 id="phone">Notes for testing phones and tablets</h2>
+
+<ul>
+<li>Start with the 512 or 720 resolution and a short run.</li>
+<li>Remove the case if the phone gets warm quickly.</li>
+<li>Do not test while charging. Charging adds heat and can change the power limits.</li>
+<li>When you check a used phone, run the test twice with a few minutes of rest between runs. A big drop on the second run means the phone heats up fast.</li>
+<li>Compare the result with another phone from the same class, using the same browser.</li>
+</ul>
+
+<h2 id="mistakes">Common mistakes to avoid</h2>
+
+<ul>
+<li>Comparing scores made at different resolutions.</li>
+<li>Judging a device from a single run.</li>
+<li>Testing on battery saver mode and thinking the GPU is slow.</li>
+<li>Forgetting that a 60 Hz screen caps the FPS at 60.</li>
+<li>Comparing numbers from different benchmark websites.</li>
+</ul>
+
+      <div class="post-cta"><strong>Test your GPU now</strong><p>Run the free 20 second benchmark and get your score card.</p><a class="btn btn-primary" href="../../benchmark/index.html">Run the Benchmark</a></div>
+      <h2 id="faq">Frequently asked questions</h2>
+      <div class="faq-list">
+<details class="faq-item"><summary class="faq-question"><span>How can I test my GPU online for free?</span><span class="faq-plus">+</span></summary><div class="faq-answer"><p>Open a browser based test such as the volume shader test on this site, press start and watch the FPS and frame time. For a score you can compare later, run the 20 second benchmark.</p></div></details>
+<details class="faq-item"><summary class="faq-question"><span>Is it safe to test my GPU online?</span><span class="faq-plus">+</span></summary><div class="faq-answer"><p>Short tests are safe on a healthy device, because GPUs protect themselves by slowing down when they get hot. Be careful with long runs on phones, thin laptops and computers with dusty or blocked vents.</p></div></details>
+<details class="faq-item"><summary class="faq-question"><span>How do I test a video card or graphics card?</span><span class="faq-plus">+</span></summary><div class="faq-answer"><p>Check that the browser uses hardware acceleration, close other apps, run the benchmark twice, then run a longer stress test to see how the card behaves when it is hot. Compare results with a similar card.</p></div></details>
+<details class="faq-item"><summary class="faq-question"><span>Can an online test show my GPU temperature?</span><span class="faq-plus">+</span></summary><div class="faq-answer"><p>No. Browsers do not let web pages read temperature or fan speed. You can only see the effect of heat, such as an FPS drop. Use a monitoring tool from your device maker for the exact temperature.</p></div></details>
+<details class="faq-item"><summary class="faq-question"><span>Why is my GPU score low?</span><span class="faq-plus">+</span></summary><div class="faq-answer"><p>The usual reasons are software rendering, battery or power saver mode, an old driver, the wrong GPU on a dual GPU laptop, background tabs, or heat. Go through Steps 2 and 3 above.</p></div></details>
+<details class="faq-item"><summary class="faq-question"><span>Does the browser change the result?</span><span class="faq-plus">+</span></summary><div class="faq-answer"><p>Yes, a little. Chrome, Edge, Firefox and Safari handle WebGL in different ways. Use the same browser when you compare devices.</p></div></details>
+<details class="faq-item"><summary class="faq-question"><span>How often should I test my GPU?</span><span class="faq-plus">+</span></summary><div class="faq-answer"><p>Test when you buy a device, after a driver or cooling change, and when something feels slower than before. Save the score card each time so you have a record.</p></div></details>
+</div>
+    </article>
+    <section class="related"><h2>Keep reading</h2><div class="blog-grid"><a class="blog-card" href="../what-is-volume-shader-bm/index.html"><strong>What Is Volume Shader BM (volumeshader_bm)?</strong><span>A plain guide to what the test is, what it draws, and why people use it to check a GPU.</span></a><a class="blog-card" href="../volume-shader-test-guide/index.html"><strong>Volume Shader Test: How to Run It and Read Your Score</strong><span>Step by step help for running the test, picking settings, and understanding FPS, 1% low and score.</span></a><a class="blog-card" href="../gpu-stress-test-online-guide/index.html"><strong>PC Stress Test Online: GPU Stress Testing in the Browser</strong><span>How long to run a stress test, what to watch for, and when to stop.</span></a></div></section>
+    </div>
+  </main>
+
+  <footer class="site-footer">
+    <div class="footer-grid">
+      <div class="footer-col">
+        <h4 style="color:#00f0ff;">VolumeShader BM</h4>
+        <p style="margin-bottom:1rem; line-height:1.6;">A free browser based GPU benchmark and stress test. The main test draws a 3D fractal with WebGL raymarching and shows live FPS, 1% low and a score. This is an independent site and is not run by the author of the original volumeshader_bm page.</p>
+        <p style="font-size:0.8rem; color:#65708a;">The test runs on your own GPU and your results stay in your browser. See the privacy policy for how Google Tag Manager is used on this site.</p>
+      </div>
+      <div class="footer-col">
+        <h4>Tools</h4>
+        <ul>
+          <li><a href="../../index.html">Volume Shader BM Test</a></li>
+          <li><a href="../../benchmark/index.html">20 Second Benchmark</a></li>
+          <li><a href="../../stress-test/index.html">GPU Stress Test</a></li>
+          <li><a href="../../webgl-inspector/index.html">WebGL Diagnostics</a></li>
+          <li><a href="../../shader-lab/index.html">Shader Lab</a></li>
+          <li><a href="../../compare/index.html">Score Comparison</a></li>
+        </ul>
+      </div>
+      <div class="footer-col">
+        <h4>Blog and Help</h4>
+        <ul>
+          <li><a href="../../blog/what-is-volume-shader-bm/index.html">What Is Volume Shader BM (volumeshader_bm)?</a></li>
+          <li><a href="../../blog/volume-shader-test-guide/index.html">Volume Shader Test: How to Run It and Read Your Score</a></li>
+          <li><a href="../../blog/how-to-test-gpu-online/index.html">How to Test Your GPU Online</a></li>
+          <li><a href="../../blog/gpu-stress-test-online-guide/index.html">PC Stress Test Online: GPU Stress Testing in the Browser</a></li>
+          <li><a href="../../blog/index.html">All blog posts</a></li>
+          <li><a href="../../troubleshooting/index.html">WebGL Troubleshooting</a></li>
+          <li><a href="../../glossary/index.html">GPU Glossary</a></li>
+        </ul>
+      </div>
+      <div class="footer-col">
+        <h4>About and Legal</h4>
+        <ul>
+          <li><a href="../../about/index.html">About</a></li>
+          <li><a href="../../privacy/index.html">Privacy Policy</a></li>
+          <li><a href="../../terms/index.html">Terms and Safety</a></li>
+          <li><a href="https://github.com/cznull/cznull.github.io" target="_blank" rel="noopener noreferrer">cznull on GitHub ↗</a></li>
+        </ul>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <div>&copy; 2026 VolumeShader. Hosted on GitHub Pages.</div>
+      <div>Made for gamers, developers and anyone who wants to check their graphics hardware.</div>
+    </div>
+  </footer>
+
+</body>
+</html>

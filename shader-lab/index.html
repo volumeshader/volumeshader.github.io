@@ -11,8 +11,8 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
 
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Volume Shader Custom Kernel Lab — Interactive GLSL Sandbox | VolumeShader</title>
-  <meta name="description" content="Interactive GLSL fragment shader editor. Modify the 3D raymarching kernel in real time, customize trigonometric functions, and test fractal geometry directly in your browser.">
+  <title>Shader Lab: Edit a Raymarching Fractal Shader in Your Browser | VolumeShader</title>
+  <meta name="description" content="Edit the GLSL formula of a 3D Mandelbulb in your browser. Recompile it, load presets and see how shader math changes the picture and the FPS.">
   <link rel="canonical" href="https://volumeshader.github.io/shader-lab/">
   <link rel="stylesheet" href="../assets/css/style.css">
 </head>
@@ -23,7 +23,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
 <!-- End Google Tag Manager (noscript) -->
 
 
-  <header class="site-header">
+    <header class="site-header">
     <div class="nav-container">
       <a href="../index.html" class="brand-logo">
         <span style="color:#00f0ff;">⚡</span> VolumeShader<span class="brand-badge">BM</span>
@@ -36,7 +36,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
           <li><a href="../compare/index.html" class="">Compare</a></li>
           <li><a href="../webgl-inspector/index.html" class="">Diagnostics</a></li>
           <li><a href="../shader-lab/index.html" class="active">Shader Lab</a></li>
-          <li><a href="../learn/index.html" class="">Guides</a></li>
+          <li><a href="../blog/index.html" class="">Blog</a></li>
           <li><a href="../benchmark/index.html" class="nav-cta">Run Test</a></li>
         </ul>
       </nav>
@@ -49,7 +49,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
         Volume Shader <span style="color:#00f0ff;">Custom Kernel Lab</span>
       </h1>
       <p style="color:var(--text-muted); font-size:1rem;">
-        Modify and recompile the GLSL distance estimator and raymarching kernel in real time. Experiment with Mandelbulb powers, Julia sets, and trigonometric waveforms.
+        Edit the shape formula, recompile it and watch the picture and the FPS change. A hands on way to learn how raymarching shaders work.
       </p>
     </div>
 
@@ -106,58 +106,78 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
       </div>
     </div>
 
-    <article style="background:var(--bg-secondary); border:1px solid var(--border-color); border-radius:var(--radius-lg); padding:2rem; margin-bottom:3rem;">
-      <h2 style="font-size:1.4rem; font-weight:800; color:var(--text-main); margin-bottom:0.75rem;">How the Distance Estimator Function Works</h2>
-      <p style="color:var(--text-muted); line-height:1.7; margin-bottom:1rem;">
-        The raymarching engine queries <code>float kernal(vec3 ver)</code> at points along the ray in 3D space. When the returned float value is positive (&gt; 0.0), the ray has penetrated the interior of the solid volumetric surface. When negative, the ray remains in empty space.
-      </p>
-      <p style="color:var(--text-muted); line-height:1.7;">
-        The root-finding bisection solver then refines the intersection distance using the golden ratio constants (M_L = 0.381966 and M_R = 0.618033) to pinpoint the exact surface boundary with sub-pixel precision. Normal vectors are calculated via finite differences across nearby samples to apply specular lighting.
-      </p>
+<article class="page-prose" style="background:var(--bg-secondary); border:1px solid var(--border-color); border-radius:var(--radius-lg); padding:2rem; margin:2.5rem 0;">
+      <h2 style="font-size:1.5rem; font-weight:800; margin-bottom:1rem;">How the shape function works</h2>
+      <p>The raymarching engine asks the function <code>float kernal(vec3 ver)</code> one question many times: "Is this point in space inside the shape?" The function answers with a number. A positive number means inside, and a negative number means outside. The ray moves forward in small steps. When the answer changes from negative to positive, the surface is somewhere between the last two steps.</p>
+      <p>After that, a short search narrows down the exact surface point. The engine then asks the function a few more questions around that point, to find which way the surface faces, and uses that direction for light and color. You only have to write the shape. The rest is done for you.</p>
+
+      <h2 style="font-size:1.4rem; font-weight:800; margin:2rem 0 0.75rem 0; color:var(--text-main);">Things to try</h2>
+      <ul>
+        <li><strong>Change the power.</strong> The number 8.0 in the Mandelbulb formula is its power. Try 4.0 or 12.0 and see how the lobes change.</li>
+        <li><strong>Change the loop count.</strong> Fewer loops give a smoother and faster shape. More loops add detail and cost time.</li>
+        <li><strong>Load another preset.</strong> The Julia bulb, the cosine field and the twisted torus show how different formulas look with the same engine.</li>
+        <li><strong>Watch the FPS.</strong> Every edit that adds math will lower it, which shows how shader cost works.</li>
+      </ul>
+
+      <h2 style="font-size:1.4rem; font-weight:800; margin:2rem 0 0.75rem 0; color:var(--text-main);">Want to understand the math first?</h2>
+      <p>Read <a href="../blog/volumetric-shader-raymarching-explained/index.html">volumetric shaders and raymarching explained</a>. It walks through the loop, the Mandelbulb formula and the lighting with plain words. The <a href="../glossary/index.html">glossary</a> explains terms such as fragment shader, GLSL and highp.</p>
     </article>
+
+    <section style="margin:2.5rem 0;">
+      <h2 class="section-title">Frequently asked questions</h2>
+      <div class="faq-list">
+<details class="faq-item"><summary class="faq-question"><span>Do I need to know GLSL to use the lab?</span><span class="faq-plus">+</span></summary><div class="faq-answer"><p>No, you can load a preset and press recompile. If you want to edit, small changes such as a number in the formula are a good start.</p></div></details>
+<details class="faq-item"><summary class="faq-question"><span>What happens if I make a mistake?</span><span class="faq-plus">+</span></summary><div class="faq-answer"><p>If the shader does not compile, an error box shows the message from the graphics driver. Fix the line it points to, or press the reset button to go back to the default code.</p></div></details>
+<details class="faq-item"><summary class="faq-question"><span>Which function should I edit?</span><span class="faq-plus">+</span></summary><div class="faq-answer"><p>Edit the function named kernal. It receives a 3D point and returns a number. A positive number means the point is inside the shape, and a negative number means it is outside.</p></div></details>
+<details class="faq-item"><summary class="faq-question"><span>Can I break my computer by editing the shader?</span><span class="faq-plus">+</span></summary><div class="faq-answer"><p>A very heavy formula can slow the page down or make the browser reset the graphics context. Your computer is not harmed, and a reload brings everything back.</p></div></details>
+<details class="faq-item"><summary class="faq-question"><span>Why is my edited shader so slow?</span><span class="faq-plus">+</span></summary><div class="faq-answer"><p>Every extra loop or math function runs for every step of every pixel. Reduce the loop count or lower the resolution to speed it up.</p></div></details>
+</div>
+    </section>
   </main>
 
   <footer class="site-footer">
     <div class="footer-grid">
       <div class="footer-col">
         <h4 style="color:#00f0ff;">VolumeShader BM</h4>
-        <p style="margin-bottom:1rem; line-height:1.6;">A modern, browser-first WebGL volumetric raymarching benchmark and GPU stress testing platform. Built on the authoritative Mandelbulb raymarching kernel originally conceived by cznull.</p>
-        <p style="font-size:0.8rem; color:#65708a;">100% Client-Side. No installation, zero tracking, zero data collection.</p>
+        <p style="margin-bottom:1rem; line-height:1.6;">A free browser based GPU benchmark and stress test. The main test draws a 3D fractal with WebGL raymarching and shows live FPS, 1% low and a score. This is an independent site and is not run by the author of the original volumeshader_bm page.</p>
+        <p style="font-size:0.8rem; color:#65708a;">The test runs on your own GPU and your results stay in your browser. See the privacy policy for how Google Tag Manager is used on this site.</p>
       </div>
       <div class="footer-col">
-        <h4>Core Tools</h4>
+        <h4>Tools</h4>
         <ul>
-          <li><a href="../index.html">Live Benchmark</a></li>
-          <li><a href="../benchmark/index.html">Standard 20s Test</a></li>
+          <li><a href="../index.html">Volume Shader BM Test</a></li>
+          <li><a href="../benchmark/index.html">20 Second Benchmark</a></li>
           <li><a href="../stress-test/index.html">GPU Stress Test</a></li>
-          <li><a href="../webgl-inspector/index.html">Hardware Inspector</a></li>
-          <li><a href="../shader-lab/index.html">Shader Kernel Lab</a></li>
-          <li><a href="../compare/index.html">Device Database</a></li>
+          <li><a href="../webgl-inspector/index.html">WebGL Diagnostics</a></li>
+          <li><a href="../shader-lab/index.html">Shader Lab</a></li>
+          <li><a href="../compare/index.html">Score Comparison</a></li>
         </ul>
       </div>
       <div class="footer-col">
-        <h4>Knowledge & Resources</h4>
+        <h4>Blog and Help</h4>
         <ul>
-          <li><a href="../learn/cznull-vsbm-history/index.html">History of Cznull & VSBM</a></li>
-          <li><a href="../learn/volumetric-raymarching-explained/index.html">Raymarching Math Guide</a></li>
-          <li><a href="../learn/how-to-test-gpu-online/index.html">How to Test GPU Safely</a></li>
+          <li><a href="../blog/what-is-volume-shader-bm/index.html">What Is Volume Shader BM (volumeshader_bm)?</a></li>
+          <li><a href="../blog/volume-shader-test-guide/index.html">Volume Shader Test: How to Run It and Read Your Score</a></li>
+          <li><a href="../blog/how-to-test-gpu-online/index.html">How to Test Your GPU Online</a></li>
+          <li><a href="../blog/gpu-stress-test-online-guide/index.html">PC Stress Test Online: GPU Stress Testing in the Browser</a></li>
+          <li><a href="../blog/index.html">All blog posts</a></li>
           <li><a href="../troubleshooting/index.html">WebGL Troubleshooting</a></li>
-          <li><a href="../glossary/index.html">GPU & Shader Glossary</a></li>
+          <li><a href="../glossary/index.html">GPU Glossary</a></li>
         </ul>
       </div>
       <div class="footer-col">
-        <h4>About & Legal</h4>
+        <h4>About and Legal</h4>
         <ul>
-          <li><a href="../about/index.html">About VolumeShader</a></li>
+          <li><a href="../about/index.html">About</a></li>
           <li><a href="../privacy/index.html">Privacy Policy</a></li>
-          <li><a href="../terms/index.html">Terms & Thermal Safety</a></li>
-          <li><a href="https://github.com/cznull/cznull.github.io" target="_blank" rel="noopener noreferrer">Original Cznull GitHub ↗</a></li>
+          <li><a href="../terms/index.html">Terms and Safety</a></li>
+          <li><a href="https://github.com/cznull/cznull.github.io" target="_blank" rel="noopener noreferrer">cznull on GitHub ↗</a></li>
         </ul>
       </div>
     </div>
     <div class="footer-bottom">
-      <div>&copy; 2026 VolumeShader. Hosted on GitHub Pages. Dedicated to pure web graphics performance.</div>
-      <div>Designed for developers, gamers, and hardware enthusiasts.</div>
+      <div>&copy; 2026 VolumeShader. Hosted on GitHub Pages.</div>
+      <div>Made for gamers, developers and anyone who wants to check their graphics hardware.</div>
     </div>
   </footer>
 
