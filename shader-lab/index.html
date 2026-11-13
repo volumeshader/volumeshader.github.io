@@ -11,10 +11,117 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
 
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Shader Lab: Edit a Raymarching Fractal Shader in Your Browser | VolumeShader</title>
+  <title>Shader Lab: Edit a Raymarching Shader | VolumeShader</title>
   <meta name="description" content="Edit the GLSL formula of a 3D Mandelbulb in your browser. Recompile it, load presets and see how shader math changes the picture and the FPS.">
+  <meta name="keywords" content="shader lab, glsl editor online, mandelbulb shader, raymarching, webgl shader">
   <link rel="canonical" href="https://volumeshader.github.io/shader-lab/">
+  <link rel="icon" href="https://volumeshader.github.io/favicon.ico" sizes="any">
+  <link rel="icon" type="image/svg+xml" href="https://volumeshader.github.io/assets/images/favicon.svg">
+  <link rel="icon" type="image/png" sizes="48x48" href="https://volumeshader.github.io/assets/images/favicon-48x48.png">
+  <link rel="apple-touch-icon" href="https://volumeshader.github.io/assets/images/apple-touch-icon.png">
+  <meta property="og:title" content="Shader Lab: Edit a Raymarching Shader | VolumeShader">
+  <meta property="og:description" content="Edit the GLSL formula of a 3D Mandelbulb in your browser. Recompile it, load presets and see how shader math changes the picture and the FPS.">
+  <meta property="og:type" content="website">
+  <meta property="og:url" content="https://volumeshader.github.io/shader-lab/">
+  <meta property="og:site_name" content="VolumeShader">
+  <meta property="og:locale" content="en_US">
+  <meta property="og:image" content="https://volumeshader.github.io/assets/images/og-image.png">
+  <meta property="og:image:width" content="1200">
+  <meta property="og:image:height" content="630">
+  <meta property="og:image:alt" content="Shader Lab: Edit a Raymarching Shader | VolumeShader">
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="Shader Lab: Edit a Raymarching Shader | VolumeShader">
+  <meta name="twitter:description" content="Edit the GLSL formula of a 3D Mandelbulb in your browser. Recompile it, load presets and see how shader math changes the picture and the FPS.">
+  <meta name="twitter:image" content="https://volumeshader.github.io/assets/images/og-image.png">
   <link rel="stylesheet" href="../assets/css/style.css">
+  <script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@graph": [
+    {
+      "@type": "WebPage",
+      "@id": "https://volumeshader.github.io/shader-lab/#webpage",
+      "url": "https://volumeshader.github.io/shader-lab/",
+      "name": "Shader Lab: Edit a Raymarching Shader",
+      "description": "Edit the GLSL formula of a 3D Mandelbulb in your browser. Recompile it, load presets and see how shader math changes the picture and the FPS.",
+      "inLanguage": "en",
+      "dateModified": "2026-11-13",
+      "isPartOf": {
+        "@type": "WebSite",
+        "name": "VolumeShader",
+        "url": "https://volumeshader.github.io/"
+      },
+      "publisher": {
+        "@type": "Organization",
+        "name": "VolumeShader",
+        "url": "https://volumeshader.github.io/"
+      }
+    },
+    {
+      "@type": "BreadcrumbList",
+      "itemListElement": [
+        {
+          "@type": "ListItem",
+          "position": 1,
+          "name": "Home",
+          "item": "https://volumeshader.github.io/"
+        },
+        {
+          "@type": "ListItem",
+          "position": 2,
+          "name": "Shader Lab",
+          "item": "https://volumeshader.github.io/shader-lab/"
+        }
+      ]
+    },
+    {
+      "@type": "FAQPage",
+      "mainEntity": [
+        {
+          "@type": "Question",
+          "name": "Do I need to know GLSL to use the lab?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "No, you can load a preset and press recompile. If you want to edit, small changes such as a number in the formula are a good start."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "What happens if I make a mistake?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "If the shader does not compile, an error box shows the message from the graphics driver. Fix the line it points to, or press the reset button to go back to the default code."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "Which function should I edit?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Edit the function named kernal. It receives a 3D point and returns a number. A positive number means the point is inside the shape, and a negative number means it is outside."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "Can I break my computer by editing the shader?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "A very heavy formula can slow the page down or make the browser reset the graphics context. Your computer is not harmed, and a reload brings everything back."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "Why is my edited shader so slow?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Every extra loop or math function runs for every step of every pixel. Reduce the loop count or lower the resolution to speed it up."
+          }
+        }
+      ]
+    }
+  ]
+}
+  </script>
 </head>
 <body>
 <!-- Google Tag Manager (noscript) -->
@@ -122,6 +229,8 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
       <h2 style="font-size:1.4rem; font-weight:800; margin:2rem 0 0.75rem 0; color:var(--text-main);">Want to understand the math first?</h2>
       <p>Read <a href="../blog/volumetric-shader-raymarching-explained/index.html">volumetric shaders and raymarching explained</a>. It walks through the loop, the Mandelbulb formula and the lighting with plain words. The <a href="../glossary/index.html">glossary</a> explains terms such as fragment shader, GLSL and highp.</p>
     </article>
+    <p style="margin:2rem 0; font-size:1.05rem;">Want the standard scene instead? Run the <a href="../index.html">Volume Shader BM test</a> on the home page.</p>
+
 
     <section style="margin:2.5rem 0;">
       <h2 class="section-title">Frequently asked questions</h2>

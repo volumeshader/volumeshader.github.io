@@ -11,10 +11,117 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
 
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>WebGL Troubleshooting: Context Lost, Black Screen and Low FPS Fixes | VolumeShader</title>
-  <meta name="description" content="Fix common WebGL problems: context lost, black canvas, very low FPS, FPS stuck at 60, crashes and shader errors. Simple causes and steps for PC, Mac and phones.">
+  <title>WebGL Troubleshooting: Context Lost, FPS | VolumeShader</title>
+  <meta name="description" content="Fix common WebGL problems: context lost, black canvas, very low FPS, FPS stuck at 60 and shader errors. Steps for PC, Mac and phones.">
+  <meta name="keywords" content="webgl troubleshooting, webgl context lost, black canvas, low fps fix, gpu crash">
   <link rel="canonical" href="https://volumeshader.github.io/troubleshooting/">
+  <link rel="icon" href="https://volumeshader.github.io/favicon.ico" sizes="any">
+  <link rel="icon" type="image/svg+xml" href="https://volumeshader.github.io/assets/images/favicon.svg">
+  <link rel="icon" type="image/png" sizes="48x48" href="https://volumeshader.github.io/assets/images/favicon-48x48.png">
+  <link rel="apple-touch-icon" href="https://volumeshader.github.io/assets/images/apple-touch-icon.png">
+  <meta property="og:title" content="WebGL Troubleshooting: Context Lost, FPS | VolumeShader">
+  <meta property="og:description" content="Fix common WebGL problems: context lost, black canvas, very low FPS, FPS stuck at 60 and shader errors. Steps for PC, Mac and phones.">
+  <meta property="og:type" content="website">
+  <meta property="og:url" content="https://volumeshader.github.io/troubleshooting/">
+  <meta property="og:site_name" content="VolumeShader">
+  <meta property="og:locale" content="en_US">
+  <meta property="og:image" content="https://volumeshader.github.io/assets/images/og-image.png">
+  <meta property="og:image:width" content="1200">
+  <meta property="og:image:height" content="630">
+  <meta property="og:image:alt" content="WebGL Troubleshooting: Context Lost, FPS | VolumeShader">
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="WebGL Troubleshooting: Context Lost, FPS | VolumeShader">
+  <meta name="twitter:description" content="Fix common WebGL problems: context lost, black canvas, very low FPS, FPS stuck at 60 and shader errors. Steps for PC, Mac and phones.">
+  <meta name="twitter:image" content="https://volumeshader.github.io/assets/images/og-image.png">
   <link rel="stylesheet" href="../assets/css/style.css">
+  <script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@graph": [
+    {
+      "@type": "WebPage",
+      "@id": "https://volumeshader.github.io/troubleshooting/#webpage",
+      "url": "https://volumeshader.github.io/troubleshooting/",
+      "name": "WebGL Troubleshooting: Context Lost, FPS",
+      "description": "Fix common WebGL problems: context lost, black canvas, very low FPS, FPS stuck at 60 and shader errors. Steps for PC, Mac and phones.",
+      "inLanguage": "en",
+      "dateModified": "2026-11-13",
+      "isPartOf": {
+        "@type": "WebSite",
+        "name": "VolumeShader",
+        "url": "https://volumeshader.github.io/"
+      },
+      "publisher": {
+        "@type": "Organization",
+        "name": "VolumeShader",
+        "url": "https://volumeshader.github.io/"
+      }
+    },
+    {
+      "@type": "BreadcrumbList",
+      "itemListElement": [
+        {
+          "@type": "ListItem",
+          "position": 1,
+          "name": "Home",
+          "item": "https://volumeshader.github.io/"
+        },
+        {
+          "@type": "ListItem",
+          "position": 2,
+          "name": "Troubleshooting",
+          "item": "https://volumeshader.github.io/troubleshooting/"
+        }
+      ]
+    },
+    {
+      "@type": "FAQPage",
+      "mainEntity": [
+        {
+          "@type": "Question",
+          "name": "How can I check if my browser uses the GPU?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "In Chrome or Edge, open chrome://gpu and look at the WebGL lines. On any browser, the diagnostics page shows the renderer name. A name that mentions software means the CPU is doing the work."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "Will lowering the resolution fix a context lost error?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Often yes. A smaller canvas has fewer pixels, so each frame is faster and the system does not reset the driver."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "Is a driver update really needed?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "It is a good step when you see crashes, black screens or very low speed. Drivers fix many WebGL problems."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "Why does my laptop use the wrong GPU?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Many laptops have a weak integrated GPU and a stronger dedicated one. On Windows, open Settings, System, Display, Graphics, and set your browser to high performance."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "Where can I read more?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "The how to test your GPU online guide covers a full routine, and the glossary explains the terms used here."
+          }
+        }
+      ]
+    }
+  ]
+}
+  </script>
 </head>
 <body>
 <!-- Google Tag Manager (noscript) -->
@@ -114,9 +221,11 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
         <p style="color:var(--text-muted); line-height:1.7; margin:0;"><strong>What to do:</strong> Read the line number in the error box, check semicolons and decimals such as 8.0 and not 8, keep the function named kernal and make sure it returns a float. Press the reset button to start again.</p>
       </div>
     </div>
+    <p style="margin:2rem 0; font-size:1.05rem;">Once the problem is fixed, run the <a href="../index.html">Volume Shader BM test</a> again to check your result.</p>
+
 
     <section style="margin:2.5rem 0;">
-      <h2 class="section-title">Frequently asked questions</h2>
+      <h2 class="section-title">Troubleshooting FAQ: WebGL and GPU Questions</h2>
       <div class="faq-list">
 <details class="faq-item"><summary class="faq-question"><span>How can I check if my browser uses the GPU?</span><span class="faq-plus">+</span></summary><div class="faq-answer"><p>In Chrome or Edge, open <code>chrome://gpu</code> and look at the WebGL lines. On any browser, the <a href="../webgl-inspector/index.html">diagnostics page</a> shows the renderer name. A name that mentions software means the CPU is doing the work.</p></div></details>
 <details class="faq-item"><summary class="faq-question"><span>Will lowering the resolution fix a context lost error?</span><span class="faq-plus">+</span></summary><div class="faq-answer"><p>Often yes. A smaller canvas has fewer pixels, so each frame is faster and the system does not reset the driver.</p></div></details>

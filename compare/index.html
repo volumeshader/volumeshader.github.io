@@ -11,10 +11,117 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
 
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>GPU Score Comparison: Reference Estimates for Volume Shader BM | VolumeShader</title>
-  <meta name="description" content="Compare your Volume Shader BM result with rough reference estimates for desktop GPUs, laptops and phones. Learn why scores differ and how to build your own comparison.">
+  <title>GPU Score Comparison and Estimates | VolumeShader</title>
+  <meta name="description" content="Compare your Volume Shader BM result with rough reference estimates for desktop GPUs, laptops and phones. Learn why scores differ.">
+  <meta name="keywords" content="gpu score comparison, gpu percentile, benchmark reference scores, volume shader bm scores">
   <link rel="canonical" href="https://volumeshader.github.io/compare/">
+  <link rel="icon" href="https://volumeshader.github.io/favicon.ico" sizes="any">
+  <link rel="icon" type="image/svg+xml" href="https://volumeshader.github.io/assets/images/favicon.svg">
+  <link rel="icon" type="image/png" sizes="48x48" href="https://volumeshader.github.io/assets/images/favicon-48x48.png">
+  <link rel="apple-touch-icon" href="https://volumeshader.github.io/assets/images/apple-touch-icon.png">
+  <meta property="og:title" content="GPU Score Comparison and Estimates | VolumeShader">
+  <meta property="og:description" content="Compare your Volume Shader BM result with rough reference estimates for desktop GPUs, laptops and phones. Learn why scores differ.">
+  <meta property="og:type" content="website">
+  <meta property="og:url" content="https://volumeshader.github.io/compare/">
+  <meta property="og:site_name" content="VolumeShader">
+  <meta property="og:locale" content="en_US">
+  <meta property="og:image" content="https://volumeshader.github.io/assets/images/og-image.png">
+  <meta property="og:image:width" content="1200">
+  <meta property="og:image:height" content="630">
+  <meta property="og:image:alt" content="GPU Score Comparison and Estimates | VolumeShader">
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="GPU Score Comparison and Estimates | VolumeShader">
+  <meta name="twitter:description" content="Compare your Volume Shader BM result with rough reference estimates for desktop GPUs, laptops and phones. Learn why scores differ.">
+  <meta name="twitter:image" content="https://volumeshader.github.io/assets/images/og-image.png">
   <link rel="stylesheet" href="../assets/css/style.css">
+  <script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@graph": [
+    {
+      "@type": "WebPage",
+      "@id": "https://volumeshader.github.io/compare/#webpage",
+      "url": "https://volumeshader.github.io/compare/",
+      "name": "GPU Score Comparison and Estimates",
+      "description": "Compare your Volume Shader BM result with rough reference estimates for desktop GPUs, laptops and phones. Learn why scores differ.",
+      "inLanguage": "en",
+      "dateModified": "2026-11-13",
+      "isPartOf": {
+        "@type": "WebSite",
+        "name": "VolumeShader",
+        "url": "https://volumeshader.github.io/"
+      },
+      "publisher": {
+        "@type": "Organization",
+        "name": "VolumeShader",
+        "url": "https://volumeshader.github.io/"
+      }
+    },
+    {
+      "@type": "BreadcrumbList",
+      "itemListElement": [
+        {
+          "@type": "ListItem",
+          "position": 1,
+          "name": "Home",
+          "item": "https://volumeshader.github.io/"
+        },
+        {
+          "@type": "ListItem",
+          "position": 2,
+          "name": "Compare",
+          "item": "https://volumeshader.github.io/compare/"
+        }
+      ]
+    },
+    {
+      "@type": "FAQPage",
+      "mainEntity": [
+        {
+          "@type": "Question",
+          "name": "Are the scores in the table real measurements?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "No. They are rough reference estimates, not lab measurements, and they were not collected under controlled conditions. Use them only to get a general idea of where a device sits. Your own runs on your own devices are always more reliable."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "How does the percentile calculator work?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "It is a simple tool. It places your average FPS into a band, for example 50 FPS or more, and shows a matching label. It does not compare your number against a large database of real results."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "Why does my result differ from the table?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Browser, driver version, power mode, temperature, resolution and background apps all change the score. A difference of ten to twenty percent between two similar devices is normal."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "Which resolution does the table use?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "The table is written for 1024 by 1024. Use the same resolution when you compare your own score with it."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "How can I get a better comparison?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Run the 20 second benchmark on two or more devices with the same browser, resolution and preset, then compare the saved score cards side by side."
+          }
+        }
+      ]
+    }
+  ]
+}
+  </script>
 </head>
 <body>
 <!-- Google Tag Manager (noscript) -->
@@ -224,6 +331,8 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
       <p>The most useful table is one you make yourself. Run the same test on each device you own, write down the average FPS, the 1% low and the score, and note the browser and the power mode. Do this once after a fresh restart. In a few minutes you have a clear picture for your own devices, and you can repeat it after drivers or cooling change.</p>
       <p>To learn how to read the numbers, see the <a href="../blog/volume-shader-test-guide/index.html">volume shader test guide</a>. To check what your browser reports about your GPU, open the <a href="../webgl-inspector/index.html">diagnostics page</a>.</p>
     </article>
+    <p style="margin:2rem 0; font-size:1.05rem;">Run the <a href="../index.html">volume shader test</a> on the home page to get your own score before you compare.</p>
+
 
     <section style="margin:2.5rem 0;">
       <h2 class="section-title">Frequently asked questions</h2>

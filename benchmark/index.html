@@ -11,10 +11,125 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
 
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>20 Second GPU Benchmark Online: FPS, 1% Low and Score | VolumeShader</title>
+  <title>20 Second GPU Benchmark Online | VolumeShader</title>
   <meta name="description" content="Run a free 20 second GPU benchmark in your browser. Get average FPS, 1% low, a score and a tier. Warm up frames are ignored for a fairer result.">
+  <meta name="keywords" content="gpu benchmark online, 20 second benchmark, average fps, 1% low, gpu score, webgl benchmark">
   <link rel="canonical" href="https://volumeshader.github.io/benchmark/">
+  <link rel="icon" href="https://volumeshader.github.io/favicon.ico" sizes="any">
+  <link rel="icon" type="image/svg+xml" href="https://volumeshader.github.io/assets/images/favicon.svg">
+  <link rel="icon" type="image/png" sizes="48x48" href="https://volumeshader.github.io/assets/images/favicon-48x48.png">
+  <link rel="apple-touch-icon" href="https://volumeshader.github.io/assets/images/apple-touch-icon.png">
+  <meta property="og:title" content="20 Second GPU Benchmark Online | VolumeShader">
+  <meta property="og:description" content="Run a free 20 second GPU benchmark in your browser. Get average FPS, 1% low, a score and a tier. Warm up frames are ignored for a fairer result.">
+  <meta property="og:type" content="website">
+  <meta property="og:url" content="https://volumeshader.github.io/benchmark/">
+  <meta property="og:site_name" content="VolumeShader">
+  <meta property="og:locale" content="en_US">
+  <meta property="og:image" content="https://volumeshader.github.io/assets/images/og-image.png">
+  <meta property="og:image:width" content="1200">
+  <meta property="og:image:height" content="630">
+  <meta property="og:image:alt" content="20 Second GPU Benchmark Online | VolumeShader">
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="20 Second GPU Benchmark Online | VolumeShader">
+  <meta name="twitter:description" content="Run a free 20 second GPU benchmark in your browser. Get average FPS, 1% low, a score and a tier. Warm up frames are ignored for a fairer result.">
+  <meta name="twitter:image" content="https://volumeshader.github.io/assets/images/og-image.png">
   <link rel="stylesheet" href="../assets/css/style.css">
+  <script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@graph": [
+    {
+      "@type": "WebPage",
+      "@id": "https://volumeshader.github.io/benchmark/#webpage",
+      "url": "https://volumeshader.github.io/benchmark/",
+      "name": "20 Second GPU Benchmark Online",
+      "description": "Run a free 20 second GPU benchmark in your browser. Get average FPS, 1% low, a score and a tier. Warm up frames are ignored for a fairer result.",
+      "inLanguage": "en",
+      "dateModified": "2026-11-13",
+      "isPartOf": {
+        "@type": "WebSite",
+        "name": "VolumeShader",
+        "url": "https://volumeshader.github.io/"
+      },
+      "publisher": {
+        "@type": "Organization",
+        "name": "VolumeShader",
+        "url": "https://volumeshader.github.io/"
+      }
+    },
+    {
+      "@type": "BreadcrumbList",
+      "itemListElement": [
+        {
+          "@type": "ListItem",
+          "position": 1,
+          "name": "Home",
+          "item": "https://volumeshader.github.io/"
+        },
+        {
+          "@type": "ListItem",
+          "position": 2,
+          "name": "Benchmark",
+          "item": "https://volumeshader.github.io/benchmark/"
+        }
+      ]
+    },
+    {
+      "@type": "FAQPage",
+      "mainEntity": [
+        {
+          "@type": "Question",
+          "name": "How long is the benchmark?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "The run takes 20 seconds. The first two seconds are treated as warm up and are not counted. The rest of the frames are used for the result."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "Why is the first two seconds ignored?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "At the start the browser compiles the shader and the GPU may be waking up from a low power state. Those first frames are slower than normal and would unfairly lower the result."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "What is a good score?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "It depends on the device. Compare with a similar phone or computer, or with your own earlier runs. A steady result with a small gap between average FPS and 1% low is a healthy sign."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "Why does the score change between runs?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Small differences are normal because temperature and background tasks change from run to run. If the results differ a lot, check for heat, battery saver and other apps."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "Can I share my result?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Yes. After the run, use the copy button for a text summary or download the score card as an image."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "Can I compare my score with other websites?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "No. Each website uses its own scene settings and formula. Compare only results made with the same test and the same settings."
+          }
+        }
+      ]
+    }
+  ]
+}
+  </script>
 </head>
 <body>
 <!-- Google Tag Manager (noscript) -->
@@ -209,6 +324,8 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
       </ul>
       <p>For a complete routine with screenshots of settings in words, see <a href="../blog/how-to-test-gpu-online/index.html">how to test your GPU online</a>.</p>
     </article>
+    <p style="margin:2rem 0; font-size:1.05rem;">Want to see the live scene first? Open the <a href="../index.html">Volume Shader BM test</a> on the home page.</p>
+
 
     <section style="margin:2.5rem 0;">
       <h2 class="section-title">Frequently asked questions</h2>

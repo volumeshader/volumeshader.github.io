@@ -11,10 +11,101 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
 
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>GPU and WebGL Glossary: FPS, 1% Low, Raymarching, Shader and More | VolumeShader</title>
+  <title>GPU and WebGL Glossary: FPS, 1% Low | VolumeShader</title>
   <meta name="description" content="Plain definitions of GPU benchmark terms: FPS, frame time, 1% low, raymarching, fragment shader, throttling, WebGL, WebGPU, ANGLE and more.">
+  <meta name="keywords" content="gpu glossary, webgl glossary, fps, 1% low, frame time, raymarching, fragment shader, throttling">
   <link rel="canonical" href="https://volumeshader.github.io/glossary/">
+  <link rel="icon" href="https://volumeshader.github.io/favicon.ico" sizes="any">
+  <link rel="icon" type="image/svg+xml" href="https://volumeshader.github.io/assets/images/favicon.svg">
+  <link rel="icon" type="image/png" sizes="48x48" href="https://volumeshader.github.io/assets/images/favicon-48x48.png">
+  <link rel="apple-touch-icon" href="https://volumeshader.github.io/assets/images/apple-touch-icon.png">
+  <meta property="og:title" content="GPU and WebGL Glossary: FPS, 1% Low | VolumeShader">
+  <meta property="og:description" content="Plain definitions of GPU benchmark terms: FPS, frame time, 1% low, raymarching, fragment shader, throttling, WebGL, WebGPU, ANGLE and more.">
+  <meta property="og:type" content="website">
+  <meta property="og:url" content="https://volumeshader.github.io/glossary/">
+  <meta property="og:site_name" content="VolumeShader">
+  <meta property="og:locale" content="en_US">
+  <meta property="og:image" content="https://volumeshader.github.io/assets/images/og-image.png">
+  <meta property="og:image:width" content="1200">
+  <meta property="og:image:height" content="630">
+  <meta property="og:image:alt" content="GPU and WebGL Glossary: FPS, 1% Low | VolumeShader">
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="GPU and WebGL Glossary: FPS, 1% Low | VolumeShader">
+  <meta name="twitter:description" content="Plain definitions of GPU benchmark terms: FPS, frame time, 1% low, raymarching, fragment shader, throttling, WebGL, WebGPU, ANGLE and more.">
+  <meta name="twitter:image" content="https://volumeshader.github.io/assets/images/og-image.png">
   <link rel="stylesheet" href="../assets/css/style.css">
+  <script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@graph": [
+    {
+      "@type": "WebPage",
+      "@id": "https://volumeshader.github.io/glossary/#webpage",
+      "url": "https://volumeshader.github.io/glossary/",
+      "name": "GPU and WebGL Glossary: FPS, 1% Low",
+      "description": "Plain definitions of GPU benchmark terms: FPS, frame time, 1% low, raymarching, fragment shader, throttling, WebGL, WebGPU, ANGLE and more.",
+      "inLanguage": "en",
+      "dateModified": "2026-11-13",
+      "isPartOf": {
+        "@type": "WebSite",
+        "name": "VolumeShader",
+        "url": "https://volumeshader.github.io/"
+      },
+      "publisher": {
+        "@type": "Organization",
+        "name": "VolumeShader",
+        "url": "https://volumeshader.github.io/"
+      }
+    },
+    {
+      "@type": "BreadcrumbList",
+      "itemListElement": [
+        {
+          "@type": "ListItem",
+          "position": 1,
+          "name": "Home",
+          "item": "https://volumeshader.github.io/"
+        },
+        {
+          "@type": "ListItem",
+          "position": 2,
+          "name": "Glossary",
+          "item": "https://volumeshader.github.io/glossary/"
+        }
+      ]
+    },
+    {
+      "@type": "FAQPage",
+      "mainEntity": [
+        {
+          "@type": "Question",
+          "name": "What is the difference between FPS and frame time?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "FPS counts frames per second, and frame time is the time one frame takes. They show the same speed in two ways. Frame time is better for spotting stutter."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "What is the difference between WebGL and WebGPU?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "WebGL is the long standing web graphics interface and works almost everywhere. WebGPU is newer and more modern, and it is still being adopted by browsers."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "Which terms should a beginner learn first?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Start with FPS, frame time, 1% low FPS, resolution and thermal throttling. They explain most of what the test shows. Then read what Volume Shader BM is."
+          }
+        }
+      ]
+    }
+  ]
+}
+  </script>
 </head>
 <body>
 <!-- Google Tag Manager (noscript) -->
@@ -187,9 +278,11 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
         <p style="font-size:0.9rem; color:var(--text-muted); line-height:1.6;">A function that tells how far a point is from a shape. Many raymarchers use one to take bigger safe steps.</p>
       </div>
     </div>
+    <p style="margin:2rem 0; font-size:1.05rem;">See these terms in action by running the <a href="../index.html">Volume Shader BM GPU benchmark</a>.</p>
+
 
     <section style="margin:2.5rem 0;">
-      <h2 class="section-title">Frequently asked questions</h2>
+      <h2 class="section-title">Glossary FAQ: Common Questions About GPU Terms</h2>
       <div class="faq-list">
 <details class="faq-item"><summary class="faq-question"><span>What is the difference between FPS and frame time?</span><span class="faq-plus">+</span></summary><div class="faq-answer"><p>FPS counts frames per second, and frame time is the time one frame takes. They show the same speed in two ways. Frame time is better for spotting stutter.</p></div></details>
 <details class="faq-item"><summary class="faq-question"><span>What is the difference between WebGL and WebGPU?</span><span class="faq-plus">+</span></summary><div class="faq-answer"><p>WebGL is the long standing web graphics interface and works almost everywhere. WebGPU is newer and more modern, and it is still being adopted by browsers.</p></div></details>

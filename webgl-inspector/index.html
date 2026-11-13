@@ -11,10 +11,117 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
 
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>WebGL Diagnostics: Check Your GPU Renderer and Limits | VolumeShader</title>
+  <title>WebGL Diagnostics: Check Your GPU | VolumeShader</title>
   <meta name="description" content="See which GPU your browser uses for WebGL. View the renderer, vendor, WebGL version, key limits, extensions and WebGPU support, and copy the details.">
+  <meta name="keywords" content="webgl inspector, gpu renderer, webgl limits, webgl extensions, webgpu support">
   <link rel="canonical" href="https://volumeshader.github.io/webgl-inspector/">
+  <link rel="icon" href="https://volumeshader.github.io/favicon.ico" sizes="any">
+  <link rel="icon" type="image/svg+xml" href="https://volumeshader.github.io/assets/images/favicon.svg">
+  <link rel="icon" type="image/png" sizes="48x48" href="https://volumeshader.github.io/assets/images/favicon-48x48.png">
+  <link rel="apple-touch-icon" href="https://volumeshader.github.io/assets/images/apple-touch-icon.png">
+  <meta property="og:title" content="WebGL Diagnostics: Check Your GPU | VolumeShader">
+  <meta property="og:description" content="See which GPU your browser uses for WebGL. View the renderer, vendor, WebGL version, key limits, extensions and WebGPU support, and copy the details.">
+  <meta property="og:type" content="website">
+  <meta property="og:url" content="https://volumeshader.github.io/webgl-inspector/">
+  <meta property="og:site_name" content="VolumeShader">
+  <meta property="og:locale" content="en_US">
+  <meta property="og:image" content="https://volumeshader.github.io/assets/images/og-image.png">
+  <meta property="og:image:width" content="1200">
+  <meta property="og:image:height" content="630">
+  <meta property="og:image:alt" content="WebGL Diagnostics: Check Your GPU | VolumeShader">
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="WebGL Diagnostics: Check Your GPU | VolumeShader">
+  <meta name="twitter:description" content="See which GPU your browser uses for WebGL. View the renderer, vendor, WebGL version, key limits, extensions and WebGPU support, and copy the details.">
+  <meta name="twitter:image" content="https://volumeshader.github.io/assets/images/og-image.png">
   <link rel="stylesheet" href="../assets/css/style.css">
+  <script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@graph": [
+    {
+      "@type": "WebPage",
+      "@id": "https://volumeshader.github.io/webgl-inspector/#webpage",
+      "url": "https://volumeshader.github.io/webgl-inspector/",
+      "name": "WebGL Diagnostics: Check Your GPU",
+      "description": "See which GPU your browser uses for WebGL. View the renderer, vendor, WebGL version, key limits, extensions and WebGPU support, and copy the details.",
+      "inLanguage": "en",
+      "dateModified": "2026-11-13",
+      "isPartOf": {
+        "@type": "WebSite",
+        "name": "VolumeShader",
+        "url": "https://volumeshader.github.io/"
+      },
+      "publisher": {
+        "@type": "Organization",
+        "name": "VolumeShader",
+        "url": "https://volumeshader.github.io/"
+      }
+    },
+    {
+      "@type": "BreadcrumbList",
+      "itemListElement": [
+        {
+          "@type": "ListItem",
+          "position": 1,
+          "name": "Home",
+          "item": "https://volumeshader.github.io/"
+        },
+        {
+          "@type": "ListItem",
+          "position": 2,
+          "name": "WebGL Diagnostics",
+          "item": "https://volumeshader.github.io/webgl-inspector/"
+        }
+      ]
+    },
+    {
+      "@type": "FAQPage",
+      "mainEntity": [
+        {
+          "@type": "Question",
+          "name": "Why does the page show a general GPU name?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Some browsers hide the exact GPU model for privacy and show a general name instead. That does not mean anything is wrong with your hardware."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "What does a software renderer mean?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "If the name mentions SwiftShader, llvmpipe or software, the browser is drawing with the CPU and not the GPU. Turn on hardware acceleration and update your graphics driver."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "What is WebGPU?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "WebGPU is a newer web graphics interface that is meant to replace WebGL over time. The page only checks whether your browser offers it. The Volume Shader BM test itself uses WebGL."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "Is this page sending my hardware details anywhere?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "No. The values are read in your browser and shown on the page. The copy button puts a text summary on your clipboard, and you decide what to do with it."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "Why does my phone show fewer extensions than a PC?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "The list depends on the GPU, the driver and the browser. Phones usually support a different set than desktop cards, and that is normal."
+          }
+        }
+      ]
+    }
+  ]
+}
+  </script>
 </head>
 <body>
 <!-- Google Tag Manager (noscript) -->
@@ -122,6 +229,8 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
       </ol>
       <p>For error messages and fixes, see the <a href="../troubleshooting/index.html">troubleshooting page</a>. To test speed, open the <a href="../benchmark/index.html">benchmark</a>. For a beginner guide, read <a href="../blog/how-to-test-gpu-online/index.html">how to test your GPU online</a>.</p>
     </article>
+    <p style="margin:2rem 0; font-size:1.05rem;">After checking your GPU, run the <a href="../index.html">Volume Shader BM test</a> on the home page.</p>
+
 
     <section style="margin:2.5rem 0;">
       <h2 class="section-title">Frequently asked questions</h2>

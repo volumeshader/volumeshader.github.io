@@ -11,10 +11,117 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
 
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>GPU Stress Test Online: Check Throttling and Stability | VolumeShader</title>
+  <title>GPU Stress Test Online: Throttling Check | VolumeShader</title>
   <meta name="description" content="Run a free GPU stress test in your browser. Watch FPS and frame time while the load stays heavy to spot throttling. Includes safety tips and a how to guide.">
+  <meta name="keywords" content="gpu stress test online, thermal throttling, gpu stability test, browser stress test, webgl">
   <link rel="canonical" href="https://volumeshader.github.io/stress-test/">
+  <link rel="icon" href="https://volumeshader.github.io/favicon.ico" sizes="any">
+  <link rel="icon" type="image/svg+xml" href="https://volumeshader.github.io/assets/images/favicon.svg">
+  <link rel="icon" type="image/png" sizes="48x48" href="https://volumeshader.github.io/assets/images/favicon-48x48.png">
+  <link rel="apple-touch-icon" href="https://volumeshader.github.io/assets/images/apple-touch-icon.png">
+  <meta property="og:title" content="GPU Stress Test Online: Throttling Check | VolumeShader">
+  <meta property="og:description" content="Run a free GPU stress test in your browser. Watch FPS and frame time while the load stays heavy to spot throttling. Includes safety tips and a how to guide.">
+  <meta property="og:type" content="website">
+  <meta property="og:url" content="https://volumeshader.github.io/stress-test/">
+  <meta property="og:site_name" content="VolumeShader">
+  <meta property="og:locale" content="en_US">
+  <meta property="og:image" content="https://volumeshader.github.io/assets/images/og-image.png">
+  <meta property="og:image:width" content="1200">
+  <meta property="og:image:height" content="630">
+  <meta property="og:image:alt" content="GPU Stress Test Online: Throttling Check | VolumeShader">
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="GPU Stress Test Online: Throttling Check | VolumeShader">
+  <meta name="twitter:description" content="Run a free GPU stress test in your browser. Watch FPS and frame time while the load stays heavy to spot throttling. Includes safety tips and a how to guide.">
+  <meta name="twitter:image" content="https://volumeshader.github.io/assets/images/og-image.png">
   <link rel="stylesheet" href="../assets/css/style.css">
+  <script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@graph": [
+    {
+      "@type": "WebPage",
+      "@id": "https://volumeshader.github.io/stress-test/#webpage",
+      "url": "https://volumeshader.github.io/stress-test/",
+      "name": "GPU Stress Test Online: Throttling Check",
+      "description": "Run a free GPU stress test in your browser. Watch FPS and frame time while the load stays heavy to spot throttling. Includes safety tips and a how to guide.",
+      "inLanguage": "en",
+      "dateModified": "2026-11-13",
+      "isPartOf": {
+        "@type": "WebSite",
+        "name": "VolumeShader",
+        "url": "https://volumeshader.github.io/"
+      },
+      "publisher": {
+        "@type": "Organization",
+        "name": "VolumeShader",
+        "url": "https://volumeshader.github.io/"
+      }
+    },
+    {
+      "@type": "BreadcrumbList",
+      "itemListElement": [
+        {
+          "@type": "ListItem",
+          "position": 1,
+          "name": "Home",
+          "item": "https://volumeshader.github.io/"
+        },
+        {
+          "@type": "ListItem",
+          "position": 2,
+          "name": "Stress Test",
+          "item": "https://volumeshader.github.io/stress-test/"
+        }
+      ]
+    },
+    {
+      "@type": "FAQPage",
+      "mainEntity": [
+        {
+          "@type": "Question",
+          "name": "What does the stress test do?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "It keeps the GPU under a heavy, steady load so that you can watch whether the FPS stays the same or falls as the device warms up."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "How long should I run it?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "A short check of two to three minutes is enough for most desktops. Phones should run one to three minutes only. The blog guide has a table with suggestions."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "What does a falling FPS mean?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "It usually means throttling. The chip lowers its speed to stay cool. A small drop in the first minutes is common. A steep fall means the cooling is not enough for this load."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "Can it damage my device?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Modern GPUs protect themselves by slowing down or resetting the driver. The risk is low on clean, healthy hardware, but dust, blocked vents, cases and heat can make things uncomfortable. Stop the test if the device is too hot."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "Why did the page freeze or go black?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "The operating system may have reset the graphics driver because a frame took too long. Try a lower resolution, update the driver and check the cooling. See the troubleshooting page."
+          }
+        }
+      ]
+    }
+  ]
+}
+  </script>
 </head>
 <body>
 <!-- Google Tag Manager (noscript) -->
@@ -157,6 +264,8 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
       <p>Clean dust from fans and heatsinks, improve airflow, update the graphics driver, lower the resolution and return any overclock to default. On older hardware, dried thermal paste can raise temperatures a lot. A weak power supply can also cause resets on a desktop. The full list is in our guide <a href="../blog/gpu-stress-test-online-guide/index.html">PC stress test online</a>.</p>
       <p>To learn how to read the 1% low value, which also drops when a device throttles, read the <a href="../blog/volume-shader-test-guide/index.html">volume shader test guide</a>. To get a short score you can save, use the <a href="../benchmark/index.html">20 second benchmark</a>.</p>
     </article>
+    <p style="margin:2rem 0; font-size:1.05rem;">Want a quick score first? Start with the <a href="../index.html">Volume Shader BM test</a> on the home page.</p>
+
 
     <section style="margin:2.5rem 0;">
       <h2 class="section-title">Frequently asked questions</h2>
