@@ -44,6 +44,14 @@
 
     let currentResults = null;
 
+    // Update the HUD and graph at most 4 times per second (keeps the main thread free for taps and clicks)
+    let lastUiUpdate = 0;
+
+    // Run a task after the browser has painted, so a click is answered before the heavy GPU work starts
+    function afterPaint(fn) {
+      requestAnimationFrame(() => setTimeout(fn, 0));
+    }
+
     // Initialize Engine with autoStart: false (Prevents auto-run on page load)
     const initialRes = selectRes ? parseInt(selectRes.value, 10) : 1024;
     const engine = new window.VolumeShaderEngine(canvas, {
@@ -51,6 +59,9 @@
       autoRotate: true,
       autoStart: false,
       onFrameStats: (stats) => {
+        const uiNow = performance.now();
+        if (uiNow - lastUiUpdate < 250) return;
+        lastUiUpdate = uiNow;
         if (fpsVal) fpsVal.textContent = stats.fps;
         if (frametimeVal) frametimeVal.textContent = stats.frameTimeMs + ' ms';
         if (avgFpsVal) avgFpsVal.textContent = stats.avgFps;
@@ -81,10 +92,10 @@
       if (startOverlay) {
         startOverlay.classList.add('hidden');
       }
-      engine.start();
       if (btnPlayPause) {
         btnPlayPause.textContent = 'Pause ⏸';
       }
+      afterPaint(() => engine.start());
     }
 
     // Start Button Overlay Click
@@ -124,8 +135,10 @@
     if (btnBenchmark) {
       btnBenchmark.addEventListener('click', () => {
         if (scorecardBanner) scorecardBanner.style.display = 'none';
+        btnBenchmark.textContent = 'Benchmarking... 0%';
+        btnBenchmark.classList.add('btn-primary');
         launchEngine();
-        engine.startTimedBenchmark(20000);
+        afterPaint(() => engine.startTimedBenchmark(20000));
       });
     }
 
@@ -203,8 +216,10 @@
 
     // Live Graph Renderer
     function drawPerfGraph(ctx, gCanvas, history) {
-      const w = gCanvas.width = gCanvas.clientWidth * window.devicePixelRatio;
-      const h = gCanvas.height = gCanvas.clientHeight * window.devicePixelRatio;
+      const w = Math.round(gCanvas.clientWidth * window.devicePixelRatio);
+      const h = Math.round(gCanvas.clientHeight * window.devicePixelRatio);
+      if (gCanvas.width !== w) gCanvas.width = w;
+      if (gCanvas.height !== h) gCanvas.height = h;
       ctx.clearRect(0, 0, w, h);
 
       // Draw Grid Lines (16.6ms = 60fps, 33.3ms = 30fps)

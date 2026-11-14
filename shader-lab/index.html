@@ -317,7 +317,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
 
       function startLabEngine() {
         if (startOverlay) startOverlay.classList.add('hidden');
-        engine.start();
+        requestAnimationFrame(function() { setTimeout(function() { engine.start(); }, 0); });
       }
 
       if (btnStartShader) {

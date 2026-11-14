@@ -457,7 +457,7 @@
       }, { passive: true });
 
       c.addEventListener('touchmove', (e) => {
-        e.preventDefault();
+        // touch-action: none (CSS) already stops page scroll, so this listener can be passive
         if (e.touches.length === 1) {
           const dx = e.touches[0].clientX - this.lastMouseX;
           const dy = e.touches[0].clientY - this.lastMouseY;
@@ -476,7 +476,7 @@
           }
           this.touchDistance = newDist;
         }
-      }, { passive: false });
+      }, { passive: true });
     }
 
     startTimedBenchmark(durationMs = 20000) {
