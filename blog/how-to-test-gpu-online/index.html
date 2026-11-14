@@ -152,19 +152,19 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
 
   <header class="site-header">
     <div class="nav-container">
-      <a href="../../index.html" class="brand-logo">
+      <a href="../../" class="brand-logo">
         <span style="color:#00f0ff;">⚡</span> VolumeShader<span class="brand-badge">BM</span>
       </a>
       <nav>
         <ul class="nav-links">
-          <li><a href="../../index.html" class="">Home</a></li>
-          <li><a href="../../benchmark/index.html" class="">Benchmark</a></li>
-          <li><a href="../../stress-test/index.html" class="">Stress Test</a></li>
-          <li><a href="../../compare/index.html" class="">Compare</a></li>
-          <li><a href="../../webgl-inspector/index.html" class="">Diagnostics</a></li>
-          <li><a href="../../shader-lab/index.html" class="">Shader Lab</a></li>
-          <li><a href="../../blog/index.html" class="active">Blog</a></li>
-          <li><a href="../../benchmark/index.html" class="nav-cta">Run Test</a></li>
+          <li><a href="../../" class="">Home</a></li>
+          <li><a href="../../benchmark/" class="">Benchmark</a></li>
+          <li><a href="../../stress-test/" class="">Stress Test</a></li>
+          <li><a href="../../compare/" class="">Compare</a></li>
+          <li><a href="../../webgl-inspector/" class="">Diagnostics</a></li>
+          <li><a href="../../shader-lab/" class="">Shader Lab</a></li>
+          <li><a href="../../blog/" class="active">Blog</a></li>
+          <li><a href="../../benchmark/" class="nav-cta">Run Test</a></li>
         </ul>
       </nav>
     </div>
@@ -172,7 +172,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
 
   <main class="main-wrapper">
     <div class="blog-wrap">
-    <nav class="crumbs" aria-label="Breadcrumb"><a href="../../index.html">Home</a> / <a href="../index.html">Blog</a> / <span>How to Test Your GPU Online: A Safe, Step by Step Guide</span></nav>
+    <nav class="crumbs" aria-label="Breadcrumb"><a href="../../">Home</a> / <a href="../">Blog</a> / <span>How to Test Your GPU Online: A Safe, Step by Step Guide</span></nav>
     <article class="post">
       <span class="badge-tag" style="color:#00f0ff; border-color:#00f0ff;">PRACTICAL GUIDE</span>
       <h1>How to Test Your GPU Online: A Safe, Step by Step Guide</h1>
@@ -194,7 +194,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
 <li><strong>Windows:</strong> press Ctrl + Shift + Esc, open the Performance tab and select GPU. The name appears in the top right corner. Laptops may list two GPUs, one integrated and one dedicated.</li>
 <li><strong>Mac:</strong> open the Apple menu and choose About This Mac. Apple silicon Macs show the chip name, and the GPU is part of it.</li>
 <li><strong>Phones and tablets:</strong> the system settings show the model name. The chip name can be looked up from the model.</li>
-<li><strong>Any device:</strong> open the <a href="../../webgl-inspector/index.html">WebGL diagnostics page</a>. It shows the GPU name the browser sees, the WebGL version and whether WebGPU is available.</li>
+<li><strong>Any device:</strong> open the <a href="../../webgl-inspector/">WebGL diagnostics page</a>. It shows the GPU name the browser sees, the WebGL version and whether WebGPU is available.</li>
 </ul>
 <p>Some browsers hide the exact GPU name for privacy. If you see a general name, that does not mean something is wrong.</p>
 
@@ -207,7 +207,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
 <li>In Firefox, open Settings, go to General, find Performance and make sure the recommended performance settings and hardware acceleration are enabled.</li>
 <li>On Safari for Mac and iPhone, there is no switch to flip. Safari uses the GPU by default.</li>
 </ol>
-<p>If WebGL does not run at all, see our <a href="../../troubleshooting/index.html">WebGL troubleshooting guide</a>.</p>
+<p>If WebGL does not run at all, see our <a href="../../troubleshooting/">WebGL troubleshooting guide</a>.</p>
 
 <h2 id="step3">Step 3: Prepare the device</h2>
 
@@ -223,7 +223,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
 
 <h2 id="step4">Step 4: Run a quick check</h2>
 
-<p>Open the <a href="../../index.html">home page test</a> and press start. Let it run for about 15 seconds without touching anything else. You are looking for three things.</p>
+<p>Open the <a href="../../">home page test</a> and press start. Let it run for about 15 seconds without touching anything else. You are looking for three things.</p>
 <ol>
 <li>The picture appears and spins smoothly. If the canvas stays black, stop and check the troubleshooting page.</li>
 <li>The FPS is not stuck at a very low number such as 1 to 5. That would point back to Step 2.</li>
@@ -233,13 +233,13 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
 
 <h2 id="step5">Step 5: Run the 20 second benchmark</h2>
 
-<p>Now press the 20 second benchmark button, or open the <a href="../../benchmark/index.html">benchmark page</a>. The test ignores the first two seconds, records the rest, and shows a score card with average FPS, 1% low FPS, score and tier.</p>
+<p>Now press the 20 second benchmark button, or open the <a href="../../benchmark/">benchmark page</a>. The test ignores the first two seconds, records the rest, and shows a score card with average FPS, 1% low FPS, score and tier.</p>
 <p>Run it at least twice. If the two scores are close, you have a reliable number. Save the result with the copy button or download the score card, so that you can compare it later.</p>
-<p>Which resolution should you pick? Use 512 on older phones, 720 on typical phones and thin laptops, 1024 for the standard comparison, and 1440 on strong desktop GPUs. The details are in our <a href="../volume-shader-test-guide/index.html">volume shader test guide</a>.</p>
+<p>Which resolution should you pick? Use 512 on older phones, 720 on typical phones and thin laptops, 1024 for the standard comparison, and 1440 on strong desktop GPUs. The details are in our <a href="../volume-shader-test-guide/">volume shader test guide</a>.</p>
 
 <h2 id="step6">Step 6: Check for heat and throttling</h2>
 
-<p>A GPU can be fast for ten seconds and slower after two minutes. To see this, run a longer test on the <a href="../../stress-test/index.html">stress test page</a> and watch the FPS over time.</p>
+<p>A GPU can be fast for ten seconds and slower after two minutes. To see this, run a longer test on the <a href="../../stress-test/">stress test page</a> and watch the FPS over time.</p>
 <ul>
 <li>If the FPS stays almost the same, the cooling is doing its job.</li>
 <li>If the FPS slowly drops by a small amount, that is normal for many thin devices.</li>
@@ -250,7 +250,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
 <h2 id="step7">Step 7: Make sense of the results</h2>
 
 <p>Look at the average FPS and the 1% low FPS together. A good result has a high average and a 1% low that is close to it. A weak result has either a low average or a big gap between the two.</p>
-<p>To judge your number, compare it with a similar device, with your own earlier runs, or with the rough ranges on our <a href="../../compare/index.html">comparison page</a>. Remember that those ranges are estimates and should only guide you, not decide anything.</p>
+<p>To judge your number, compare it with a similar device, with your own earlier runs, or with the rough ranges on our <a href="../../compare/">comparison page</a>. Remember that those ranges are estimates and should only guide you, not decide anything.</p>
 <p>If your result is far lower than a similar device, go through this list: hardware acceleration, battery mode, driver version, background tabs, heat and the browser you used.</p>
 
 <h2 id="phone">Notes for testing phones and tablets</h2>
@@ -273,7 +273,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
 <li>Comparing numbers from different benchmark websites.</li>
 </ul>
 
-      <div class="post-cta"><strong>Test your GPU now</strong><p>Run the free 20 second benchmark and get your score card.</p><a class="btn btn-primary" href="../../benchmark/index.html">Run the Benchmark</a></div>
+      <div class="post-cta"><strong>Test your GPU now</strong><p>Run the free 20 second benchmark and get your score card.</p><a class="btn btn-primary" href="../../benchmark/">Run the Benchmark</a></div>
       <h2 id="faq">Frequently asked questions</h2>
       <div class="faq-list">
 <details class="faq-item"><summary class="faq-question"><span>How can I test my GPU online for free?</span><span class="faq-plus">+</span></summary><div class="faq-answer"><p>Open a browser based test such as the volume shader test on this site, press start and watch the FPS and frame time. For a score you can compare later, run the 20 second benchmark.</p></div></details>
@@ -285,7 +285,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
 <details class="faq-item"><summary class="faq-question"><span>How often should I test my GPU?</span><span class="faq-plus">+</span></summary><div class="faq-answer"><p>Test when you buy a device, after a driver or cooling change, and when something feels slower than before. Save the score card each time so you have a record.</p></div></details>
 </div>
     </article>
-    <section class="related"><h2>Keep reading</h2><div class="blog-grid"><a class="blog-card" href="../what-is-volume-shader-bm/index.html"><strong>What Is Volume Shader BM (volumeshader_bm)?</strong><span>A plain guide to what the test is, what it draws, and why people use it to check a GPU.</span></a><a class="blog-card" href="../volume-shader-test-guide/index.html"><strong>Volume Shader Test: How to Run It and Read Your Score</strong><span>Step by step help for running the test, picking settings, and understanding FPS, 1% low and score.</span></a><a class="blog-card" href="../gpu-stress-test-online-guide/index.html"><strong>PC Stress Test Online: GPU Stress Testing in the Browser</strong><span>How long to run a stress test, what to watch for, and when to stop.</span></a></div></section>
+    <section class="related"><h2>Keep reading</h2><div class="blog-grid"><a class="blog-card" href="../what-is-volume-shader-bm/"><strong>What Is Volume Shader BM (volumeshader_bm)?</strong><span>A plain guide to what the test is, what it draws, and why people use it to check a GPU.</span></a><a class="blog-card" href="../volume-shader-test-guide/"><strong>Volume Shader Test: How to Run It and Read Your Score</strong><span>Step by step help for running the test, picking settings, and understanding FPS, 1% low and score.</span></a><a class="blog-card" href="../gpu-stress-test-online-guide/"><strong>PC Stress Test Online: GPU Stress Testing in the Browser</strong><span>How long to run a stress test, what to watch for, and when to stop.</span></a></div></section>
     </div>
   </main>
 
@@ -299,32 +299,32 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
       <div class="footer-col">
         <h4>Tools</h4>
         <ul>
-          <li><a href="../../index.html">Volume Shader BM Test</a></li>
-          <li><a href="../../benchmark/index.html">20 Second Benchmark</a></li>
-          <li><a href="../../stress-test/index.html">GPU Stress Test</a></li>
-          <li><a href="../../webgl-inspector/index.html">WebGL Diagnostics</a></li>
-          <li><a href="../../shader-lab/index.html">Shader Lab</a></li>
-          <li><a href="../../compare/index.html">Score Comparison</a></li>
+          <li><a href="../../">Volume Shader BM Test</a></li>
+          <li><a href="../../benchmark/">20 Second Benchmark</a></li>
+          <li><a href="../../stress-test/">GPU Stress Test</a></li>
+          <li><a href="../../webgl-inspector/">WebGL Diagnostics</a></li>
+          <li><a href="../../shader-lab/">Shader Lab</a></li>
+          <li><a href="../../compare/">Score Comparison</a></li>
         </ul>
       </div>
       <div class="footer-col">
         <h4>Blog and Help</h4>
         <ul>
-          <li><a href="../../blog/what-is-volume-shader-bm/index.html">What Is Volume Shader BM (volumeshader_bm)?</a></li>
-          <li><a href="../../blog/volume-shader-test-guide/index.html">Volume Shader Test: How to Run It and Read Your Score</a></li>
-          <li><a href="../../blog/how-to-test-gpu-online/index.html">How to Test Your GPU Online</a></li>
-          <li><a href="../../blog/gpu-stress-test-online-guide/index.html">PC Stress Test Online: GPU Stress Testing in the Browser</a></li>
-          <li><a href="../../blog/index.html">All blog posts</a></li>
-          <li><a href="../../troubleshooting/index.html">WebGL Troubleshooting</a></li>
-          <li><a href="../../glossary/index.html">GPU Glossary</a></li>
+          <li><a href="../../blog/what-is-volume-shader-bm/">What Is Volume Shader BM (volumeshader_bm)?</a></li>
+          <li><a href="../../blog/volume-shader-test-guide/">Volume Shader Test: How to Run It and Read Your Score</a></li>
+          <li><a href="../../blog/how-to-test-gpu-online/">How to Test Your GPU Online</a></li>
+          <li><a href="../../blog/gpu-stress-test-online-guide/">PC Stress Test Online: GPU Stress Testing in the Browser</a></li>
+          <li><a href="../../blog/">All blog posts</a></li>
+          <li><a href="../../troubleshooting/">WebGL Troubleshooting</a></li>
+          <li><a href="../../glossary/">GPU Glossary</a></li>
         </ul>
       </div>
       <div class="footer-col">
         <h4>About and Legal</h4>
         <ul>
-          <li><a href="../../about/index.html">About</a></li>
-          <li><a href="../../privacy/index.html">Privacy Policy</a></li>
-          <li><a href="../../terms/index.html">Terms and Safety</a></li>
+          <li><a href="../../about/">About</a></li>
+          <li><a href="../../privacy/">Privacy Policy</a></li>
+          <li><a href="../../terms/">Terms and Safety</a></li>
           <li><a href="https://github.com/cznull/cznull.github.io" target="_blank" rel="noopener noreferrer">cznull on GitHub ↗</a></li>
         </ul>
       </div>
