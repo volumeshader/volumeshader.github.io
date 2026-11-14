@@ -43,6 +43,12 @@
     <priority>0.8</priority>
   </url>
   <url>
+    <loc>https://volumeshader.github.io/blog/what-is-a-3d-benchmark/</loc>
+    <lastmod>2026-11-14</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
     <loc>https://volumeshader.github.io/blog/what-is-volume-shader-bm/</loc>
     <lastmod>2026-11-13</lastmod>
     <changefreq>monthly</changefreq>
