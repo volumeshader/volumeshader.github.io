@@ -198,7 +198,7 @@
     if (btnCopyScore) {
       btnCopyScore.addEventListener('click', () => {
         if (!currentResults) return;
-        const text = `VolumeShader BM Benchmark Score: ${currentResults.score} (Tier ${currentResults.tier})\nAverage FPS: ${currentResults.avgFps} | 1% Low: ${currentResults.low1PctFps} FPS\nResolution: ${currentResults.resolution}p | GPU: ${currentResults.gpuRenderer}\nTested via https://volumeshader.github.io/`;
+        const text = `VolumeShader BM Benchmark Score: ${currentResults.score} (Tier ${currentResults.tier})\nAverage FPS: ${currentResults.avgFps} | 1% Low: ${currentResults.low1PctFps} FPS\nResolution: ${currentResults.resolution}p | GPU: ${currentResults.gpuRenderer}\nTested via https://volume-shader.online/`;
         navigator.clipboard.writeText(text).then(() => {
           btnCopyScore.textContent = 'Copied to Clipboard!';
           setTimeout(() => { btnCopyScore.textContent = 'Copy Score Summary'; }, 2000);
@@ -317,7 +317,7 @@
       // Footer
       ctx.fillStyle = '#65708a';
       ctx.font = '20px sans-serif';
-      ctx.fillText(`Verified on ${new Date().toLocaleDateString()} via https://volumeshader.github.io/`, 60, 560);
+      ctx.fillText(`Verified on ${new Date().toLocaleDateString()} via https://volume-shader.online/`, 60, 560);
 
       // Download
       const link = document.createElement('a');

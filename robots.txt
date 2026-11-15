@@ -1,4 +1,4 @@
 User-agent: *
 Allow: /
 
-Sitemap: https://volumeshader.github.io/sitemap.xml
+Sitemap: https://volume-shader.online/sitemap.xml

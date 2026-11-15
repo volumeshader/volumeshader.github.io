@@ -1,115 +1,115 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   <url>
-    <loc>https://volumeshader.github.io/</loc>
+    <loc>https://volume-shader.online/</loc>
     <lastmod>2026-11-13</lastmod>
     <changefreq>weekly</changefreq>
     <priority>1.0</priority>
   </url>
   <url>
-    <loc>https://volumeshader.github.io/benchmark/</loc>
+    <loc>https://volume-shader.online/benchmark/</loc>
     <lastmod>2026-11-13</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.8</priority>
   </url>
   <url>
-    <loc>https://volumeshader.github.io/stress-test/</loc>
+    <loc>https://volume-shader.online/stress-test/</loc>
     <lastmod>2026-11-13</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.8</priority>
   </url>
   <url>
-    <loc>https://volumeshader.github.io/compare/</loc>
+    <loc>https://volume-shader.online/compare/</loc>
     <lastmod>2026-11-13</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.6</priority>
   </url>
   <url>
-    <loc>https://volumeshader.github.io/webgl-inspector/</loc>
+    <loc>https://volume-shader.online/webgl-inspector/</loc>
     <lastmod>2026-11-13</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.6</priority>
   </url>
   <url>
-    <loc>https://volumeshader.github.io/shader-lab/</loc>
+    <loc>https://volume-shader.online/shader-lab/</loc>
     <lastmod>2026-11-13</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.6</priority>
   </url>
   <url>
-    <loc>https://volumeshader.github.io/blog/</loc>
+    <loc>https://volume-shader.online/blog/</loc>
     <lastmod>2026-11-13</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.8</priority>
   </url>
   <url>
-    <loc>https://volumeshader.github.io/blog/what-is-a-3d-benchmark/</loc>
+    <loc>https://volume-shader.online/blog/what-is-a-3d-benchmark/</loc>
     <lastmod>2026-11-14</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.8</priority>
   </url>
   <url>
-    <loc>https://volumeshader.github.io/blog/what-is-volume-shader-bm/</loc>
+    <loc>https://volume-shader.online/blog/what-is-volume-shader-bm/</loc>
     <lastmod>2026-11-13</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.8</priority>
   </url>
   <url>
-    <loc>https://volumeshader.github.io/blog/volume-shader-test-guide/</loc>
+    <loc>https://volume-shader.online/blog/volume-shader-test-guide/</loc>
     <lastmod>2026-11-13</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.8</priority>
   </url>
   <url>
-    <loc>https://volumeshader.github.io/blog/how-to-test-gpu-online/</loc>
+    <loc>https://volume-shader.online/blog/how-to-test-gpu-online/</loc>
     <lastmod>2026-11-13</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.8</priority>
   </url>
   <url>
-    <loc>https://volumeshader.github.io/blog/gpu-stress-test-online-guide/</loc>
+    <loc>https://volume-shader.online/blog/gpu-stress-test-online-guide/</loc>
     <lastmod>2026-11-13</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.8</priority>
   </url>
   <url>
-    <loc>https://volumeshader.github.io/blog/cznull-github-vsbm-explained/</loc>
+    <loc>https://volume-shader.online/blog/cznull-github-vsbm-explained/</loc>
     <lastmod>2026-11-13</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.8</priority>
   </url>
   <url>
-    <loc>https://volumeshader.github.io/blog/volumetric-shader-raymarching-explained/</loc>
+    <loc>https://volume-shader.online/blog/volumetric-shader-raymarching-explained/</loc>
     <lastmod>2026-11-13</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.8</priority>
   </url>
   <url>
-    <loc>https://volumeshader.github.io/troubleshooting/</loc>
+    <loc>https://volume-shader.online/troubleshooting/</loc>
     <lastmod>2026-11-13</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.6</priority>
   </url>
   <url>
-    <loc>https://volumeshader.github.io/glossary/</loc>
+    <loc>https://volume-shader.online/glossary/</loc>
     <lastmod>2026-11-13</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.6</priority>
   </url>
   <url>
-    <loc>https://volumeshader.github.io/about/</loc>
+    <loc>https://volume-shader.online/about/</loc>
     <lastmod>2026-11-13</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.6</priority>
   </url>
   <url>
-    <loc>https://volumeshader.github.io/privacy/</loc>
+    <loc>https://volume-shader.online/privacy/</loc>
     <lastmod>2026-11-13</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.6</priority>
   </url>
   <url>
-    <loc>https://volumeshader.github.io/terms/</loc>
+    <loc>https://volume-shader.online/terms/</loc>
     <lastmod>2026-11-13</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.6</priority>
